@@ -1,34 +1,30 @@
 .posts-container {
   max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background: #fff;
-  border-radius: 4px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reddit-card {
+  border: none;
+  border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: box-shadow 0.3s ease;
 
-  .ant-list-item {
-    padding: 0;
-    border-bottom: 1px solid #f0f0f0;
-
-    &:last-child {
-      border-bottom: none;
-    }
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
-  .post-meta {
-    padding: 16px;
+  .reddit-card-title {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 8px;
+  }
 
-    .post-user-date {
-      font-size: 14px;
-      color: #a9a9a9;
-      margin-bottom: 8px;
-    }
-
-    .post-title {
-      font-size: 20px;
-      font-weight: bolder;
-      // Ensure the title is aligned left
-      text-align: left;
-    }
+  .reddit-card-meta {
+    font-size: 14px;
+    color: #888;
   }
 }

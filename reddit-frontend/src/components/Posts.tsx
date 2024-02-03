@@ -1,5 +1,5 @@
 import React from 'react';
-import { List } from 'antd';
+import { Card } from 'antd';
 import './Posts.scss';
 
 interface PostsProps {
@@ -9,21 +9,16 @@ interface PostsProps {
 export const Posts: React.FC<PostsProps> = ({ posts }) => {
     return (
         <div className="posts-container">
-            <List
-                itemLayout="horizontal"
-                dataSource={posts}
-                renderItem={(item) => (
-                    <List.Item>
-                        <div className="post-meta">
-                            <div className="post-user-date">{`${item.username} - ${item.date}`}</div>
-                            <div className="post-title">
-                                 {/*todo: use Link*/}
-                                <a href={`/posts/${item.id}`}>{item.title}</a>
-                            </div>
-                        </div>
-                    </List.Item>
-                )}
-            />
+            {posts.map((post) => (
+                <Card
+                    key={post.id}
+                    className="reddit-card"
+                    hoverable
+                >
+                    <h3 className="reddit-card-title">{post.title}</h3>
+                    <p className="reddit-card-meta">{`${post.username} - ${post.date}`}</p>
+                </Card>
+            ))}
         </div>
     );
 };
@@ -35,6 +30,7 @@ export interface IPost {
     title: string;
 }
 
+// Replace the samplePosts with actual data or API call to fetch posts
 // sample data
 export const samplePosts: IPost[] = [
     {id: 1, username: 'User1', date: '2024-02-01', title: 'First Post'},

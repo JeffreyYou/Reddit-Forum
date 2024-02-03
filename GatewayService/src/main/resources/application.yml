@@ -9,13 +9,33 @@ spring:
     gateway:
       routes:
         - id: user-service # Unique identifier for the route.
-          uri:  lb://user-service # Specifies the load-balanced backend service URI. Ensure optimal configuration of the load balancer for scalability.
+          uri: lb://user-service # Specifies the load-balanced backend service URI. Ensure optimal configuration of the load balancer for scalability.
           predicates:
-            - Path=/user/** # Route requests based on path patterns. Consider dynamic routing strategies for advanced use cases.
-          filters:
-            # Rewrite the path to the backend service. This is added because an extra namespace is added at the microservice level.
-            - RewritePath=/user/(?<remaining>.*), /user-service/user/$\{remaining}
-
+            - Path=/user-service/** # Route requests based on path patterns. Consider dynamic routing strategies for advanced use cases.
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth-service/**
+        - id: email-service
+          uri: lb://email-service
+          predicates:
+            - Path=/email-service/**
+        - id: file-service
+          uri: lb://file-service
+          predicates:
+            - Path=/file-service/**
+        - id: history-service
+          uri: lb://history-service
+          predicates:
+            - Path=/history-service/**
+        - id: message-service
+          uri: lb://message-service
+          predicates:
+            - Path=/message-service/**
+        - id: post-reply-service
+          uri: lb://post-reply-service
+          predicates:
+            - Path=/post-reply-service/**
 eureka:
   client:
     serviceUrl:

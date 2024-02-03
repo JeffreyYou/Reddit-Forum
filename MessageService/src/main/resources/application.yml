@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: message-service
+  mvc:
+    servlet:
+      path: /message-service
+
+
+server:
+  port: 8086
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

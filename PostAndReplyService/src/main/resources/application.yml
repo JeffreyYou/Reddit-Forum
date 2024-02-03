@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      url: mongodb+srv://gtianhao:teamproject@project-cluster.0gsfiwa.mongodb.net/?retryWrites=true&w=majority
+      database: POST_DB

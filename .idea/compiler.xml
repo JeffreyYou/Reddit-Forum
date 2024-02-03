@@ -20,14 +20,14 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="AuthService" options="-parameters" />
-      <module name="EmailService" options="-parameters" />
+      <module name="AuthService" options="" />
+      <module name="EmailService" options="" />
       <module name="EurekaServer" options="-parameters" />
-      <module name="FileService" options="-parameters" />
+      <module name="FileService" options="" />
       <module name="GatewayService" options="-parameters" />
-      <module name="HistoryService" options="-parameters" />
-      <module name="MessageService" options="-parameters" />
-      <module name="PostAndReplyService" options="-parameters" />
+      <module name="HistoryService" options="" />
+      <module name="MessageService" options="" />
+      <module name="PostAndReplyService" options="" />
       <module name="UserService" options="-parameters" />
     </option>
   </component>

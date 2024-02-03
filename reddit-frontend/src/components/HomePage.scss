@@ -1,0 +1,18 @@
+.home-page-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.content {
+  max-width: 600px; // Set a maximum width for the content
+  width: 100%; // Use the full width of the container
+  margin: 0 auto; // This will help with horizontal centering if the flexbox method fails
+}

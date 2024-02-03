@@ -4,16 +4,7 @@ spring:
   mvc:
     servlet:
       path: /auth-service
-  datasource:
-    url: jdbc:mysql://db-reddit-forum.c5a2iko6s97m.us-east-1.rds.amazonaws.com:3306/USER_DB
-    driverClassName: com.mysql.cj.jdbc.Driver
-    username: admin
-    password: teamproject
 
-security:
-  jwt:
-    token:
-      key: JavaTrainingMasterRedditHubJavaTrainingMasterRedditHubJavaTrainingMasterRedditHub
 
 server:
   port: 8082
@@ -27,7 +18,4 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-logging:
-  level:
-    feign.client: DEBUG
 

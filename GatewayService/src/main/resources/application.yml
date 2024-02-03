@@ -1,0 +1,22 @@
+server:
+  port: 8081 # The port on which the gateway service is running. Consider using environment-specific configurations to manage different ports across environments.
+
+spring:
+  application:
+    name: gateway # The name of the application. Useful for service discovery and logging.
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service # Unique identifier for the route.
+          uri:  lb://user-service # Specifies the load-balanced backend service URI. Ensure optimal configuration of the load balancer for scalability.
+          predicates:
+            - Path=/user/** # Route requests based on path patterns. Consider dynamic routing strategies for advanced use cases.
+          filters:
+            # Rewrite the path to the backend service. This is added because an extra namespace is added at the microservice level.
+            - RewritePath=/user/(?<remaining>.*), /user-service/user/$\{remaining}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:  ${EUREKA_URI:http://localhost:8761/eureka} # Service discovery endpoint. For production, secure this URI and consider high availability configurations.

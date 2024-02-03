@@ -6,6 +6,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
+//@EnableSwagger2
 public class HistoryServiceApplication {
 
     public static void main(String[] args) {

@@ -6,6 +6,13 @@
       <list>
         <option value="$PROJECT_DIR$/EurekaServer/pom.xml" />
         <option value="$PROJECT_DIR$/GatewayService/pom.xml" />
+        <option value="$PROJECT_DIR$/UserService/pom.xml" />
+        <option value="$PROJECT_DIR$/PostAndReplyService/pom.xml" />
+        <option value="$PROJECT_DIR$/MessageService/pom.xml" />
+        <option value="$PROJECT_DIR$/HistoryService/pom.xml" />
+        <option value="$PROJECT_DIR$/FileService/pom.xml" />
+        <option value="$PROJECT_DIR$/AuthService/pom.xml" />
+        <option value="$PROJECT_DIR$/EmailService/pom.xml" />
       </list>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />

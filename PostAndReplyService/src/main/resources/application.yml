@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: post-reply-service
+  mvc:
+    servlet:
+      path: /post-reply-service
+
+
+server:
+  port: 8085
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+

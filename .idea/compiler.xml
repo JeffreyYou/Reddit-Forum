@@ -7,14 +7,28 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="EurekaServer" />
+        <module name="FileService" />
+        <module name="UserService" />
+        <module name="PostAndReplyService" />
+        <module name="AuthService" />
+        <module name="HistoryService" />
+        <module name="EmailService" />
+        <module name="MessageService" />
         <module name="GatewayService" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="AuthService" options="" />
+      <module name="EmailService" options="" />
       <module name="EurekaServer" options="-parameters" />
+      <module name="FileService" options="" />
       <module name="GatewayService" options="-parameters" />
+      <module name="HistoryService" options="" />
+      <module name="MessageService" options="" />
+      <module name="PostAndReplyService" options="" />
+      <module name="UserService" options="-parameters" />
     </option>
   </component>
 </project>

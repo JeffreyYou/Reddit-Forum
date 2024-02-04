@@ -1,14 +1,21 @@
 package com.beaconfire.userservice.controller;
 
 import com.beaconfire.userservice.domain.User;
-import com.beaconfire.userservice.dto.ChangePasswordRequest;
-import com.beaconfire.userservice.dto.EmailVerificationConfirmationRequest;
-import com.beaconfire.userservice.dto.UserAuthenticationRequest;
-import com.beaconfire.userservice.dto.UserRegistrationRequest;
+import com.beaconfire.userservice.dto.UserAuthRequest.ChangePasswordRequest;
+import com.beaconfire.userservice.dto.UserAuthRequest.EmailVerificationConfirmationRequest;
+import com.beaconfire.userservice.dto.UserAuthRequest.UserAuthenticationRequest;
+import com.beaconfire.userservice.dto.UserAuthRequest.UserRegistrationRequest;
+import com.beaconfire.userservice.dto.UserAuthResponse.AuthenticationResponse;
+import com.beaconfire.userservice.dto.UserAuthResponse.ChangePasswordResponse;
+import com.beaconfire.userservice.dto.UserAuthResponse.EmailVerificationResponse;
+import com.beaconfire.userservice.dto.UserAuthResponse.UserRegistrationResponse;
+
+import com.beaconfire.userservice.service.UserAuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserAuthController {
 
-    // ResponseEntity<String> added for testing purposes, will be removed later
+    private final UserAuthService userAuthService;
+
+    @Autowired
+    public UserAuthController(UserAuthService userAuthService) {
+        this.userAuthService = userAuthService;
+    }
+
     @PostMapping("/user/register")
     @Operation(summary = "Registers a new user in the system",
             responses = {
@@ -25,11 +38,16 @@ public class UserAuthController {
                             content = @Content(schema = @Schema(implementation = User.class))),
                     @ApiResponse(responseCode = "400", description = "Invalid user registration details")
             })
-    public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
-        String username = userRegistrationRequest.getUsername();
-        String email = userRegistrationRequest.getEmail();
-        String password = userRegistrationRequest.getPassword();
-        return ResponseEntity.ok("User " + username + "\n with email " + email + "\nand password " + password + "\nhas been registered");
+    public ResponseEntity<UserRegistrationResponse> registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
+        final String email = userRegistrationRequest.getEmail();
+        final String password = userRegistrationRequest.getPassword();
+        User newUser = userAuthService.registerUser(email, password);
+
+        return ResponseEntity.ok(UserRegistrationResponse.builder()
+                .success(true)
+                .userId(newUser.getId())
+                .message("User registered successfully.")
+                .build());
     }
 
     @PostMapping("/user/authenticate")
@@ -38,7 +56,12 @@ public class UserAuthController {
                     @ApiResponse(responseCode = "200", description = "Authentication successful"),
                     @ApiResponse(responseCode = "401", description = "Authentication failed")
             })
-    public void authenticateUser(@RequestBody UserAuthenticationRequest userAuthenticationRequest) {
+    public ResponseEntity<AuthenticationResponse> authenticateUser(@RequestBody UserAuthenticationRequest userAuthenticationRequest) {
+        //place holder for actual authentication logic
+        return ResponseEntity.ok(AuthenticationResponse.builder()
+                .authenticated(true)
+                .message("User authenticated successfully.")
+                .build());
     }
 
     @PostMapping("/user/change-password")
@@ -48,7 +71,12 @@ public class UserAuthController {
                     @ApiResponse(responseCode = "400", description = "Invalid password change request"),
                     @ApiResponse(responseCode = "401", description = "Unauthorized")
             })
-    public void changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+    public ResponseEntity<ChangePasswordResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        //place holder for actual password change logic
+        return ResponseEntity.ok(ChangePasswordResponse.builder()
+                .success(true)
+                .message("Password changed successfully.")
+                .build());
     }
 
     @PostMapping("/user/verify-email/confirm")
@@ -57,6 +85,11 @@ public class UserAuthController {
                     @ApiResponse(responseCode = "200", description = "Email verified successfully"),
                     @ApiResponse(responseCode = "400", description = "Invalid or expired token")
             })
-    public void confirmEmailVerification(@RequestBody EmailVerificationConfirmationRequest emailVerificationConfirmationRequest) {
+    public ResponseEntity<EmailVerificationResponse> confirmEmailVerification(@RequestBody EmailVerificationConfirmationRequest emailVerificationConfirmationRequest) {
+        //place holder for actual email verification logic
+        return ResponseEntity.ok(EmailVerificationResponse.builder()
+                .verified(true)
+                .message("Email verified successfully.")
+                .build());
     }
 }

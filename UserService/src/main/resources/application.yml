@@ -4,6 +4,16 @@ spring:
   mvc:
     servlet:
       path: /user-service
+  datasource:
+    url: jdbc:h2:mem:db-reddit-forum.c5a2iko6s97m.us-east-1.rds.amazonaws.com
+    driverClassName: org.h2.Driver
+    username: petergutianhao@gmail.com
+    password: teamproject_1234
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 
 server:

@@ -1,4 +1,4 @@
-package com.beaconfire.userservice.dto;
+package com.beaconfire.userservice.dto.UserAuthRequest;
 
 import lombok.Builder;
 import lombok.Data;

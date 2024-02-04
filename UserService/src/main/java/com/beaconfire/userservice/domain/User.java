@@ -3,18 +3,15 @@ package com.beaconfire.userservice.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Users") // Assuming default schema, adjust as needed
+@Table(name = "User") // Assuming default schema, adjust as needed
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,9 +41,6 @@ public class User implements Serializable {
 
     @Column(nullable = false, length = 512)
     private String profileImageURL;
-
-    @Column(nullable = false)
-    private boolean verified;
 
 }
 

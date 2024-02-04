@@ -1,10 +1,15 @@
 package com.beaconfire.userservice.controller;
 
 import com.beaconfire.userservice.domain.User;
+import com.beaconfire.userservice.dto.ChangePasswordRequest;
+import com.beaconfire.userservice.dto.EmailVerificationConfirmationRequest;
+import com.beaconfire.userservice.dto.UserAuthenticationRequest;
+import com.beaconfire.userservice.dto.UserRegistrationRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserAuthController {
 
+    // ResponseEntity<String> added for testing purposes, will be removed later
     @PostMapping("/user/register")
     @Operation(summary = "Registers a new user in the system",
             responses = {
@@ -19,7 +25,11 @@ public class UserAuthController {
                             content = @Content(schema = @Schema(implementation = User.class))),
                     @ApiResponse(responseCode = "400", description = "Invalid user registration details")
             })
-    public void registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
+    public ResponseEntity<String> registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
+        String username = userRegistrationRequest.getUsername();
+        String email = userRegistrationRequest.getEmail();
+        String password = userRegistrationRequest.getPassword();
+        return ResponseEntity.ok("User " + username + "\n with email " + email + "\nand password " + password + "\nhas been registered");
     }
 
     @PostMapping("/user/authenticate")
@@ -41,15 +51,6 @@ public class UserAuthController {
     public void changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
     }
 
-    @PostMapping("/user/verify-email/initiate")
-    @Operation(summary = "Sends a verification link or code to the user's email to initiate email verification",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Verification email sent"),
-                    @ApiResponse(responseCode = "400", description = "Invalid email or unable to send email")
-            })
-    public void initiateEmailVerification(@RequestBody EmailVerificationInitiationRequest emailVerificationInitiationRequest) {
-    }
-
     @PostMapping("/user/verify-email/confirm")
     @Operation(summary = "Confirms email verification using a token or code provided in the email",
             responses = {
@@ -58,7 +59,4 @@ public class UserAuthController {
             })
     public void confirmEmailVerification(@RequestBody EmailVerificationConfirmationRequest emailVerificationConfirmationRequest) {
     }
-
-    // Define UserRegistrationRequest, UserAuthenticationRequest, ChangePasswordRequest,
-    // EmailVerificationInitiationRequest, EmailVerificationConfirmationRequest, and User classes accordingly
 }

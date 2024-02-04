@@ -5,6 +5,7 @@ spring:
     servlet:
       path: /history-service
 
+
 server:
   port: 8084
 

@@ -2,13 +2,11 @@ package com.beaconfire.userservice.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,5 +19,9 @@ public class ErrorDetails {
     @Schema(description = "Error message detailing what went wrong", example = "Invalid request parameters")
     private String message;
 
+    @Schema(description = "Additional details about the error, such as parameter names or invalid values", example = "The 'email' parameter is missing")
+    private String details;
+
+    // Lombok generates the constructor, getters, and setters
 }
 

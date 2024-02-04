@@ -22,6 +22,6 @@ public class UserRegistrationRequest {
     private String email;
 
     @NotBlank(message = "Password cannot be blank")
-    @Schema(description = "User's password", example = "securePassword123", required = true)
+    @Schema(description = "User's password", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", required = true)
     private String password;
 }

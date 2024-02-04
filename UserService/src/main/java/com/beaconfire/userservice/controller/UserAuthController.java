@@ -41,15 +41,6 @@ public class UserAuthController {
     public void changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
     }
 
-    @PostMapping("/user/verify-email/initiate")
-    @Operation(summary = "Sends a verification link or code to the user's email to initiate email verification",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Verification email sent"),
-                    @ApiResponse(responseCode = "400", description = "Invalid email or unable to send email")
-            })
-    public void initiateEmailVerification(@RequestBody EmailVerificationInitiationRequest emailVerificationInitiationRequest) {
-    }
-
     @PostMapping("/user/verify-email/confirm")
     @Operation(summary = "Confirms email verification using a token or code provided in the email",
             responses = {

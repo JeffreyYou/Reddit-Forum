@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.beaconfire</groupId>
+    <artifactId>RedditHub</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <modules>
+        <module>AuthService</module>
+        <module>UserService</module>
+        <module>EmailService</module>
+        <module>EurekaServer</module>
+        <module>HistoryService</module>
+        <module>PostAndReplyService</module>
+        <module>MessageService</module>
+        <module>GatewayService</module>
+        <module>FileService</module>
+    </modules>
+</project>

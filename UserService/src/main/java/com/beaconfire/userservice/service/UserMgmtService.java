@@ -3,9 +3,9 @@ package com.beaconfire.userservice.service;
 import com.beaconfire.userservice.dao.UserRepository;
 import com.beaconfire.userservice.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserMgmtService {
@@ -18,37 +18,23 @@ public class UserMgmtService {
     }
 
     public String updateUserType(Long userId, String userType) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
-        user.setType(userType);
-        userRepository.save(user);
-        return user.getType();
+        //place holder for actual logic
+        return "ROLE_PLACEHOLDER";
     }
 
     public Boolean deactivateUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
-        user.setActive(false);
-        userRepository.save(user);
-        return user.isActive();
+        //place holder for actual logic
+        return true;
     }
 
     public Boolean activateUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
-        user.setActive(true);
-        userRepository.save(user);
-        return user.isActive();
-    }
-
-    public List<User> getAllUsers() {
         //place holder for actual logic
-        return userRepository.findAll();
+        return true;
     }
 
-    public List<User> getAllBannedUsers() {
-        return userRepository.findByActive(false);
-    }
-
-    public List<User> getAllActiveUsers() {
-        return userRepository.findByActive(true);
+    public Page<User> getAllUsers(Pageable pageable) {
+        //place holder for actual logic
+        return userRepository.findAll(pageable);
     }
 
 }

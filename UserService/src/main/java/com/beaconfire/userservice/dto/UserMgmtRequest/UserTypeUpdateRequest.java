@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class UserTypeUpdateRequest {
 
     @NotBlank(message = "Role type cannot be blank")
-    @Schema(description = "User's type to be updated", example = "user", required = true)
+    @Schema(description = "User's type to be updated", example = "ROLE_USER", required = true)
     private String type;
 
 }

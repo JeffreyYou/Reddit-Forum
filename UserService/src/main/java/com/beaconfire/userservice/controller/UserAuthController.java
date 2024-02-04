@@ -1,6 +1,7 @@
 package com.beaconfire.userservice.controller;
 
 import com.beaconfire.userservice.domain.User;
+import com.beaconfire.userservice.dto.ErrorDetails;
 import com.beaconfire.userservice.dto.UserAuthRequest.ChangePasswordRequest;
 import com.beaconfire.userservice.dto.UserAuthRequest.EmailVerificationConfirmationRequest;
 import com.beaconfire.userservice.dto.UserAuthRequest.UserAuthenticationRequest;
@@ -35,8 +36,9 @@ public class UserAuthController {
     @Operation(summary = "Registers a new user in the system",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successfully registered the user",
-                            content = @Content(schema = @Schema(implementation = User.class))),
-                    @ApiResponse(responseCode = "400", description = "Invalid user registration details")
+                            content = @Content(schema = @Schema(implementation = UserRegistrationResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid user registration details",
+                            content = @Content(schema = @Schema(implementation = ErrorDetails.class))) // Assuming an ErrorDetails schema for error responses
             })
     public ResponseEntity<UserRegistrationResponse> registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
         final String email = userRegistrationRequest.getEmail();
@@ -53,8 +55,10 @@ public class UserAuthController {
     @PostMapping("/user/authenticate")
     @Operation(summary = "Provides user authentication details to the authentication service",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Authentication successful"),
-                    @ApiResponse(responseCode = "401", description = "Authentication failed")
+                    @ApiResponse(responseCode = "200", description = "Authentication successful",
+                            content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))),
+                    @ApiResponse(responseCode = "401", description = "Authentication failed",
+                            content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
     public ResponseEntity<AuthenticationResponse> authenticateUser(@RequestBody UserAuthenticationRequest userAuthenticationRequest) {
         //place holder for actual authentication logic
@@ -67,9 +71,12 @@ public class UserAuthController {
     @PostMapping("/user/change-password")
     @Operation(summary = "Allows authenticated users to change their password",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Password changed successfully"),
-                    @ApiResponse(responseCode = "400", description = "Invalid password change request"),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized")
+                    @ApiResponse(responseCode = "200", description = "Password changed successfully",
+                            content = @Content(schema = @Schema(implementation = ChangePasswordResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid password change request",
+                            content = @Content(schema = @Schema(implementation = ErrorDetails.class))),
+                    @ApiResponse(responseCode = "401", description = "Unauthorized",
+                            content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
     public ResponseEntity<ChangePasswordResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
         //place holder for actual password change logic
@@ -82,11 +89,14 @@ public class UserAuthController {
     @PostMapping("/user/verify-email/confirm")
     @Operation(summary = "Confirms email verification using a token or code provided in the email",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Email verified successfully"),
-                    @ApiResponse(responseCode = "400", description = "Invalid or expired token")
+                    @ApiResponse(responseCode = "200", description = "Email verified successfully",
+                            content = @Content(schema = @Schema(implementation = EmailVerificationResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid or expired token",
+                            content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
-    public ResponseEntity<EmailVerificationResponse> confirmEmailVerification(@RequestBody EmailVerificationConfirmationRequest emailVerificationConfirmationRequest) {
-        //place holder for actual email verification logic
+    public ResponseEntity<EmailVerificationResponse> confirmEmailVerification(
+            @RequestBody EmailVerificationConfirmationRequest emailVerificationConfirmationRequest) {
+        // Placeholder for actual email verification logic
         return ResponseEntity.ok(EmailVerificationResponse.builder()
                 .verified(true)
                 .message("Email verified successfully.")

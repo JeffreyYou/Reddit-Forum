@@ -1,53 +1,65 @@
 import React from "react";
-import { Layout, Menu, Input, Button, Row, Col } from "antd";
+import { Layout, Menu, Input, Button, Row, Col, Switch } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
+import type { MenuProps } from 'antd';
+import { useThemeStore } from "../../store/theme-store";
 
 import styles from "./style.module.scss";
-import "./style.module.scss"
 
+type MenuItem = Required<MenuProps>['items'][number];
 const { Header } = Layout;
-const { Search } = Input;
+
 
 const Navbar = () => {
+
+  const { themeProps, setTheme } = useThemeStore();
+
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
     navigate("/users/login");
   };
+  function getItem(
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+    children?: MenuItem,
+    type?: 'group',
+  ): MenuItem {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    } as MenuItem;
+  }
+
+
+  const toggleTheme = () => {
+    themeProps.theme === 'dark' ? setTheme('light') : setTheme('dark');
+  }
+  const items: MenuProps['items'] = [
+    
+    getItem(<Switch onChange={toggleTheme} />, 'theme'),
+    getItem(<Link to="/home">Home</Link>, 'home'),
+    getItem(<Link to="/users/login">Login</Link>, 'login'),
+    getItem(<Link to="/users/1/profile">Profile</Link>, 'profile'),
+    getItem(<Link to="/users/register">Register</Link>, 'register'),
+  ];
+
 
   return (
     <Header className={styles.navbar}>
       <Row justify="space-between" align="middle">
+        <Col><HomeOutlined className={styles.navbar_logo} /></Col>
+        <Col flex="auto" className={styles.title}>RedditHub</Col>
         <Col>
-          {/* Logo and Home Icon could be a link to the home page */}
-          <HomeOutlined className={styles.navbar_logo} />
-        </Col>
-        <Col flex="auto">
-          {/* Search bar */}
-          {/* <Search placeholder="Search..." style={{ width: 200 }} /> */}
-          RedditHub
-        </Col>
-        <Col >
-          {/* Navigation Menu */}
-          <Menu mode="horizontal">
-            <Menu.Item key="home">
-              <Link to="/home">Home</Link>
-            </Menu.Item>
-            <Menu.Item key="login">
-              <Link to="/users/login">Login</Link>
-            </Menu.Item>
-            <Menu.Item key="register">
-              <Link to="/users/register">Register</Link>
-            </Menu.Item>
-            {/* Add additional navigation links as needed */}
-          </Menu>
+          <Menu mode="horizontal" items={items} disabledOverflow={true} style={{backgroundColor: 'transparent'}}></Menu>
         </Col>
         <Col>
-          {/* Log In button - could be a Link or a button that opens a modal */}
-          <Button type="primary" onClick={handleLoginClick}>
-            Log In
-          </Button>
+          <Button type="primary" onClick={handleLoginClick}>Log In</Button>
         </Col>
       </Row>
     </Header>

@@ -9,6 +9,7 @@ import LoginPage from "./pages/login/LoginPage";
 import RegisterPage from "./pages/register/RegisterPage";
 import NavBar from "./components/nav-bar/Navbar";
 import HomePage from "./pages/home/HomePage";
+import UserProfile from "./pages/user-profile";
 
 const AppRouter = () => {
     return (
@@ -20,6 +21,7 @@ const AppRouter = () => {
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/users/login" element={<LoginPage />} />
                 <Route path="/users/register" element={<RegisterPage />} />
+                <Route path="/users/1/profile" element={<UserProfile />} />
                 {/* <Route path="/contact-admin" element={<ContactAdminPage />} />
                         <Route
                         path="/home"

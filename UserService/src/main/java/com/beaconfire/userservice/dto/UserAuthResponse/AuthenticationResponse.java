@@ -11,6 +11,9 @@ public class AuthenticationResponse {
     @Schema(description = "Indicates if authentication was successful", example = "true")
     private boolean authenticated;
 
+    @Schema(description = "User's ID", example = "123")
+    private Long userId;
+
     @Schema(description = "User's hashed password", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
     private String password;
 

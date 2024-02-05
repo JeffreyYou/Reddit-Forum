@@ -4,6 +4,7 @@ import com.beaconfire.historyservice.domain.History;
 import com.beaconfire.historyservice.repository.HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -17,18 +18,13 @@ public class HistoryService {
         this.historyRepository = historyRepository;
     }
 
-    public List<History> findMostRecentHistoriesByUserId(Long userId) {
+    public List<History> findHistoriesByUserId(Long userId) {
         return historyRepository.findByUserIdOrderByViewDateDesc(userId);
     }
 
-    public List<History> findAllHistoriesByUserId(Long userId) {
-        return historyRepository.findByUserId(userId);
+
+    public void create(History history) {
+        historyRepository.save(history);
     }
-
-
-
-    //get posts by userid, check post status, delete (?) non-"published" records
-
-    //create new record
 
 }

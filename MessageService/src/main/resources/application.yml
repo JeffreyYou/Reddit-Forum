@@ -4,6 +4,19 @@ spring:
   mvc:
     servlet:
       path: /message-service
+  datasource:
+    url: jdbc:mysql://db-reddit-forum.c5a2iko6s97m.us-east-1.rds.amazonaws.com:3306/MESSAGE_DB
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: teamproject
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  logging:
+    level:
+      org.springframework.security: DEBUG
 
 
 server:

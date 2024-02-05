@@ -1,8 +1,10 @@
 package com.beaconfire.userservice.controller;
 
+import com.beaconfire.userservice.domain.User;
 import com.beaconfire.userservice.dto.UserProfileRequest.UpdateUserProfileRequest;
 import com.beaconfire.userservice.dto.UserProfileResponse.UpdateUserProfileResponse;
 import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileFieldResponse;
+import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileListResponse;
 import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileResponse;
 import com.beaconfire.userservice.service.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,44 +40,24 @@ public class UserProfileController {
     @Operation(summary = "Lists all banned users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of banned users",
-                    content = @Content(schema = @Schema(implementation = UserProfileResponse.class))),
+                    content = @Content(schema = @Schema(implementation = UserProfileListResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<UserProfileResponse>> listBannedUsers() {
-        List<UserProfileResponse> bannedUsers = userProfileService.getAllBannedUsers().stream()
-                .map(user -> UserProfileResponse.builder()
-                        .firstName(user.getFirstName())
-                        .lastName(user.getLastName())
-                        .email(user.getEmail())
-                        .active(user.isActive())
-                        .dateJoined(user.getDateJoined())
-                        .type(user.getType())
-                        .profileImageURL(user.getProfileImageURL())
-                        .build())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(bannedUsers);
+    public ResponseEntity<UserProfileListResponse> listBannedUsers() {
+        List<UserProfileResponse> bannedUsers = convertToUserProfileResponses(userProfileService.getAllBannedUsers());
+        return ResponseEntity.ok(buildUserProfileListResponse(bannedUsers, "List of banned users retrieved successfully."));
     }
 
     @GetMapping("/active")
     @Operation(summary = "Lists all active (not banned) users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of active users",
-                    content = @Content(schema = @Schema(implementation = UserProfileResponse.class))),
+                    content = @Content(schema = @Schema(implementation = UserProfileListResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<List<UserProfileResponse>> listActiveUsers() {
-        List<UserProfileResponse> activeUsers = userProfileService.getAllActiveUsers().stream()
-                .map(user -> UserProfileResponse.builder()
-                        .firstName(user.getFirstName())
-                        .lastName(user.getLastName())
-                        .email(user.getEmail())
-                        .active(user.isActive())
-                        .dateJoined(user.getDateJoined())
-                        .type(user.getType())
-                        .profileImageURL(user.getProfileImageURL())
-                        .build())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(activeUsers);
+    public ResponseEntity<UserProfileListResponse> listActiveUsers() {
+        List<UserProfileResponse> activeUsers = convertToUserProfileResponses(userProfileService.getAllActiveUsers());
+        return ResponseEntity.ok(buildUserProfileListResponse(activeUsers, "List of active users retrieved successfully."));
     }
 
     @GetMapping("/status/{userId}")
@@ -215,11 +197,33 @@ public class UserProfileController {
         }
     }
 
+    private List<UserProfileResponse> convertToUserProfileResponses(List<User> users) {
+        return users.stream()
+                .map(user -> UserProfileResponse.builder()
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .email(user.getEmail())
+                        .active(user.isActive())
+                        .dateJoined(user.getDateJoined())
+                        .type(user.getType())
+                        .verified(user.isVerified())
+                        .profileImageURL(user.getProfileImageURL())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
     private UserProfileFieldResponse buildUserProfileFieldResponse(String fieldName, String value) {
         return UserProfileFieldResponse.builder()
                 .fieldName(fieldName)
                 .value(value)
                 .message("Return " + fieldName + " successfully.")
+                .build();
+    }
+
+    private UserProfileListResponse buildUserProfileListResponse(List<UserProfileResponse> userProfiles, String message) {
+        return UserProfileListResponse.builder()
+                .userProfiles(userProfiles)
+                .message(message)
                 .build();
     }
 }

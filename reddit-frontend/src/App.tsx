@@ -1,17 +1,9 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import LoginPage from "./components/LoginPage";
 import NavBar from "./components/Navbar";
 import { ConfigProvider } from "antd";
-import RegisterPage from "./components/RegisterPage";
 // import ContactAdminPage from "./components/ContactAdminPage";
 // import HomePage from "./components/HomePage"; // Assuming you have a HomePage component
-
+import { Navigate } from "react-router-dom";
+import AppRouter from "./router";
 const App = () => {
   return (
     <ConfigProvider
@@ -34,23 +26,8 @@ const App = () => {
         },
       }}
     >
-      <Router>
-        <NavBar />
-        <Routes>
-          <Route path="/users/login" element={<LoginPage />} />
-          <Route path="/users/register" element={<RegisterPage />} />
-          {/* <Route path="/contact-admin" element={<ContactAdminPage />} />
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute>
-              <HomePage />
-            </ProtectedRoute>
-          }
-        /> */}
-          {/* Add other routes here */}
-        </Routes>
-      </Router>
+        <AppRouter />
+
     </ConfigProvider>
   );
 };

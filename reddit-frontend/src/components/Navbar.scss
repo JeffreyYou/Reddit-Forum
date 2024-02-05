@@ -1,0 +1,39 @@
+.navbar {
+  position: fixed; // Fix the navbar to the top of the window
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; // Ensure it's above other content
+  background-color: #ffffff; // Use a white background
+  padding: 0 50px; // Add horizontal padding
+  box-shadow: 0 2px 8px #f0f1f2; // Optional: add a subtle shadow for depth
+
+  .navbar-logo {
+    color: #52c41a; // Reddit logo color
+    margin-right: 16px; // Space after the logo
+  }
+
+  // Style the search input
+  .ant-input-affix-wrapper .ant-input:not(:last-child) {
+    padding-right: 5px; // Adjust right padding if necessary
+  }
+
+  // Menu item styling
+  .ant-menu-horizontal {
+    line-height: 64px; // Align the menu items vertically
+    border-bottom: none; // Remove the bottom border
+    background-color: transparent; // Transparent background for the menu
+  }
+
+  .ant-menu-item {
+    margin: 0 10px; // Margin for menu items
+    padding: 0 15px; // Padding for menu items
+  }
+
+  // Style for the Log In button
+  .ant-btn-primary {
+    margin-left: 20px; // Space before the button
+    // background-color: #52c41a; // Button background color
+    border-color: #52c41a; // Button border color
+  }
+}

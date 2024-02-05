@@ -8,6 +8,8 @@ import com.beaconfire.userservice.service.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/user")
 public class UserProfileController {
-    
+
     private final UserProfileService userProfileService;
 
     @Autowired
@@ -35,7 +37,8 @@ public class UserProfileController {
     @GetMapping("/banned")
     @Operation(summary = "Lists all banned users")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of banned users"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of banned users",
+                    content = @Content(schema = @Schema(implementation = UserProfileResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<UserProfileResponse>> listBannedUsers() {
@@ -56,7 +59,8 @@ public class UserProfileController {
     @GetMapping("/active")
     @Operation(summary = "Lists all active (not banned) users")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of active users"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of active users",
+                    content = @Content(schema = @Schema(implementation = UserProfileResponse.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<List<UserProfileResponse>> listActiveUsers() {
@@ -77,7 +81,8 @@ public class UserProfileController {
     @GetMapping("/status/{userId}")
     @Operation(summary = "Retrieves the status (banned or active) of a specific user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the user status"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the user status",
+                    content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -93,7 +98,8 @@ public class UserProfileController {
     @GetMapping("/role/{userId}")
     @Operation(summary = "Retrieves the type (user, admin, super-admin) of a specific user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the user type"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the user type",
+                    content = @Content(schema = @Schema(implementation = UserProfileFieldResponse.class))),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -109,7 +115,8 @@ public class UserProfileController {
     @GetMapping("/firstName/{userId}")
     @Operation(summary = "Retrieves the first name of a specific user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the first name"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the first name",
+                    content = @Content(schema = @Schema(implementation = UserProfileFieldResponse.class))),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -121,7 +128,8 @@ public class UserProfileController {
     @GetMapping("/lastName/{userId}")
     @Operation(summary = "Retrieves the last name of a specific user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the last name"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the last name",
+                    content = @Content(schema = @Schema(implementation = UserProfileFieldResponse.class))),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -133,7 +141,8 @@ public class UserProfileController {
     @GetMapping("/email/{userId}")
     @Operation(summary = "Retrieves the email of a specific user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the email"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the email",
+                    content = @Content(schema = @Schema(implementation = UserProfileFieldResponse.class))),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -145,7 +154,8 @@ public class UserProfileController {
     @GetMapping("/dateJoined/{userId}")
     @Operation(summary = "Retrieves the date joined of a specific user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the date joined"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the date joined",
+                    content = @Content(schema = @Schema(implementation = UserProfileFieldResponse.class))),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -157,7 +167,8 @@ public class UserProfileController {
     @GetMapping("/profileImageURL/{userId}")
     @Operation(summary = "Retrieves the profile image URL of a specific user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the profile image URL"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the profile image URL",
+                    content = @Content(schema = @Schema(implementation = UserProfileFieldResponse.class))),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -169,7 +180,8 @@ public class UserProfileController {
     @PostMapping("/profile/{userId}")
     @Operation(summary = "Updates the user profile (first name, last name, email, profile image URL) of a specific user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully updated the user profile"),
+            @ApiResponse(responseCode = "200", description = "Successfully updated the user profile",
+                    content = @Content(schema = @Schema(implementation = UpdateUserProfileResponse.class))),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -189,7 +201,8 @@ public class UserProfileController {
     @GetMapping("/profile/{userId}")
     @Operation(summary = "Retrieves the user profile (first name, last name, email, profile image URL) of a specific user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved the user profile"),
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the user profile",
+                    content = @Content(schema = @Schema(implementation = UserProfileResponse.class))),
             @ApiResponse(responseCode = "404", description = "User not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -203,10 +216,10 @@ public class UserProfileController {
     }
 
     private UserProfileFieldResponse buildUserProfileFieldResponse(String fieldName, String value) {
-         return UserProfileFieldResponse.builder()
-                 .fieldName(fieldName)
-                 .value(value)
-                 .message("Return " + fieldName + " successfully.")
-                 .build();
+        return UserProfileFieldResponse.builder()
+                .fieldName(fieldName)
+                .value(value)
+                .message("Return " + fieldName + " successfully.")
+                .build();
     }
 }

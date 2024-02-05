@@ -1,5 +1,5 @@
-import {Posts, samplePosts} from "../../components/Posts.tsx";
-import {NewPost} from "../../components/NewPost.tsx";
+import {Posts, samplePosts} from "../../components/post/Posts.tsx";
+import { NewPost } from "../../components/new-post/NewPost.tsx";
 import styles from './style.module.scss';
 
 const HomePage = () => {

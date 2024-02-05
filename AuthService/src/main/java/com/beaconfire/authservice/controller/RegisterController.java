@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "*")
 public class RegisterController {
 
     @Autowired
@@ -37,7 +36,6 @@ public class RegisterController {
         UserCreateResponse userCreateResponse = authRegisterService.registerUser(
                 authRegRequest.getEmail(), authRegRequest.getPassword()
         );
-        System.out.println("User registered successfully");
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
 import { Form, Input, Button, message, Modal } from "antd";
 import { UserOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
-import "./RegisterPage.scss";
+import styles from "./style.module.scss";
 import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
@@ -112,7 +111,7 @@ const RegisterPage = () => {
   //   </Modal>
   // );
   return (
-    <div className="register-container">
+    <div className={styles.register_container}>
       <h2>Sign Up</h2>
       <Form form={form} name="register" onFinish={onFinish} scrollToFirstError>
         <Form.Item

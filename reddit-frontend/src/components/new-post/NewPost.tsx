@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Modal, Button } from 'antd';
 const { TextArea } = Input;
-import './NewPost.scss';
+import styles from './style.module.scss';
 
 interface NewPostProps {
     onAddPost: (post: { title: string; content: string }) => void;
@@ -31,7 +31,7 @@ export const NewPost: React.FC<NewPostProps> = ({ onAddPost }) => {
 
     return (
         <>
-            <Button type="primary" onClick={showModal} className="create-post-button">
+            <Button type="primary" onClick={showModal} className={styles.create_post_button}>
                 Create New Post
             </Button>
             <Modal title="Create New Post" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>

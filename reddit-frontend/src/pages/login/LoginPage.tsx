@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Form, Input, Button, Divider } from "antd";
 import { GoogleOutlined, AppleOutlined } from "@ant-design/icons";
-import "./LoginPage.scss"; // Make sure to create a corresponding Sass file for styling
 import { useNavigate } from "react-router-dom";
+import styles from "./style.module.scss";
 
 const LoginPage = () => {
   //   const [isModalVisible, setIsModalVisible] = useState(true); // You can control the visibility as needed
@@ -71,7 +71,7 @@ const LoginPage = () => {
   //     </Modal>
   //   );
   return (
-    <div className="login-container">
+    <div className={styles.login_container}>
       <h2>Log In</h2>
       <Form
         name="login_form"

@@ -1,8 +1,10 @@
 import React from "react";
 import { Layout, Menu, Input, Button, Row, Col } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
-import "./Navbar.scss";
 import { Link, useNavigate } from "react-router-dom";
+
+import styles from "./style.module.scss";
+import "./style.module.scss"
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -15,18 +17,18 @@ const Navbar = () => {
   };
 
   return (
-    <Header className="navbar">
+    <Header className={styles.navbar}>
       <Row justify="space-between" align="middle">
         <Col>
           {/* Logo and Home Icon could be a link to the home page */}
-          <HomeOutlined className="navbar-logo" />
+          <HomeOutlined className={styles.navbar_logo} />
         </Col>
         <Col flex="auto">
           {/* Search bar */}
           {/* <Search placeholder="Search..." style={{ width: 200 }} /> */}
           RedditHub
         </Col>
-        <Col>
+        <Col >
           {/* Navigation Menu */}
           <Menu mode="horizontal">
             <Menu.Item key="home">

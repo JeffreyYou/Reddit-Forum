@@ -4,13 +4,16 @@
   left: 0;
   right: 0;
   z-index: 1000; // Ensure it's above other content
-  background-color: #ffffff; // Use a white background
   padding: 0 50px; // Add horizontal padding
   box-shadow: 0 2px 8px #f0f1f2; // Optional: add a subtle shadow for depth
+  // background-color: #ffffff;
 
-  .navbar-logo {
+  .navbar_logo {
     color: #52c41a; // Reddit logo color
     margin-right: 16px; // Space after the logo
+  }
+  .col_modify {
+    background-color: #ffffff;
   }
 
   // Style the search input

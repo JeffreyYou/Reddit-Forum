@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'antd';
-import './Posts.scss';
+import styles from './style.module.scss';
 
 interface PostsProps {
     posts: IPost[];
@@ -8,7 +8,7 @@ interface PostsProps {
 
 export const Posts: React.FC<PostsProps> = ({ posts }) => {
     return (
-        <div className="posts-container">
+        <div className={styles.posts_container}>
             {posts.map((post) => (
                 <Card
                     key={post.id}

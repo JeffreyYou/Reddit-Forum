@@ -5,9 +5,10 @@ import {
     Navigate,
   } from "react-router-dom";
 
-import LoginPage from "./components/LoginPage";
-import RegisterPage from "./components/RegisterPage";
-import NavBar from "./components/Navbar";
+import LoginPage from "./pages/login/LoginPage";
+import RegisterPage from "./pages/register/RegisterPage";
+import NavBar from "./components/nav-bar/Navbar";
+import HomePage from "./pages/home/HomePage";
 
 const AppRouter = () => {
     return (
@@ -15,6 +16,8 @@ const AppRouter = () => {
             <NavBar />
 
             <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/home" element={<HomePage />} />
                 <Route path="/users/login" element={<LoginPage />} />
                 <Route path="/users/register" element={<RegisterPage />} />
                 {/* <Route path="/contact-admin" element={<ContactAdminPage />} />
@@ -32,3 +35,9 @@ const AppRouter = () => {
 }
 
 export default AppRouter
+
+const ProtectedRoute = ({ children } : any) => {
+    const isAuthenticated =
+      true; /* Your logic to check if user is authenticated */
+    return isAuthenticated ? children : <Navigate to="/users/login" />;
+  };

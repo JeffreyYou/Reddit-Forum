@@ -32,43 +32,43 @@ public class UserProfileService {
     }
 
     public String getUserStatus(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        final Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(user -> user.isActive() ? "Active" : "Banned")
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
     public String getUserType(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        final Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(User::getType)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
     public String getUserFirstNameById(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        final Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(User::getFirstName)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
     public String getUserLastNameById(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        final Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(User::getLastName)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
     public String getUserEmailById(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        final Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(User::getEmail)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
     public Timestamp getUserDateJoinedById(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        final Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(User::getDateJoined)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
     public String getUserProfileImageURLById(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        final Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(User::getProfileImageURL)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
@@ -89,7 +89,7 @@ public class UserProfileService {
     }
 
     public UserProfileResponse getUserProfileById(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        final Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             return UserProfileResponse.builder()

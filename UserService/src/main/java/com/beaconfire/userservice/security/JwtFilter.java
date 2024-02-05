@@ -26,25 +26,20 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String path = request.getRequestURI();
-        System.out.println(path);
+        Optional<AuthUserDetail> authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
 
-        // Skip JWT processing for specific paths
-        if (!path.startsWith("/user-service/user/authenticate") && !path.startsWith("/user-service/user/create") && !path.startsWith(("/user-service/swagger-ui")) && !path.startsWith(("/user-service/v3"))) {
-            Optional<AuthUserDetail> authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
+        if (authUserDetailOptional.isPresent()){
+            AuthUserDetail authUserDetail = authUserDetailOptional.get();
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    authUserDetail.getUsername(),
+                    null,
+                    authUserDetail.getAuthorities()
+            ); // generate authentication object
 
-            if (authUserDetailOptional.isPresent()) {
-                AuthUserDetail authUserDetail = authUserDetailOptional.get();
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        authUserDetail.getUsername(),
-                        null,
-                        authUserDetail.getAuthorities()
-                ); // generate authentication object
-
-                SecurityContextHolder.getContext().setAuthentication(authentication); // put authentication object in the security context
-            }
+            SecurityContextHolder.getContext().setAuthentication(authentication); // put authentication object in the secruitycontext
         }
 
         filterChain.doFilter(request, response);
+
     }
 }

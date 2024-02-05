@@ -12,6 +12,11 @@ const themeConfig = {
       Layout: {
         headerBg: "#fff",
       },
+      Menu: {
+        // itemBg: "#a31313",
+        // itemHoverColor: "#a31313",
+        
+      }
     },
   };
   

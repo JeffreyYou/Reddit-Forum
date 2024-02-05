@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegistrationRequest {
+public class UserCreateRequest {
 
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email cannot be blank")

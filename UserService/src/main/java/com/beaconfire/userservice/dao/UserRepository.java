@@ -16,12 +16,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Find a user by email (useful for login, email verification processes)
     Optional<User> findByEmail(String email);
 
-    // Custom method to find active users
-    List<User> findByActive(boolean active);
-
-    // Custom method to update user's activation status
-    @Modifying
-    @Query("update User u set u.active = :active where u.id = :userId")
-    int updateUserActivationStatus(@Param("userId") Long userId, @Param("active") boolean active);
-
 }

@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,14 +62,27 @@ public class UserAuthController {
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
     public ResponseEntity<AuthenticationResponse> authenticateUser(@RequestBody UserAuthenticationRequest userAuthenticationRequest) {
-        //place holder for actual authentication logic
-        return ResponseEntity.ok(AuthenticationResponse.builder()
-                .authenticated(true)
-                .message("User authenticated successfully.")
-                .build());
+        final Long userId = userAuthService.getCurrentUserId();
+        final String password = userAuthenticationRequest.getPassword();
+
+        if (userAuthService.authenticateUser(userId, password)) {
+            return ResponseEntity.ok(AuthenticationResponse.builder()
+                    .authenticated(true)
+                    .userId(userId)
+                    .password(password)
+                    .message("Authentication successful.")
+                    .build());
+        } else {
+            return ResponseEntity.status(401).body(AuthenticationResponse.builder()
+                    .authenticated(false)
+                    .userId(userId)
+                    .password(password)
+                    .message("Authentication failed.")
+                    .build());
+        }
     }
 
-    @PostMapping("/user/change-password")
+    @PatchMapping("/user/change-password")
     @Operation(summary = "Allows authenticated users to change their password",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Password changed successfully",
@@ -79,11 +93,24 @@ public class UserAuthController {
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
     public ResponseEntity<ChangePasswordResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-        //place holder for actual password change logic
-        return ResponseEntity.ok(ChangePasswordResponse.builder()
-                .success(true)
-                .message("Password changed successfully.")
-                .build());
+        final Long userId = userAuthService.getCurrentUserId();
+        final String newPassword = changePasswordRequest.getNewPassword();
+
+        if (userAuthService.changePassword(userId, newPassword)) {
+            return ResponseEntity.ok(ChangePasswordResponse.builder()
+                    .success(true)
+                    .userId(userId)
+                    .newPassword(newPassword)
+                    .message("Password changed successfully.")
+                    .build());
+        } else {
+            return ResponseEntity.status(401).body(ChangePasswordResponse.builder()
+                    .success(false)
+                    .userId(userId)
+                    .newPassword(newPassword)
+                    .message("Password change failed.")
+                    .build());
+        }
     }
 
     @PostMapping("/user/verify-email/confirm")
@@ -97,9 +124,19 @@ public class UserAuthController {
     public ResponseEntity<EmailVerificationResponse> confirmEmailVerification(
             @RequestBody EmailVerificationConfirmationRequest emailVerificationConfirmationRequest) {
         // Placeholder for actual email verification logic
-        return ResponseEntity.ok(EmailVerificationResponse.builder()
-                .verified(true)
-                .message("Email verified successfully.")
-                .build());
+        final long userId = emailVerificationConfirmationRequest.getUserId();
+        if (userAuthService.setVerified(userId)) {
+            return ResponseEntity.ok(EmailVerificationResponse.builder()
+                    .userId(userId)
+                    .verified(true)
+                    .message("Email verified successfully.")
+                    .build());
+        } else {
+            return ResponseEntity.status(400).body(EmailVerificationResponse.builder()
+                    .userId(userId)
+                    .verified(false)
+                    .message("Email verification failed.")
+                    .build());
+        }
     }
 }

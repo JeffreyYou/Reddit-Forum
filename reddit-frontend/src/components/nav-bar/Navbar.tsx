@@ -1,18 +1,20 @@
 import React from "react";
-import { Layout, Menu, Input, Button, Row, Col } from "antd";
+import { Layout, Menu, Input, Button, Row, Col, Switch } from "antd";
 import { HomeOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import type { MenuProps } from 'antd';
+import { useThemeStore } from "../../store/theme-store";
 
 import styles from "./style.module.scss";
-import "./style.module.scss"
 
 type MenuItem = Required<MenuProps>['items'][number];
-
 const { Header } = Layout;
-const { Search } = Input;
+
 
 const Navbar = () => {
+
+  const { themeProps, setTheme } = useThemeStore();
+
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
@@ -33,7 +35,14 @@ const Navbar = () => {
       type,
     } as MenuItem;
   }
+
+
+  const toggleTheme = () => {
+    themeProps.theme === 'dark' ? setTheme('light') : setTheme('dark');
+  }
   const items: MenuProps['items'] = [
+    
+    getItem(<Switch onChange={toggleTheme} />, 'theme'),
     getItem(<Link to="/home">Home</Link>, 'home'),
     getItem(<Link to="/users/login">Login</Link>, 'login'),
     getItem(<Link to="/users/1/profile">Profile</Link>, 'profile'),

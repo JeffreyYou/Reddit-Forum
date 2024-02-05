@@ -42,5 +42,7 @@ public class User {
     @Column(nullable = false, length = 512)
     private String profileImageURL;
 
+    @Column(nullable = false)
+    private boolean verified;
 }
 

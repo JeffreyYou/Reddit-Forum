@@ -4,7 +4,6 @@ import com.beaconfire.compositeservice.dto.HistoryResponse;
 import com.beaconfire.compositeservice.dto.PostResponse;
 import com.beaconfire.compositeservice.service.remote.RemoteHistoryService;
 import com.beaconfire.compositeservice.service.remote.RemotePostAndReplyService;
-import nonapi.io.github.classgraph.json.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -29,20 +28,11 @@ public class CompositeService {
     }
 
     //cache ?
-    public List<PostResponse> getHistoryByUserId(Long userId, String token){
-        String headerToken = "Bearer " + token;
-        List<HistoryResponse> historyList = historyService.getHistoryByUserId(userId, headerToken);
-        System.out.println(historyList);
-        List<PostResponse> postResponses =
-                historyList.stream()
-                        .map(x->{
-                            PostResponse postResponse = postAndReplyService.getPostById(x.getPostId(),headerToken);
-                            postResponse.setViewDate(x.getViewDate());
-                            return postResponse;
-                        })
+    public List<PostResponse> getHistoryByUserId(Long userId){
+        List<HistoryResponse> historyList = historyService.getHistoryByUserId(userId);
+        List<PostResponse> postResponses =historyList.stream().map(x->postAndReplyService.getPostById(x.getPostId()))
                 .filter(x->x.getStatus().equals("Published"))
                 .collect(Collectors.toList());
-        postResponses.stream().forEach(System.out::println);
         return postResponses;
     }
 }

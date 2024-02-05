@@ -1,7 +1,6 @@
-import React from 'react';
-import {Posts, samplePosts} from "./Posts.tsx";
-import {NewPost} from "./NewPost.tsx";
-import './HomePage.scss'
+import {Posts, samplePosts} from "../../components/Posts.tsx";
+import {NewPost} from "../../components/NewPost.tsx";
+import styles from './style.module.scss';
 
 const HomePage = () => {
     // fixme: check if the current user is admin
@@ -13,14 +12,14 @@ const HomePage = () => {
     };
 
     return (
-        <div className="home-page-container">
+        <div className={styles.homepage_container}>
             {isAdmin ? (
                 <div>
                     <h1>Hello! This is your Admin homepage.</h1>
                     <Posts posts={samplePosts} />
                 </div>
             ) : (
-                <div className='content'>
+                <div className={styles.content}>
                     <h1>Hello! This is your User homepage.</h1>
                     <NewPost onAddPost={handleNewPost} />
                     <Posts posts={samplePosts} />

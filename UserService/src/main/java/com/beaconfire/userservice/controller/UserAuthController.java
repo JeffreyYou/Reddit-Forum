@@ -5,11 +5,11 @@ import com.beaconfire.userservice.dto.ErrorDetails;
 import com.beaconfire.userservice.dto.UserAuthRequest.ChangePasswordRequest;
 import com.beaconfire.userservice.dto.UserAuthRequest.EmailVerificationConfirmationRequest;
 import com.beaconfire.userservice.dto.UserAuthRequest.UserAuthenticationRequest;
-import com.beaconfire.userservice.dto.UserAuthRequest.UserRegistrationRequest;
-import com.beaconfire.userservice.dto.UserAuthResponse.AuthenticationResponse;
+import com.beaconfire.userservice.dto.UserAuthRequest.UserCreateRequest;
+import com.beaconfire.userservice.dto.UserAuthResponse.UserAuthenticationResponse;
 import com.beaconfire.userservice.dto.UserAuthResponse.ChangePasswordResponse;
 import com.beaconfire.userservice.dto.UserAuthResponse.EmailVerificationResponse;
-import com.beaconfire.userservice.dto.UserAuthResponse.UserRegistrationResponse;
+import com.beaconfire.userservice.dto.UserAuthResponse.UserCreateResponse;
 
 import com.beaconfire.userservice.service.UserAuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,22 +33,22 @@ public class UserAuthController {
         this.userAuthService = userAuthService;
     }
 
-    @PostMapping("/user/register")
-    @Operation(summary = "Registers a new user in the system",
+    @PostMapping("/user/create")
+    @Operation(summary = "Create a new user in the system",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Successfully registered the user",
-                            content = @Content(schema = @Schema(implementation = UserRegistrationResponse.class))),
-                    @ApiResponse(responseCode = "400", description = "Invalid user registration details",
+                    @ApiResponse(responseCode = "200", description = "Successfully create the user",
+                            content = @Content(schema = @Schema(implementation = UserCreateResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid user create details",
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class))) // Assuming an ErrorDetails schema for error responses
             })
-    public ResponseEntity<UserRegistrationResponse> registerUser(@RequestBody UserRegistrationRequest userRegistrationRequest) {
-        final String email = userRegistrationRequest.getEmail();
-        final String password = userRegistrationRequest.getPassword();
-        User newUser = userAuthService.registerUser(email, password);
+    public ResponseEntity<UserCreateResponse> createUser(@RequestBody UserCreateRequest userCreateRequest) {
+        final String email = userCreateRequest.getEmail();
+        final String password = userCreateRequest.getPassword();
+        final User newUser = userAuthService.createUser(email, password);
 
-        return ResponseEntity.ok(UserRegistrationResponse.builder()
+        return ResponseEntity.ok(UserCreateResponse.builder()
                 .success(true)
-                .userId(newUser.getId())
+                .user(newUser)
                 .message("User registered successfully.")
                 .build());
     }
@@ -57,29 +57,18 @@ public class UserAuthController {
     @Operation(summary = "Provides user authentication details to the authentication service",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Authentication successful",
-                            content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))),
+                            content = @Content(schema = @Schema(implementation = UserAuthenticationResponse.class))),
                     @ApiResponse(responseCode = "401", description = "Authentication failed",
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
-    public ResponseEntity<AuthenticationResponse> authenticateUser(@RequestBody UserAuthenticationRequest userAuthenticationRequest) {
-        final Long userId = userAuthService.getCurrentUserId();
-        final String password = userAuthenticationRequest.getPassword();
-
-        if (userAuthService.authenticateUser(userId, password)) {
-            return ResponseEntity.ok(AuthenticationResponse.builder()
-                    .authenticated(true)
-                    .userId(userId)
-                    .password(password)
-                    .message("Authentication successful.")
-                    .build());
-        } else {
-            return ResponseEntity.status(401).body(AuthenticationResponse.builder()
-                    .authenticated(false)
-                    .userId(userId)
-                    .password(password)
-                    .message("Authentication failed.")
-                    .build());
-        }
+    public ResponseEntity<UserAuthenticationResponse> authenticateUser(@RequestBody UserAuthenticationRequest userAuthenticationRequest) {
+        final String email = userAuthenticationRequest.getEmail();
+        final User user = userAuthService.authenticateUser(email);
+        return ResponseEntity.ok(UserAuthenticationResponse.builder()
+                .authenticated(true)
+                .user(user)
+                .message("Authentication successful.")
+                .build());
     }
 
     @PatchMapping("/user/change-password")
@@ -93,24 +82,11 @@ public class UserAuthController {
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
     public ResponseEntity<ChangePasswordResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
-        final Long userId = userAuthService.getCurrentUserId();
-        final String newPassword = changePasswordRequest.getNewPassword();
-
-        if (userAuthService.changePassword(userId, newPassword)) {
-            return ResponseEntity.ok(ChangePasswordResponse.builder()
-                    .success(true)
-                    .userId(userId)
-                    .newPassword(newPassword)
-                    .message("Password changed successfully.")
-                    .build());
-        } else {
-            return ResponseEntity.status(401).body(ChangePasswordResponse.builder()
-                    .success(false)
-                    .userId(userId)
-                    .newPassword(newPassword)
-                    .message("Password change failed.")
-                    .build());
-        }
+        return ResponseEntity.ok(ChangePasswordResponse.builder()
+                .success(userAuthService.changeCurrentUserPassword(changePasswordRequest.getNewPassword()))
+                .success(true)
+                .message("Password changed successfully.")
+                .build());
     }
 
     @PostMapping("/user/verify-email/confirm")
@@ -124,19 +100,9 @@ public class UserAuthController {
     public ResponseEntity<EmailVerificationResponse> confirmEmailVerification(
             @RequestBody EmailVerificationConfirmationRequest emailVerificationConfirmationRequest) {
         // Placeholder for actual email verification logic
-        final long userId = emailVerificationConfirmationRequest.getUserId();
-        if (userAuthService.setVerified(userId)) {
-            return ResponseEntity.ok(EmailVerificationResponse.builder()
-                    .userId(userId)
-                    .verified(true)
-                    .message("Email verified successfully.")
-                    .build());
-        } else {
-            return ResponseEntity.status(400).body(EmailVerificationResponse.builder()
-                    .userId(userId)
-                    .verified(false)
-                    .message("Email verification failed.")
-                    .build());
-        }
+        return ResponseEntity.ok(EmailVerificationResponse.builder()
+                .verified(true)
+                .message("Email verified successfully.")
+                .build());
     }
 }

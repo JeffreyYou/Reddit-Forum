@@ -10,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.beaconfire.userservice.dto.UserAuthResponse.UserAuthenticationResponse;
 import com.beaconfire.userservice.dto.UserAuthRequest.UserAuthenticationRequest;
@@ -41,9 +40,8 @@ public class AuthLoginService implements UserDetailsService {
         }
 
         return AuthUserDetail.builder()
-                .id(user.getId())
                 .username(user.getEmail())
-                .password(new BCryptPasswordEncoder().encode(user.getPassword())) // if password was not encoded during registration
+                .password(user.getPassword())
                 .authorities(convertTypeToAuthorities(user.getType()))
                 .enabled(true)
                 .build();
@@ -58,7 +56,7 @@ public class AuthLoginService implements UserDetailsService {
 
         if ("ADMIN".equalsIgnoreCase(type)) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        } else if ("SUPERADMIN".equalsIgnoreCase(type)) {
+        } else if ("SUPER_ADMIN".equalsIgnoreCase(type)) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN")); // SUPER_ADMIN includes ADMIN_ROLE
             authorities.add(new SimpleGrantedAuthority("ROLE_SADMIN"));
         }

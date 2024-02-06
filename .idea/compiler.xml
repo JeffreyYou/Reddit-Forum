@@ -20,6 +20,9 @@
         <module name="GatewayService" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="MyFinalProject" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -32,6 +35,7 @@
       <module name="HistoryService" options="-parameters" />
       <module name="HistoryService (1)" options="-parameters" />
       <module name="MessageService" options="-parameters" />
+      <module name="MyFinalProject" options="-parameters" />
       <module name="PostAndReplyService" options="-parameters" />
       <module name="UserService" options="-parameters" />
     </option>

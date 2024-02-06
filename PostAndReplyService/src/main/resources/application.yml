@@ -4,17 +4,32 @@ spring:
   mvc:
     servlet:
       path: /post-reply-service
-
+    pathmatch:
+      matching-strategy:
+        ANT_PATH_MATCHER
+  data:
+    mongodb:
+      uri:
+        mongodb+srv://gtianhao:teamproject@project-cluster.0gsfiwa.mongodb.net/?retryWrites=true&w=majority
+      database:
+        POST_DB
+      port:
+        27017
 
 server:
   port: 8085
 
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
 
+security:
+  jwt:
+    token:
+      key:
+        JavaTraining

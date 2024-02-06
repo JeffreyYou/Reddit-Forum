@@ -1,4 +1,4 @@
-package com.beaconfire.messageservice.dto;
+package com.beaconfire.messageservice.dto.contactadmin;
 
 import lombok.Builder;
 import lombok.Data;

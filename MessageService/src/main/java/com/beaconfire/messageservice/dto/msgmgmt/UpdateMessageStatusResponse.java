@@ -1,4 +1,4 @@
-package com.beaconfire.messageservice.dto;
+package com.beaconfire.messageservice.dto.msgmgmt;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

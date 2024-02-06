@@ -2,7 +2,7 @@ package com.beaconfire.messageservice.service;
 
 import com.beaconfire.messageservice.dao.MessageRepository;
 import com.beaconfire.messageservice.domain.Message;
-import com.beaconfire.messageservice.dto.ContactAdminRequest;
+import com.beaconfire.messageservice.dto.contactadmin.ContactAdminRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

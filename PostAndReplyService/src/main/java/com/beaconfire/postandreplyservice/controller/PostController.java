@@ -5,7 +5,6 @@ import com.beaconfire.postandreplyservice.domain.Reply;
 import com.beaconfire.postandreplyservice.dto.request.PostRequest;
 import com.beaconfire.postandreplyservice.dto.response.PostResponse;
 import com.beaconfire.postandreplyservice.dto.common.ResponseStatus;
-import com.beaconfire.postandreplyservice.dto.response.GetUserVerifiedResponse;
 import com.beaconfire.postandreplyservice.exception.NonOwnerPostException;
 import com.beaconfire.postandreplyservice.exception.PostNotFoundException;
 import com.beaconfire.postandreplyservice.exception.StateChangeException;
@@ -13,13 +12,14 @@ import com.beaconfire.postandreplyservice.exception.UnverifiedUserException;
 import com.beaconfire.postandreplyservice.service.PostService;
 import com.beaconfire.postandreplyservice.service.ReplyService;
 import com.beaconfire.postandreplyservice.enums.PostStatus;
-import com.beaconfire.postandreplyservice.service.remote.UserClient;
+// import com.beaconfire.postandreplyservice.service.remote.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+// import com.beaconfire.userservice.dto.UserProfileResponse.GetUserVerifiedResponse;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,17 +38,17 @@ public class PostController {
     @Autowired
     ReplyService replyService;
 
-    @Autowired
-    UserClient userClient;
+//    @Autowired
+//    UserClient userClient;
 
     @PutMapping("publish")
     public ResponseEntity<PostResponse> publishNewPost(@RequestBody PostRequest newPostRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        GetUserVerifiedResponse response = userClient.getUserVerified();
-        boolean isVerifiedUser = response.isVerified();
-
-        if (!isVerifiedUser) {
+//        GetUserVerifiedResponse response = userClient.getUserVerified();
+//        boolean isVerifiedUser = response.isVerified();
+        boolean verifiedUser = true;
+        if (!verifiedUser) {
             throw new UnverifiedUserException("User without email verification cannot reply to any post");
         }
         Optional<String> possiblePostId = newPostRequest.getPostId();
@@ -68,10 +68,10 @@ public class PostController {
     public ResponseEntity<PostResponse> savePost(@RequestBody PostRequest newPostRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        GetUserVerifiedResponse response = userClient.getUserVerified();
-        boolean isVerifiedUser = response.isVerified();
-
-        if (!isVerifiedUser) {
+//        GetUserVerifiedResponse response = userClient.getUserVerified();
+//        boolean isVerifiedUser = response.getVerified();
+        boolean verifiedUser = true;
+        if (!verifiedUser) {
             throw new UnverifiedUserException("User without email verification cannot reply to any post");
         }
         Optional<String> possiblePostId = newPostRequest.getPostId();
@@ -158,11 +158,7 @@ public class PostController {
                                 )
                                 .postId(post.getPostId())
                                 .title(post.getTitle())
-                                .content(post.getContent())
                                 .dateCreated(new Date(post.getDateCreated().getTime()))
-                                .dateModified(new Date(post.getDateModified().getTime()))
-                                .status(post.getStatus())
-                                .isArchived(post.getIsArchived())
                                 .build()
                 ).collect(Collectors.toList()), HttpStatus.OK
         );
@@ -383,11 +379,7 @@ public class PostController {
                                 )
                                 .postId(post.getPostId())
                                 .title(post.getTitle())
-                                .content(post.getContent())
                                 .dateCreated(new Date(post.getDateCreated().getTime()))
-                                .dateModified(new Date(post.getDateModified().getTime()))
-                                .status(post.getStatus())
-                                .isArchived(post.getIsArchived())
                                 .build()
                 ).collect(Collectors.toList()), HttpStatus.OK
         );

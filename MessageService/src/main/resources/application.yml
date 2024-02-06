@@ -18,6 +18,10 @@ spring:
     level:
       org.springframework.security: DEBUG
 
+security:
+  jwt:
+    token:
+      key: JavaTraining
 
 server:
   port: 8086

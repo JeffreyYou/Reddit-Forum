@@ -30,7 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
         System.out.println(path);
 
         // Skip JWT processing for specific paths
-        if (!path.startsWith("/user-service/user/authenticate") && !path.startsWith("/user-service/user/create")) {
+        if (!path.startsWith("/user-service/user/authenticate") && !path.startsWith("/user-service/user/create") && !path.startsWith(("/user-service/swagger-ui"))) {
             Optional<AuthUserDetail> authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
 
             if (authUserDetailOptional.isPresent()) {

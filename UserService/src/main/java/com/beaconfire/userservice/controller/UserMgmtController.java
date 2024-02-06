@@ -4,17 +4,23 @@ import com.beaconfire.userservice.domain.User;
 import com.beaconfire.userservice.domain.UserPage;
 import com.beaconfire.userservice.dto.ErrorDetails;
 import com.beaconfire.userservice.dto.UserMgmtRequest.UserTypeUpdateRequest;
+import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileListResponse;
+import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileResponse;
 import com.beaconfire.userservice.service.UserMgmtService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/user")
@@ -85,6 +91,52 @@ public class UserMgmtController {
     public ResponseEntity<String> activateUser(@PathVariable Long userId) {
         userMgmtService.activateUser(userId);
         return ResponseEntity.ok("User account reactivated successfully");
+    }
+
+    @GetMapping("/banned")
+    @Operation(summary = "Lists all banned users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of banned users",
+                    content = @Content(schema = @Schema(implementation = UserProfileListResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<UserProfileListResponse> listBannedUsers() {
+        List<UserProfileResponse> bannedUsers = convertToUserProfileResponses(userMgmtService.getAllBannedUsers());
+        return ResponseEntity.ok(buildUserProfileListResponse(bannedUsers, "List of banned users retrieved successfully."));
+    }
+
+    @GetMapping("/active")
+    @Operation(summary = "Lists all active (not banned) users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of active users",
+                    content = @Content(schema = @Schema(implementation = UserProfileListResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<UserProfileListResponse> listActiveUsers() {
+        List<UserProfileResponse> activeUsers = convertToUserProfileResponses(userMgmtService.getAllActiveUsers());
+        return ResponseEntity.ok(buildUserProfileListResponse(activeUsers, "List of active users retrieved successfully."));
+    }
+
+    private List<UserProfileResponse> convertToUserProfileResponses(List<User> users) {
+        return users.stream()
+                .map(user -> UserProfileResponse.builder()
+                        .firstName(user.getFirstName())
+                        .lastName(user.getLastName())
+                        .email(user.getEmail())
+                        .active(user.isActive())
+                        .dateJoined(user.getDateJoined())
+                        .type(user.getType())
+                        .verified(user.isVerified())
+                        .profileImageURL(user.getProfileImageURL())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    private UserProfileListResponse buildUserProfileListResponse(List<UserProfileResponse> userProfiles, String message) {
+        return UserProfileListResponse.builder()
+                .userProfiles(userProfiles)
+                .message(message)
+                .build();
     }
 
 }

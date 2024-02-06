@@ -36,6 +36,7 @@ public class RegisterController {
         UserCreateResponse userCreateResponse = authRegisterService.registerUser(
                 authRegRequest.getEmail(), authRegRequest.getPassword()
         );
+        System.out.println("User registered successfully");
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(

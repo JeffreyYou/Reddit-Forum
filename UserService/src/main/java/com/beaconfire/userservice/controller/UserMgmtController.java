@@ -4,6 +4,7 @@ import com.beaconfire.userservice.domain.User;
 import com.beaconfire.userservice.domain.UserPage;
 import com.beaconfire.userservice.dto.ErrorDetails;
 import com.beaconfire.userservice.dto.UserMgmtRequest.UserTypeUpdateRequest;
+import com.beaconfire.userservice.dto.UserMgmtResponse.UserGeneralResponse;
 import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileListResponse;
 import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileResponse;
 import com.beaconfire.userservice.service.UserMgmtService;
@@ -58,9 +59,12 @@ public class UserMgmtController {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
-    public ResponseEntity<String> updateUserRoles(@PathVariable Long userId, @RequestBody UserTypeUpdateRequest request) {
+    public ResponseEntity<UserGeneralResponse> updateUserRoles(@PathVariable Long userId, @RequestBody UserTypeUpdateRequest request) {
         userMgmtService.updateUserType(userId, request.getType());
-        return ResponseEntity.ok("User roles updated successfully");
+        return ResponseEntity.ok(UserGeneralResponse.builder()
+                .success(true)
+                .message("User roles updated successfully.")
+                .build());
     }
 
 
@@ -73,9 +77,12 @@ public class UserMgmtController {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
-    public ResponseEntity<String> deactivateUser(@PathVariable Long userId) {
+    public ResponseEntity<UserGeneralResponse> deactivateUser(@PathVariable Long userId) {
         userMgmtService.deactivateUser(userId);
-        return ResponseEntity.ok("User account deactivated successfully");
+        return ResponseEntity.ok(UserGeneralResponse.builder()
+                .success(true)
+                .message("User account deactivated successfully.")
+                .build());
     }
 
 
@@ -88,9 +95,12 @@ public class UserMgmtController {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
-    public ResponseEntity<String> activateUser(@PathVariable Long userId) {
+    public ResponseEntity<UserGeneralResponse> activateUser(@PathVariable Long userId) {
         userMgmtService.activateUser(userId);
-        return ResponseEntity.ok("User account reactivated successfully");
+        return ResponseEntity.ok(UserGeneralResponse.builder()
+                .success(true)
+                .message("User account reactivated successfully.")
+                .build());
     }
 
     @GetMapping("/banned")

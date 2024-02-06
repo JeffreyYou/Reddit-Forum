@@ -17,6 +17,8 @@ import java.sql.Timestamp;
 @Service
 public class UserAuthService {
 
+    private final long emailTokenExpiredTime = 3 * 60 * 60 * 1000;
+
     private final UserRepository userRepository;
 
     @Autowired
@@ -51,6 +53,27 @@ public class UserAuthService {
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
     }
 
+    /******** integrate with emailService (newly added) ***********/
+    public User createUser(String email, String password, String firstname, String lastname, String emailToken) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new UserAlreadyExistsException("User with email " + email + " already exists.");
+        }
+        userRepository.save( User.builder()
+                .firstName(firstname)
+                .lastName(lastname)
+                .active(true)
+                .type("user")
+                .profileImageURL("")
+                .email(email)
+                .password(password)
+                .dateJoined(new Timestamp(System.currentTimeMillis()))
+                .emailToken(emailToken)
+                .emailTokenExpiredTime(new Timestamp(System.currentTimeMillis() + emailTokenExpiredTime))
+                .build());
+        return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User with email " + email + " not found."));
+    }
+
+    /******** old version *********/
     public User createUser(String email, String password) {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new UserAlreadyExistsException("User with email " + email + " already exists.");

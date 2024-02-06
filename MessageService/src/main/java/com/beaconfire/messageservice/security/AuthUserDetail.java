@@ -71,6 +71,7 @@ public class AuthUserDetail implements UserDetails {
         return enabled;
     }
 
+    // Note: No need for custom getters due to @Getter annotation
 }
 
 

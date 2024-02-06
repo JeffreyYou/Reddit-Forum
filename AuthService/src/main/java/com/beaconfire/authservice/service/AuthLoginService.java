@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.beaconfire.userservice.dto.UserAuthResponse.UserAuthenticationResponse;
 import com.beaconfire.userservice.dto.UserAuthRequest.UserAuthenticationRequest;
@@ -41,7 +42,7 @@ public class AuthLoginService implements UserDetailsService {
 
         return AuthUserDetail.builder()
                 .username(user.getEmail())
-                .password(user.getPassword())
+                .password(new BCryptPasswordEncoder().encode(user.getPassword())) // if password was not encoded during registration
                 .authorities(convertTypeToAuthorities(user.getType()))
                 .enabled(true)
                 .build();

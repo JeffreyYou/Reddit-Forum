@@ -18,12 +18,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8082")
 public class UserAuthController {
 
     private final UserAuthService userAuthService;
@@ -86,23 +84,6 @@ public class UserAuthController {
                 .success(userAuthService.changeCurrentUserPassword(changePasswordRequest.getNewPassword()))
                 .success(true)
                 .message("Password changed successfully.")
-                .build());
-    }
-
-    @PostMapping("/user/verify-email/confirm")
-    @Operation(summary = "Confirms email verification using a token or code provided in the email",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Email verified successfully",
-                            content = @Content(schema = @Schema(implementation = EmailVerificationResponse.class))),
-                    @ApiResponse(responseCode = "400", description = "Invalid or expired token",
-                            content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
-            })
-    public ResponseEntity<EmailVerificationResponse> confirmEmailVerification(
-            @RequestBody EmailVerificationConfirmationRequest emailVerificationConfirmationRequest) {
-        // Placeholder for actual email verification logic
-        return ResponseEntity.ok(EmailVerificationResponse.builder()
-                .verified(true)
-                .message("Email verified successfully.")
                 .build());
     }
 }

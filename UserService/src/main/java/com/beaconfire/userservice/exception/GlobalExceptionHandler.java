@@ -21,7 +21,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorDetails> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorDetails.builder()
-                .details("User already exists")
                 .timestamp(LocalDateTime.now())
                 .message("User already exists.")
                 .build());
@@ -30,7 +29,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleUserNotFoundException(UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDetails.builder()
-                .details("User not found")
                 .timestamp(LocalDateTime.now())
                 .message("User not found.")
                 .build());
@@ -39,27 +37,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidUserPasswordException.class)
     public ResponseEntity<ErrorDetails> handleInvalidUserPasswordException(InvalidUserPasswordException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorDetails.builder()
-                .details("Invalid user password")
                 .timestamp(LocalDateTime.now())
                 .message("Authentication failed.")
                 .build());
     }
 
-    @ExceptionHandler(EmailTokenNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleEmailTokenException(EmailTokenNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDetails.builder()
-                .details("Token not found")
+    @ExceptionHandler(UserFieldNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleUserFieldNotFoundException(UserFieldNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorDetails.builder()
                 .timestamp(LocalDateTime.now())
-                .message("Token not found.")
-                .build());
-    }
-
-    @ExceptionHandler(EmailTokenExpiredException.class)
-    public ResponseEntity<ErrorDetails> handleEmailTokenExpiredException(EmailTokenExpiredException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorDetails.builder()
-                .details("Token is expired")
-                .timestamp(LocalDateTime.now())
-                .message(ex.getMessage())
+                .message("User field not found")
                 .build());
     }
 

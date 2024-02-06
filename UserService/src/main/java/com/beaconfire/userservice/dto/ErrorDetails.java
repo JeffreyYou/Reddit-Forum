@@ -21,9 +21,5 @@ public class ErrorDetails {
     @Schema(description = "Error message detailing what went wrong", example = "Invalid request parameters")
     private String message;
 
-    @Schema(description = "Additional details about the error, such as parameter names or invalid values", example = "The 'email' parameter is missing")
-    private String details;
-
-    // Lombok generates the constructor, getters, and setters
 }
 

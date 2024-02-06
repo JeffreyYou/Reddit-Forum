@@ -7,6 +7,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserAuthService {
 
+    public boolean hasRole(String role) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getAuthorities().stream()
+                    .anyMatch(authority -> role.equals(authority.getAuthority()));
+        }
+        return false;
+    }
+
     public Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {

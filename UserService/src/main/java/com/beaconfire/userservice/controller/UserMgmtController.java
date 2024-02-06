@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/admin/user")
+@CrossOrigin(origins = "*")
 public class UserMgmtController {
 
     private final UserMgmtService userMgmtService;

@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user-service/user/authenticate", "/user-service/user/create").permitAll()
                 .antMatchers("/user-service/swagger-ui/**", "/user-service/v3/**", "/user-service/swagger-ui*").permitAll()
+                .antMatchers("/user-service/**").permitAll()
                 .anyRequest().authenticated() // Require authentication for any other request
                 .and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class); // Add your custom JWT filter before the Spring Security filter

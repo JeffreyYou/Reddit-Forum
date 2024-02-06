@@ -20,7 +20,6 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RestController
-@RequestMapping("file-service")
 @Slf4j
 public class FileController {
     public FileService fileService;

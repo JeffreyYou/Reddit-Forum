@@ -28,9 +28,11 @@ public class CompositeService {
     }
 
     //cache ?
-    public List<PostResponse> getHistoryByUserId(Long userId){
-        List<HistoryResponse> historyList = historyService.getHistoryByUserId(userId);
-        List<PostResponse> postResponses =historyList.stream().map(x->postAndReplyService.getPostById(x.getPostId()))
+    public List<PostResponse> getHistoryByUserId(Long userId, String token){
+        String headerToken = "Bearer " + token;
+        List<HistoryResponse> historyList = historyService.getHistoryByUserId(userId, headerToken);
+        System.out.println(historyList);
+        List<PostResponse> postResponses =historyList.stream().map(x->postAndReplyService.getPostById(x.getPostId(),headerToken))
                 .filter(x->x.getStatus().equals("Published"))
                 .collect(Collectors.toList());
         return postResponses;

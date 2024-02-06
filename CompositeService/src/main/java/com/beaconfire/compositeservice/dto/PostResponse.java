@@ -10,7 +10,8 @@ import java.util.List;
 @Builder
 public class PostResponse {
 
-    String username;
+   // String username;
+    Long userid;
     String title;
     String  content;
     String status;

@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No session will be maintained
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user-service/user/authenticate", "/user-service/user/register").permitAll() // Allow unauthenticated access to these endpoints
+                .antMatchers("/user-service/user/authenticate", "/user-service/user/create").permitAll() // Allow unauthenticated access to these endpoints
                 .anyRequest().authenticated() // All other requests must be authenticated
                 .and()
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class); // Add your custom JWT filter

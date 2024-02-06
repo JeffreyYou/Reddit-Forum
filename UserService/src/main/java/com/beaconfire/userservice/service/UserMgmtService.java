@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserMgmtService {
 
@@ -41,6 +43,14 @@ public class UserMgmtService {
     public Page<User> getAllUsers(Pageable pageable) {
         //place holder for actual logic
         return userRepository.findAll(pageable);
+    }
+
+    public List<User> getAllBannedUsers() {
+        return userRepository.findByActive(false);
+    }
+
+    public java.util.List<User> getAllActiveUsers() {
+        return userRepository.findByActive(true);
     }
 
 }

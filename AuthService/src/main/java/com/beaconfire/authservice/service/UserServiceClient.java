@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "user-service", url = "http://localhost:8083")
+@FeignClient(name = "user-service")
 public interface UserServiceClient {
     @PostMapping("/user-service/user/authenticate")
     UserAuthenticationResponse authenticate(@RequestBody UserAuthenticationRequest request);

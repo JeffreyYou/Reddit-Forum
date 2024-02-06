@@ -165,8 +165,7 @@ const RegisterPage = () => {
         </Form.Item>
       </Form>
       <div className="additional-links">
-        New to RedditHub?
-        <a href="/users/login">Log In</a>
+        New to RedditHub? <a href="/users/login">Log In</a>
       </div>
     </div>
   );

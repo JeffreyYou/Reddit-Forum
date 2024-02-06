@@ -27,23 +27,23 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-
-        Optional<AuthUserDetail> authUserDetailOptional = null;
-
-        if (!request.getRequestURI().startsWith("/history-service/swagger-ui") &&
-                !request.getRequestURI().startsWith("/history-service/v3")) {
-            authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
+        if (request.getRequestURI().equals("/login") || request.getRequestURI().equals("/register")) {
+            filterChain.doFilter(request, response);
+            return;
         }
+        Optional<AuthUserDetail> authUserDetailOptional;
 
-        if (authUserDetailOptional!=null && authUserDetailOptional.isPresent()) {
-            AuthUserDetail authUserDetail = authUserDetailOptional.get();
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    authUserDetail.getUsername(),
-                    null,
-                    authUserDetail.getAuthorities()
-            ); // generate authentication object
-            SecurityContextHolder.getContext().setAuthentication(authentication); // put authentication object in the secruitycontext
-        }
+           authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
+
+            if (authUserDetailOptional.isPresent()) {
+                AuthUserDetail authUserDetail = authUserDetailOptional.get();
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        authUserDetail.getUsername(),
+                        null,
+                        authUserDetail.getAuthorities()
+                ); // generate authentication object
+                SecurityContextHolder.getContext().setAuthentication(authentication); // put authentication object in the secruitycontext
+            }
 
             filterChain.doFilter(request, response);
 

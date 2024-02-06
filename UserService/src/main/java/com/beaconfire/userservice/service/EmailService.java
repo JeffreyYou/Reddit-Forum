@@ -49,7 +49,7 @@ public class EmailService {
     }
 
     private String generateTokenizedUrl(String token) {
-        return EmailMessageUtil.PROTOCOL + "://" + EmailMessageUtil.DOMAIN + "/" + EmailMessageUtil.SERVICE + "/user/verify?token=" + token;
+        return EmailMessageUtil.PROTOCOL + "://" + EmailMessageUtil.DOMAIN + "/" + "/user/verify?token=" + token;
     }
 
     private String generateToken() {

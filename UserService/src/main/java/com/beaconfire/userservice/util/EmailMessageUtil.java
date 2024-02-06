@@ -2,9 +2,7 @@ package com.beaconfire.userservice.util;
 
 public class EmailMessageUtil {
     public static final String SUBJECT = "Secure two-step verification notification";
-    public static final String DOMAIN = "localhost:8083";
-
-    public static final String SERVICE = "user-service";
+    public static final String DOMAIN = "localhost:5173";
 
     public static final String PROTOCOL = "http";
 

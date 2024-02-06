@@ -42,6 +42,7 @@ public class UserAuthService {
         return null;
     }
 
+    @Transactional
     public User getCurrentUser() {
         Long userId = getCurrentUserId();
         if (userId == null) {
@@ -55,30 +56,35 @@ public class UserAuthService {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new UserAlreadyExistsException("User with email " + email + " already exists.");
         }
-        userRepository.save( User.builder()
-                .firstName("New")
-                .lastName("User")
-                .active(true)
-                .type("user")
-                .profileImageURL("")
+        final User user = User.builder()
+                .firstName("")
+                .lastName("")
                 .email(email)
                 .password(password)
+                .active(true)
+                .verified(false)
+                .type("user")
                 .dateJoined(new Timestamp(System.currentTimeMillis()))
-                .build());
+                .profileImageURL("")
+                .build();
+        userRepository.save(user);
+        return user;
+    }
+
+    @Transactional
+    public User authenticateUser(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User with email " + email + " not found."));
     }
 
-    public User authenticateUser(String useremail) {
-        return userRepository.findByEmail(useremail).orElseThrow(() -> new UserNotFoundException("User with email " + useremail + " not found."));
-    }
-
-    public boolean changeCurrentUserPassword(String newPassword) {
-        User user = getCurrentUser();
+    @Transactional
+    public void changeCurrentUserPassword(String newPassword) {
+        final Long userId = getCurrentUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found."));
         user.setPassword(newPassword);
         userRepository.save(user);
-        return false;
     }
 
+    @Transactional
     public boolean setVerified(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found."));
         user.setVerified(true);

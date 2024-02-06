@@ -22,38 +22,23 @@ import java.util.Arrays;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private JwtFilter jwtTokenFilter; // Ensure this filter is defined and autowired
+    private JwtFilter jwtTokenFilter; // Your custom JWT filter
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();  // Apply CORS if necessary
-        http
-                .csrf().disable() // Disable CSRF as we use token-based authentication
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No session will be maintained
-                .and()
+        http.cors().and()
+                .csrf().disable() // Disable CSRF protection
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() // Use stateless sessions
                 .authorizeRequests()
-//                .antMatchers("/user-service/user/authenticate", "/user-service/user/create").permitAll() // Allow unauthenticated access to these endpoints
-                .anyRequest().authenticated() // All other requests must be authenticated
+                .antMatchers("/message-service/swagger-ui/**", "/message-service/v3/**", "/message-service/swagger-ui*").permitAll()
+                .antMatchers("/message-service/**").permitAll()
+                .anyRequest().authenticated() // Require authentication for any other request
                 .and()
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class); // Add your custom JWT filter
-    }
-
-    // Optional: Configuring CORS to allow requests from specific origins, methods, etc.
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // Configure the allowed origins or specify specific domains
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // Allow standard methods
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token")); // Allow headers such as Authorization
-        configuration.setExposedHeaders(Arrays.asList("x-auth-token")); // Expose specific headers
-        configuration.setAllowCredentials(true); // Allow credentials
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply this configuration to all paths
-        return source;
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class); // Add your custom JWT filter before the Spring Security filter
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(); // Define the password encoder
     }
 }

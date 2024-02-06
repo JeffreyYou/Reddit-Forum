@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Custom method to find active users
     List<User> findByActive(boolean active);
+
+    /******* newly added  ******/
+    Optional<User> findByEmailToken(String token);
 }

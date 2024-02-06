@@ -6,6 +6,7 @@ import com.beaconfire.messageservice.dto.ContactAdminRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.Instant;
 
@@ -19,6 +20,7 @@ public class ContactAdminService {
         this.messageRepository = messageRepository;
     }
 
+    @Transactional
     public void submitMessage(ContactAdminRequest contactAdminRequest, Long userId) {
 
         Message message = Message.builder()

@@ -4,6 +4,7 @@ package com.beaconfire.messageservice.controller;
 import com.beaconfire.messageservice.dto.ContactAdminRequest;
 import com.beaconfire.messageservice.dto.ContactAdminResponse;
 import com.beaconfire.messageservice.service.ContactAdminService;
+import com.beaconfire.messageservice.service.UserAuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContactAdminController {
 
     private final ContactAdminService contactAdminService;
+    private final UserAuthService userAuthService;
 
     @Autowired
-    public ContactAdminController(ContactAdminService contactAdminService) {
+    public ContactAdminController(ContactAdminService contactAdminService, UserAuthService userAuthService) {
         this.contactAdminService = contactAdminService;
+        this.userAuthService = userAuthService;
     }
 
     @PostMapping("/contactus/submit")
@@ -36,10 +39,9 @@ public class ContactAdminController {
             @ApiResponse(responseCode = "400", description = "Invalid request data"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    //public ResponseEntity<ContactAdminResponse> submitMessage(@RequestBody ContactAdminRequest contactAdminRequest, @AuthenticationPrincipal Long userId) {
     public ResponseEntity<ContactAdminResponse> submitMessage(@RequestBody ContactAdminRequest contactAdminRequest) {
-        // dummy userId for testing
-        contactAdminService.submitMessage(contactAdminRequest, 1L);
+        Long userId = userAuthService.getCurrentUserId();
+        contactAdminService.submitMessage(contactAdminRequest, userId);
         return ResponseEntity.ok().body(ContactAdminResponse.builder()
                 .message("Message submitted successfully").success(true).build());
     }

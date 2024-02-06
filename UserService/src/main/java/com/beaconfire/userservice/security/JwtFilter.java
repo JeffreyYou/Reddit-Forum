@@ -28,24 +28,23 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
         System.out.println(path);
-//        if (path.equals("/user-service/user/authenticate") || path.equals("/user-service/user/create")) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
-        Optional<AuthUserDetail> authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
 
-        if (authUserDetailOptional.isPresent()){
-            AuthUserDetail authUserDetail = authUserDetailOptional.get();
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    authUserDetail.getUsername(),
-                    null,
-                    authUserDetail.getAuthorities()
-            ); // generate authentication object
+        // Skip JWT processing for specific paths
+        if (!path.startsWith("/user-service/user/authenticate") && !path.startsWith("/user-service/user/create")) {
+            Optional<AuthUserDetail> authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
 
-            SecurityContextHolder.getContext().setAuthentication(authentication); // put authentication object in the secruitycontext
+            if (authUserDetailOptional.isPresent()) {
+                AuthUserDetail authUserDetail = authUserDetailOptional.get();
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        authUserDetail.getUsername(),
+                        null,
+                        authUserDetail.getAuthorities()
+                ); // generate authentication object
+
+                SecurityContextHolder.getContext().setAuthentication(authentication); // put authentication object in the security context
+            }
         }
 
         filterChain.doFilter(request, response);
-
     }
 }

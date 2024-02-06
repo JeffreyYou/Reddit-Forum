@@ -10,12 +10,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/admin/messages")
+@CrossOrigin(origins = "*")
 public class MessageManagementController {
 
     private final MessageManagementService messageManagementService;
@@ -25,6 +27,7 @@ public class MessageManagementController {
         this.messageManagementService = messageManagementService;
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SADMIN')")
     @Operation(summary = "Get a list of all messages")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved a list of messages"),
@@ -39,6 +42,7 @@ public class MessageManagementController {
                 .build());
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SADMIN')")
     @Operation(summary = "Update message status")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated message status"),

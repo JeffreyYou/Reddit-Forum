@@ -56,22 +56,22 @@ public class UserAuthServiceTest {
         assertDoesNotThrow(() -> userAuthService.createUser(testUser.getEmail(), testUser.getPassword()));
     }
 
-//    @Test
-//    void whenAuthenticateUserWithValidCredentials_thenReturnTrue() {
-//        when(userRepository.findById(testUser.getId())).thenReturn(Optional.of(testUser));
-//        assertTrue(userAuthService.authenticateUser(testUser.getEmail()));
-//    }
+    @Test
+    void whenAuthenticateUserWithValidCredentials_thenReturnTrue() {
+        when(userRepository.findByEmail(testUser.getEmail())).thenReturn(Optional.of(testUser));
+        verify(userAuthService.authenticateUser(testUser.getEmail()));
+    }
 
-//    @Test
-//    void whenAuthenticateUserWithInvalidUserId_thenThrowException() {
-//        when(userRepository.findById(testUser.getId())).thenReturn(Optional.empty());
-//        assertThrows(UserNotFoundException.class, () -> userAuthService.authenticateUser(testUser.getId(), testUser.getPassword()));
-//    }
+    @Test
+    void whenAuthenticateUserWithInvalidUserId_thenThrowException() {
+        when(userRepository.findByEmail(testUser.getEmail())).thenReturn(Optional.empty());
+        assertThrows(UserNotFoundException.class, () -> userAuthService.authenticateUser(testUser.getEmail()));
+    }
 
     @Test
     void whenChangePasswordForExistingUser_thenUpdatePassword() {
         when(userRepository.findById(testUser.getId())).thenReturn(Optional.of(testUser));
-        userAuthService.changePassword(testUser.getId(), "newPassword");
+        userAuthService.changeCurrentUserPassword("newPassword");
         verify(userRepository, times(1)).save(testUser);
     }
 

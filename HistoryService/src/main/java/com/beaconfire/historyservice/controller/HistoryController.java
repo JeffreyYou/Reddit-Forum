@@ -3,20 +3,26 @@ package com.beaconfire.historyservice.controller;
 import com.beaconfire.historyservice.domain.History;
 import com.beaconfire.historyservice.dto.DataResponse;
 import com.beaconfire.historyservice.dto.HistoryRequest;
+import com.beaconfire.historyservice.security.AuthUserDetail;
+import com.beaconfire.historyservice.security.JwtProvider;
 import com.beaconfire.historyservice.service.HistoryService;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Tag(name = "History Service", description = "API for managing history records")
@@ -24,11 +30,14 @@ import java.util.List;
 public class HistoryController {
 
     private final HistoryService historyService;
-    //private final JwtTokenProvider jwtTokenProvider;
-
+    private final JwtProvider jwtProvider;
+    @Value("${security.jwt.token.key}")
+    private String key;
     @Autowired
-    public HistoryController(HistoryService historyService) {
+    public HistoryController(HistoryService historyService,
+    JwtProvider jwtProvider) {
         this.historyService = historyService;
+        this.jwtProvider = jwtProvider;
     }
 
     @GetMapping("/all/{userid}")
@@ -50,16 +59,16 @@ public class HistoryController {
     description = "Create a record when user view a post",
     responses = {@ApiResponse(responseCode = "200", description = "Successfully created",
             content = @Content(mediaType = "application/json"))})
-    public DataResponse create(/*@Parameter(description="Bearer token for authentication", required = true)
-                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,*/
+    public DataResponse create(@Parameter(description="Bearer token for authentication", required = true)
+                           @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,
                        @Parameter(description = "ID of the post viewed by the user", required = true)
                        @RequestBody HistoryRequest historyRequest){
+
         String postid = historyRequest.getPostId();
-        //String token = authorizationHeader.replace("Bearer ", "");
-        //Claims claims = jwtTokenProvider.validateToken(token);
-        //String userId = claims.get("userId", String.class);
-        Long userid = 1L;//= Long.valueOf(userId);
-        historyService.create(History.builder().postId(postid).userId(userid).viewDate(new Date()).build());
+        String token = authorizationHeader.replace("Bearer ", "");
+        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        Long userId = Long.valueOf(claims.getSubject());
+        historyService.create(History.builder().postId(postid).userId(userId).viewDate(new Date()).build());
         return DataResponse.builder()
                 .success(true)
                 .message("new history created")

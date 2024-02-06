@@ -2,8 +2,10 @@ package com.beaconfire.userservice.service;
 
 import com.beaconfire.userservice.dao.UserRepository;
 import com.beaconfire.userservice.domain.User;
+import com.beaconfire.userservice.exception.InvalidUserPasswordException;
 import com.beaconfire.userservice.exception.UserAlreadyExistsException;
 import com.beaconfire.userservice.exception.UserNotFoundException;
+import com.beaconfire.userservice.security.AuthUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +24,15 @@ public class UserAuthService {
         this.userRepository = userRepository;
     }
 
+    public boolean hasRole(String role) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getAuthorities().stream()
+                    .anyMatch(authority -> role.equals(authority.getAuthority()));
+        }
+        return false;
+    }
+
     public Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
@@ -29,6 +40,16 @@ public class UserAuthService {
             return Long.parseLong(authentication.getPrincipal().toString());
         }
         return null;
+    }
+
+    @Transactional
+    public User getCurrentUser() {
+        Long userId = getCurrentUserId();
+        if (userId == null) {
+            throw new RuntimeException("No authenticated user found");
+        }
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
     }
 
     public User createUser(String email, String password) {

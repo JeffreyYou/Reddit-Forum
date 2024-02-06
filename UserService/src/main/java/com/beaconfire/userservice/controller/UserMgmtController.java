@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class UserMgmtController {
         this.userMgmtService = userService;
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SADMIN')")
     @GetMapping("")
     @Operation(summary = "Retrieves a list of all registered users",
             responses = {
@@ -46,7 +48,7 @@ public class UserMgmtController {
         return ResponseEntity.ok(userMgmtService.getAllUsers());
     }
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SADMIN')")
     @PatchMapping("/{userId}/roles")
     @Operation(summary = "Updates the roles of a specific user",
             responses = {
@@ -66,7 +68,7 @@ public class UserMgmtController {
                 .build());
     }
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SADMIN')")
     @PatchMapping("/{userId}/deactivate")
     @Operation(summary = "Deactivates a user's account",
             responses = {
@@ -84,7 +86,7 @@ public class UserMgmtController {
                 .build());
     }
 
-
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SADMIN')")
     @PatchMapping("/{userId}/activate")
     @Operation(summary = "Reactivates a user's account",
             responses = {
@@ -102,6 +104,7 @@ public class UserMgmtController {
                 .build());
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SADMIN')")
     @GetMapping("/banned")
     @Operation(summary = "Lists all banned users")
     @ApiResponses(value = {
@@ -114,6 +117,7 @@ public class UserMgmtController {
         return ResponseEntity.ok(buildUserProfileListResponse(bannedUsers, "List of banned users retrieved successfully."));
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SADMIN')")
     @GetMapping("/active")
     @Operation(summary = "Lists all active (not banned) users")
     @ApiResponses(value = {

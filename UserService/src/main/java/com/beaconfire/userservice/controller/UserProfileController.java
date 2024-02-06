@@ -6,6 +6,7 @@ import com.beaconfire.userservice.dto.UserProfileResponse.UpdateUserProfileRespo
 import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileFieldResponse;
 import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileListResponse;
 import com.beaconfire.userservice.dto.UserProfileResponse.UserProfileResponse;
+import com.beaconfire.userservice.dto.UserVerifiedResponse;
 import com.beaconfire.userservice.service.UserAuthService;
 import com.beaconfire.userservice.service.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -138,6 +140,20 @@ public class UserProfileController {
         Long userId = getUserId();
         String profileImageURL = userProfileService.getUserProfileImageURLById(userId);
         return ResponseEntity.ok(buildUserProfileFieldResponse("profileImageURL", profileImageURL));
+    }
+
+    @GetMapping("/verified")
+    @Operation(summary = "Retrieves whether the user has been email verified")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the verified",
+                    content = @Content(schema = @Schema(implementation = UserVerifiedResponse.class))),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<UserVerifiedResponse> getUserVerified() {
+        Long userId = getUserId();
+        Boolean verified = userProfileService.getUserVerifiedById(userId);
+        return new ResponseEntity<>(UserVerifiedResponse.builder().verified(verified).build(), HttpStatus.OK);
     }
 
     @PostMapping("/profile")

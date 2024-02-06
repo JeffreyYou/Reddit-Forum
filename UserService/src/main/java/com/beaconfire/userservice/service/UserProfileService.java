@@ -65,6 +65,12 @@ public class UserProfileService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
+    public Boolean getUserVerifiedById(Long userId) {
+        final Optional<User> userOptional = userRepository.findById(userId);
+        return userOptional.map(User::isVerified)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
+    }
+
     @Transactional
     public boolean updateUserProfileById(Long userId, UpdateUserProfileRequest updateUserProfileRequest) {
         Optional<User> userOptional = userRepository.findById(userId);

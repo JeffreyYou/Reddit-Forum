@@ -7,14 +7,14 @@ import com.beaconfire.postandreplyservice.exception.NonOwnerReplyException;
 import com.beaconfire.postandreplyservice.exception.ReplyToArchivedPostException;
 import com.beaconfire.postandreplyservice.exception.UnverifiedUserException;
 import com.beaconfire.postandreplyservice.service.ReplyService;
-// import com.beaconfire.postandreplyservice.service.remote.UserClient;
+ import com.beaconfire.postandreplyservice.service.remote.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-//import com.beaconfire.userservice.dto.UserProfileResponse.GetUserVerifiedResponse;
+import com.beaconfire.postandreplyservice.dto.response.GetUserVerifiedResponse;
 
 @RestController
 @RequestMapping("reply")
@@ -24,8 +24,8 @@ public class ReplyController {
     @Autowired
     ReplyService replyService;
 
-//    @Autowired
-//    UserClient userClient;
+    @Autowired
+    UserClient userClient;
 
     @PatchMapping("{postId}/reply")
     public ResponseEntity<ReplyResponse> replyToPost(@PathVariable String postId, @RequestParam(required = false) String firstLayerReplyId,
@@ -34,8 +34,8 @@ public class ReplyController {
         String username = authentication.getName();
 //        GetUserVerifiedResponse response = userClient.getUserVerified();
 //        boolean isVerifiedUser = response.isVerified();
-        boolean verifiedUser = true;
-        if (!verifiedUser) {
+        boolean isVerifiedUser = true;
+        if (!isVerifiedUser) {
             throw new UnverifiedUserException("User without email verification cannot reply to any post");
         }
         if (replyService.checkArchivedPost(postId)) {

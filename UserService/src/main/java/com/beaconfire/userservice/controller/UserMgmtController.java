@@ -42,9 +42,8 @@ public class UserMgmtController {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
-    public ResponseEntity<Page<User>> getAllUsers(
-            @Parameter(description = "Pagination and sorting parameters") Pageable pageable) {
-        return ResponseEntity.ok(userMgmtService.getAllUsers(pageable));
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userMgmtService.getAllUsers());
     }
 
 

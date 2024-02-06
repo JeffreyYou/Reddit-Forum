@@ -7,9 +7,9 @@ spring:
     user:
       name: username
       password: password
-  mvc:
-    servlet:
-      path: /file-service
+#  mvc:
+#    servlet:
+#      path: /file-service
 eureka:
   instance:
     hostname: localhost

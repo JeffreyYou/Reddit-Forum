@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserMgmtService {
 
@@ -18,23 +20,37 @@ public class UserMgmtService {
     }
 
     public String updateUserType(Long userId, String userType) {
-        //place holder for actual logic
-        return "ROLE_PLACEHOLDER";
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        user.setType(userType);
+        userRepository.save(user);
+        return user.getType();
     }
 
     public Boolean deactivateUser(Long userId) {
-        //place holder for actual logic
-        return true;
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        user.setActive(false);
+        userRepository.save(user);
+        return user.isActive();
     }
 
     public Boolean activateUser(Long userId) {
-        //place holder for actual logic
-        return true;
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+        user.setActive(true);
+        userRepository.save(user);
+        return user.isActive();
     }
 
-    public Page<User> getAllUsers(Pageable pageable) {
+    public List<User> getAllUsers() {
         //place holder for actual logic
-        return userRepository.findAll(pageable);
+        return userRepository.findAll();
+    }
+
+    public List<User> getAllBannedUsers() {
+        return userRepository.findByActive(false);
+    }
+
+    public java.util.List<User> getAllActiveUsers() {
+        return userRepository.findByActive(true);
     }
 
 }

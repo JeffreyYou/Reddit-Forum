@@ -23,14 +23,6 @@ public class UserProfileService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllBannedUsers() {
-        return userRepository.findByActive(false);
-    }
-
-    public List<User> getAllActiveUsers() {
-        return userRepository.findByActive(true);
-    }
-
     public String getUserStatus(Long userId) {
         final Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(user -> user.isActive() ? "Active" : "Banned")
@@ -73,6 +65,12 @@ public class UserProfileService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
+    public Boolean getUserVerifiedById(Long userId) {
+        final Optional<User> userOptional = userRepository.findById(userId);
+        return userOptional.map(User::isVerified)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
+    }
+
     @Transactional
     public boolean updateUserProfileById(Long userId, UpdateUserProfileRequest updateUserProfileRequest) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -96,7 +94,11 @@ public class UserProfileService {
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
                     .email(user.getEmail())
+                    .type(user.getType())
+                    .verified(user.isVerified())
+                    .dateJoined(user.getDateJoined())
                     .profileImageURL(user.getProfileImageURL())
+                    .active(user.isActive())
                     .build();
         }
         throw new UserNotFoundException("User not found with ID: " + userId);

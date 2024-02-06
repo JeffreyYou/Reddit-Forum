@@ -1,4 +1,4 @@
-package com.beaconfire.userservice.config;
+package com.beaconfire.authservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

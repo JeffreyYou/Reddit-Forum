@@ -18,10 +18,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8082")
 public class UserAuthController {
 
     private final UserAuthService userAuthService;
@@ -70,6 +70,7 @@ public class UserAuthController {
     }
 
     @PatchMapping("/user/change-password")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_SADMIN')")
     @Operation(summary = "Allows authenticated users to change their password",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Password changed successfully",
@@ -79,6 +80,7 @@ public class UserAuthController {
                     @ApiResponse(responseCode = "401", description = "Unauthorized",
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
+
     public ResponseEntity<ChangePasswordResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
         return ResponseEntity.ok(ChangePasswordResponse.builder()
                 .success(userAuthService.changeCurrentUserPassword(changePasswordRequest.getNewPassword()))

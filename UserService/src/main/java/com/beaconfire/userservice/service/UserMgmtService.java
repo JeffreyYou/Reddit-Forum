@@ -3,8 +3,6 @@ package com.beaconfire.userservice.service;
 import com.beaconfire.userservice.dao.UserRepository;
 import com.beaconfire.userservice.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,7 +47,7 @@ public class UserMgmtService {
         return userRepository.findByActive(false);
     }
 
-    public java.util.List<User> getAllActiveUsers() {
+    public List<User> getAllActiveUsers() {
         return userRepository.findByActive(true);
     }
 

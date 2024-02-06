@@ -13,6 +13,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         // Additional HTTP security configurations go here
-        // zhihang common
     }
 }

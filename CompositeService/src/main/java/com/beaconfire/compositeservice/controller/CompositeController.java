@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,9 @@ public class CompositeController {
                     @ApiResponse(responseCode = "404", description = "User not found")
             })
     public List<PostResponse> getHistoryPostsByUserId(@Parameter(description = "ID of the user to retrieve posts for", required = true)
-            @PathVariable("userid") Long userId){
-        return compositeService.getHistoryByUserId(userId);
+            @PathVariable("userid") Long userId, HttpServletRequest request){
+        String prefixedToken = request.getHeader("Authorization"); // extract token value by key "Authorization"
+        String token = prefixedToken.substring(7); // remove the prefix "Bearer "
+        return compositeService.getHistoryByUserId(userId, token);
     }
 }

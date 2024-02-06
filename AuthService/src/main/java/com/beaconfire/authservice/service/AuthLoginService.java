@@ -58,7 +58,7 @@ public class AuthLoginService implements UserDetailsService {
 
         if ("ADMIN".equalsIgnoreCase(type)) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        } else if ("SUPER_ADMIN".equalsIgnoreCase(type)) {
+        } else if ("SUPERADMIN".equalsIgnoreCase(type)) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN")); // SUPER_ADMIN includes ADMIN_ROLE
             authorities.add(new SimpleGrantedAuthority("ROLE_SADMIN"));
         }

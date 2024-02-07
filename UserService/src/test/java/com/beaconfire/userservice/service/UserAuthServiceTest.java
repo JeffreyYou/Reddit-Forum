@@ -105,6 +105,16 @@ public class UserAuthServiceTest {
     }
 
     @Test
+    void getCurrentUserId_AuthenticationIsNull() {
+        // Set SecurityContext with non-null but not authenticated Authentication
+        when(securityContext.getAuthentication()).thenReturn(null);
+        SecurityContextHolder.setContext(securityContext);
+
+        UserAuthService service = new UserAuthService(null); // Assuming userRepository is not used here
+        assertNull(service.getCurrentUserId());
+    }
+
+    @Test
     void getCurrentUserId_AuthenticationIsNotAuthenticated() {
         // Set SecurityContext with non-null but not authenticated Authentication
         when(securityContext.getAuthentication()).thenReturn(authentication);

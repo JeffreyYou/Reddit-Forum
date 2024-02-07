@@ -29,3 +29,21 @@ export interface IPostOverviewResponse {
         success: boolean;
     }
 }
+
+export interface IMessage {
+    messageId: number;
+    dateCreated: string; // Change type if required
+    email: string;
+    message: string;
+    status: string;
+}
+
+export interface IMessageListResponse {
+    messagesList: IMessage[];
+    message: string;
+}
+
+export interface IUpdateMessageStatusResponse {
+    success: boolean;
+    message: string;
+}

@@ -5,16 +5,20 @@ spring:
     servlet:
       path: /user-service
   datasource:
-    url: jdbc:h2:mem:db-reddit-forum.c5a2iko6s97m.us-east-1.rds.amazonaws.com
-    driverClassName: org.h2.Driver
-    username: petergutianhao@gmail.com
-    password: teamproject_1234
+    url: jdbc:mysql://db-reddit-forum.c5a2iko6s97m.us-east-1.rds.amazonaws.com:3306/USER_DB
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: teamproject
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
     show-sql: true
 
+security:
+  jwt:
+    token:
+      key: JavaTraining
 
 server:
   port: 8083

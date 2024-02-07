@@ -1,22 +1,20 @@
-package com.beaconfire.userservice.dto;
+package com.beaconfire.userservice.dto.UserAuthRequest;
 
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegistrationRequest {
-
-    @NotBlank(message = "Username cannot be blank")
-    @Schema(description = "User's username", example = "john_doe", required = true)
-    private String username;
+public class UserCreateRequest {
 
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email cannot be blank")
@@ -24,6 +22,6 @@ public class UserRegistrationRequest {
     private String email;
 
     @NotBlank(message = "Password cannot be blank")
-    @Schema(description = "User's password", example = "securePassword123", required = true)
+    @Schema(description = "User's password", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", required = true)
     private String password;
 }

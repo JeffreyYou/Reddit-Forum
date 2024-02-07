@@ -1,5 +1,6 @@
 package com.beaconfire.compositeservice.dto;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,12 +11,14 @@ import java.util.List;
 @Builder
 public class PostResponse {
 
-   // String username;
+
+    String postId;
     Long userid;
     String title;
     String  content;
     String status;
     Date dateCreated;
+    Boolean isArchived;
     Date dateModified;
     List<String> images;
     List<String> attachments;

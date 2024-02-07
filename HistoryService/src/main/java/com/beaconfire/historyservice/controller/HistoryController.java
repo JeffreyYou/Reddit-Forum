@@ -27,6 +27,7 @@ import java.util.Optional;
 @RestController
 @Tag(name = "History Service", description = "API for managing history records")
 @RequestMapping("/history")
+@CrossOrigin(origins = "*")
 public class HistoryController {
 
     private final HistoryService historyService;

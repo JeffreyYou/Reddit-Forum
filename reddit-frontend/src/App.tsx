@@ -11,7 +11,7 @@ const App = () => {
   const { themeProps } = useThemeStore();
   return (
     <ConfigProvider theme={themeConfig(themeProps.theme)}>
-    {/* // <ConfigProvider theme={themeConfigGreen(themeProps.theme)}> */}
+    {/* <ConfigProvider theme={themeConfigGreen(themeProps.theme)}> */}
         <AppRouter />
     </ConfigProvider>
   );

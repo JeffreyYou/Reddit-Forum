@@ -1,18 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { IUserProfile, IUserProfileResponse, IPostOverview, IPostOverviewResponse } from "./interface";
+import { IUserProfile, IUserProfileResponse, IPostDetail, IPostDetailResponse } from "./interface";
 import { formatDate,  } from "./util";
 
 interface IUserStore {
     user: IUserProfile;
-    top3Posts: IPostOverview[];
-    draftPosts: IPostOverview[];
+    top3Posts: IPostDetail[];
+    draftPosts: IPostDetail[];
     jwtToken1: string;
     jwtToken2: string;
     fetchUserProfile: () => Promise<IUserProfileResponse>;
     updateUserProfile: (user: IUserProfile) => void;
-    getTop3Posts: () => Promise<IPostOverviewResponse[]>;
-    getDraftPosts: () => Promise<IPostOverviewResponse[]>;
+    getTop3Posts: () => Promise<IPostDetailResponse[]>;
+    getDraftPosts: () => Promise<IPostDetailResponse[]>;
 }
 const domain = "http://localhost:8081"
 const profileUrl = `${domain}/user-service/user/profile`;
@@ -23,6 +23,7 @@ export const useUserStore = create<IUserStore>()(
     persist(
         (set, get) => ({
             user: {
+                id: 1,
                 firstName: "Jeffrey",
                 lastName: "You",
                 email: "yqse521749@gmail.com",
@@ -65,7 +66,7 @@ export const useUserStore = create<IUserStore>()(
             updateUserProfile: (user: IUserProfile) => {
                 set({ user: user });
             },
-            getTop3Posts: async (): Promise<IPostOverviewResponse[]> => {
+            getTop3Posts: async (): Promise<IPostDetailResponse[]> => {
                 try {
                     const response = await fetch(top3PostsUrl, {
                         method: 'GET',
@@ -77,23 +78,27 @@ export const useUserStore = create<IUserStore>()(
                         throw new Error('Failed to fetch user profile');
                     }
                     // format date
-                    const data: IPostOverviewResponse[] = await response.json();
-                    const top3Posts: IPostOverview[] = data.map((post: IPostOverviewResponse) => {
-                        post.dateCreated = formatDate(post.dateCreated);
+                    const data: IPostDetailResponse[] = await response.json();
+                    const top3Posts: IPostDetail[] = data.map((data: IPostDetailResponse) => {
                         return {
-                            postId: post.postId,
-                            title: post.title,
-                            dateCreated: post.dateCreated,
-                        } as IPostOverview;
+                            postId: data.postId,
+                            title: data.title,
+                            dateCreated: data.dateCreated,
+                            content: data.content,
+                            dateModified: data.dateModified,
+                            isArchived: data.isArchived,
+                            status: data.status,
+                        } as IPostDetail;
                     });
                     console.log(top3Posts)
+                    // console.log(top3Posts)
                     set({ top3Posts: top3Posts });
                     return data;
-                } catch (error) {
-                    throw new Error('Failed to fetch user profile');
+                } catch (error : any) {
+                    throw new Error(error.message );
                 }
             },
-            getDraftPosts: async (): Promise<IPostOverviewResponse[]> => {
+            getDraftPosts: async (): Promise<IPostDetailResponse[]> => {
                 const businessLogic = async () => {
                     const response = await fetch(draftUrl, {
                         method: 'GET',
@@ -105,14 +110,17 @@ export const useUserStore = create<IUserStore>()(
                         throw new Error('Failed to fetch user profile');
                     }
                     // format date
-                    const data = await response.json();
-                    const draftList: IPostOverview[] = data.map((post: IPostOverviewResponse) => {
-                        post.dateCreated = formatDate(post.dateCreated);
+                    const data: IPostDetailResponse[] = await response.json();
+                    const draftList: IPostDetail[] = data.map((data: IPostDetailResponse) => {
                         return {
-                            postId: post.postId,
-                            title: post.title,
-                            dateCreated: post.dateCreated,
-                        } as IPostOverview;
+                            postId: data.postId,
+                            title: data.title,
+                            dateCreated: data.dateCreated,
+                            content: data.content,
+                            dateModified: data.dateModified,
+                            isArchived: data.isArchived,
+                            status: data.status,
+                        } as IPostDetail;
                     });
                     console.log(draftList)
                     set({ draftPosts: draftList });

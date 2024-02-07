@@ -7,6 +7,7 @@ export interface IUserProfile {
     type: string;
     profileImageURL: string;
     verified: boolean;
+    id: number;
 }
 
 export interface IUserProfileResponse {
@@ -14,16 +15,25 @@ export interface IUserProfileResponse {
     message: string;
 }
 
-export interface IPostOverview {
-    postId: number;
+export interface IPostDetail {
+    postId: string;
     title: string;
-    dateCreated: string;
+    dateCreated: Date;
+    content: string;
+    dateModified: Date;
+    isArchived: boolean;
+    status: string;
+    
 }
 
-export interface IPostOverviewResponse {
-    postId: number;
+export interface IPostDetailResponse {
+    postId: string;
     title: string;
-    dateCreated: string;
+    dateCreated: Date;
+    content: string;
+    dateModified: Date;
+    isArchived: boolean;
+    status: string;
     responseStatus: {
         message: string;
         success: boolean;

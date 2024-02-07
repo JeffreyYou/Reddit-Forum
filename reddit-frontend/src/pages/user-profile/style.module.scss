@@ -1,3 +1,5 @@
+@import '../../styles/global.scss';
+
 .profile_wrapper {
     display: flex;
     width: 100vw;
@@ -25,7 +27,44 @@
     margin-right: 25px;
     box-sizing: content-box;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    font-family: 'play-google';
+
 }
+
+
+.draft_card {
+    margin: 50px;
+    margin-right: 25px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    height: 100%;
+    border-radius: 10px;
+    background-color: white;
+
+    @include scrollbar-styles;
+
+    :global {
+        .ant-tabs-tab {
+            min-width: 200px;
+            font-size: 22px;
+            justify-content: center;
+        }
+        .ant-tabs-content-holder {
+            overflow: auto;
+
+            .ant-card {
+
+                margin: 10px;
+                background-color: #F5F5F5;
+                background-color: #FFF8E7;
+                background-color: #FFF8E7;
+                background-color: #FFF8E7;
+                background-color: #F0F4FD;
+
+            }
+        }
+    }
+}
+
 
 .posts_card {
     margin: 50px;
@@ -33,11 +72,31 @@
     box-sizing: content-box;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     height: calc(100% - 100px);
-}
+    background-color: white;
+    border-radius: 10px;
 
-.draft_card {
-    margin: 50px;
-    margin-right: 25px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-    height: 100%; 
+    @include scrollbar-styles;
+
+    :global {
+        .ant-tabs-tab {
+            min-width: 200px;
+            font-size: 22px;
+            justify-content: center;
+        }
+        .ant-tabs-content-holder {
+            overflow: auto;
+
+            .ant-card {
+
+                margin: 10px;
+                background-color: #F5F5F5;
+                background-color: #FFF8E7;
+                background-color: #FFF8E7;
+                background-color: #FFF8E7;
+                background-color: #F0F4FD;
+
+            }
+        }
+    }
+
 }

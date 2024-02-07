@@ -3,8 +3,8 @@ package com.beaconfire.userservice.service;
 import com.beaconfire.userservice.dao.UserRepository;
 import com.beaconfire.userservice.domain.User;
 import com.beaconfire.userservice.domain.message.EmailMessage;
+import com.beaconfire.userservice.exception.EmailTokenExpiredException;
 import com.beaconfire.userservice.exception.EmailTokenNotFoundException;
-import com.beaconfire.userservice.exception.UserNotFoundException;
 import com.beaconfire.userservice.util.EmailMessageUtil;
 import com.beaconfire.userservice.util.SerializeUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,7 +66,7 @@ public class EmailService {
             userRepository.save(user);
             return true;
         } else {
-            return false;
+            throw new EmailTokenExpiredException("The verification token has expired! Please request once again.");
         }
     }
 }

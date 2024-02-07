@@ -54,5 +54,14 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
+    @ExceptionHandler(EmailTokenExpiredException.class)
+    public ResponseEntity<ErrorDetails> handleEmailTokenExpiredException(EmailTokenExpiredException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorDetails.builder()
+                .details("Token is expired")
+                .timestamp(LocalDateTime.now())
+                .message(ex.getMessage())
+                .build());
+    }
+
 }
 

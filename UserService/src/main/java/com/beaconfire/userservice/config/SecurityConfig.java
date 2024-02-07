@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable() // Disable CSRF protection
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() // Use stateless sessions
                 .authorizeRequests()
-                .antMatchers("/user-service/user/authenticate", "/user-service/user/create", "/user-service/user/verify").permitAll()
+                .antMatchers("/user-service/user/authenticate", "/user-service/user/create").permitAll()
                 .antMatchers("/user-service/swagger-ui/**", "/user-service/v3/**", "/user-service/swagger-ui*").permitAll()
                 .antMatchers("/user-service/**").permitAll()
                 .anyRequest().authenticated() // Require authentication for any other request

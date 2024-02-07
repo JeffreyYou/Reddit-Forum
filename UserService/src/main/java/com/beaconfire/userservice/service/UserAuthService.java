@@ -45,17 +45,14 @@ public class UserAuthService {
     public User getCurrentUser() {
         Long userId = getCurrentUserId();
         if (userId == null) {
-            throw new RuntimeException("No authenticated user found");
+            throw new UserNotFoundException("No authenticated user found");
         }
         return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
     /******** integrate with emailService (newly added) ***********/
     public User createUser(String email, String password, String firstname, String lastname, String emailToken) {
-        if (userRepository.findByEmail(email).isPresent()) {
-            throw new UserAlreadyExistsException("User with email " + email + " already exists.");
-        }
         userRepository.save( User.builder()
                 .firstName(firstname)
                 .lastName(lastname)
@@ -108,4 +105,9 @@ public class UserAuthService {
         return true;
     }
 
+    public void emailExistsCheck(String email) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new UserAlreadyExistsException("User with email " + email + " already exists.");
+        }
+    }
 }

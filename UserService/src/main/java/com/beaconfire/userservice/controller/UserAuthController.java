@@ -42,6 +42,8 @@ public class UserAuthController {
             })
     public ResponseEntity<UserCreateResponse> createUser(@RequestBody UserCreateRequest userCreateRequest) {
         final String email = userCreateRequest.getEmail();
+        // check if email exists immediately
+        userAuthService.emailExistsCheck(email);
         final String password = userCreateRequest.getPassword();
 //        final User newUser = userAuthService.createUser(email, password);
 
@@ -63,6 +65,7 @@ public class UserAuthController {
     }
 
     @PostMapping("/user/authenticate")
+    @PreAuthorize("hasAnyAuthority('ROLE_SADMIN')")
     @Operation(summary = "Provides user authentication details to the authentication service",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Authentication successful",
@@ -132,8 +135,9 @@ public class UserAuthController {
             })
 
     public ResponseEntity<UpdateEmailResponse> updateEmail(@Valid @RequestBody UpdateEmailRequest updateEmailRequest) {
+        User user = userAuthService.getCurrentUser();
         return ResponseEntity.ok(UpdateEmailResponse.builder()
-                .success(emailService.updateUserEmail(updateEmailRequest.getOldEmail(), updateEmailRequest.getNewEmail()))
+                .success(emailService.updateUserEmail(user, updateEmailRequest.getNewEmail()))
                 .message("Email updated successfully. A verification link has been sent out, please check your email!")
                 .build());
     }

@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetails> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorDetails.builder()
                 .timestamp(LocalDateTime.now())
-                .message("User already exists.")
+                .message(ex.getMessage())
                 .build());
     }
 
@@ -45,7 +45,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailTokenNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleEmailTokenException(EmailTokenNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDetails.builder()
-                .details("Token not found")
                 .timestamp(LocalDateTime.now())
                 .message("Token not found.")
                 .build());
@@ -54,7 +53,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailTokenExpiredException.class)
     public ResponseEntity<ErrorDetails> handleEmailTokenExpiredException(EmailTokenExpiredException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorDetails.builder()
-                .details("Token is expired")
                 .timestamp(LocalDateTime.now())
                 .message(ex.getMessage())
                 .build());
@@ -63,9 +61,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailVerifiedAndUnchangedException.class)
     public ResponseEntity<ErrorDetails> handleEmailVerifiedAndUnchangedException(EmailVerifiedAndUnchangedException ex) {
         return ResponseEntity.status(HttpStatus.OK).body(ErrorDetails.builder()
-                .details("email and verified unchanged")
                 .timestamp(LocalDateTime.now())
                 .message(ex.getMessage())
+                .build());
+    }
 
     @ExceptionHandler(UserFieldNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleUserFieldNotFoundException(UserFieldNotFoundException ex) {

@@ -17,12 +17,6 @@ import javax.validation.constraints.NotNull;
 public class UpdateEmailRequest {
 
     @Email(message = "Invalid email format")
-    @NotBlank(message = "Old email cannot be blank")
-    @NotNull(message = "Old email cannot be null")
-    @Schema(description = "User's old email", example = "john.doe@example.com", required = true)
-    private String oldEmail;
-
-    @Email(message = "Invalid email format")
     @NotBlank(message = "New email cannot be blank")
     @NotNull(message = "New email cannot be null")
     @Schema(description = "User's new email", example = "john.doe@example.com", required = true)

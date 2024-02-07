@@ -10,10 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.webjars.NotFoundException;
 
 import java.sql.Timestamp;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -28,7 +26,7 @@ public class EmailService {
     private final String emailRoutingKey = "emailRoutingKey";
 
     @Autowired
-    public EmailService(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper, UserRepository userRepository) {
+    public EmailService(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper, UserRepository userRepository, UserAuthService userAuthService) {
         this.rabbitTemplate = rabbitTemplate;
         this.userRepository = userRepository;
     }
@@ -76,12 +74,13 @@ public class EmailService {
         }
     }
 
-    public boolean updateUserEmail(String oldEmail, String newEmail) {
-        // check if the email already exists and verified, if so return 200 OK
-        User user = userRepository.findByEmail(oldEmail).orElseThrow(() -> new UserNotFoundException("User with email" + oldEmail + " not found."));
-        if (oldEmail.equals(newEmail) && user.isVerified())
+    public boolean updateUserEmail(User user, String newEmail) {
+        System.out.println(user.getEmail());
+        if (user.getEmail().equals(newEmail) && user.isVerified())
             throw new EmailVerifiedAndUnchangedException("Email is already verified and unchanged.");
-        // check if the new email already exists
+        else if (user.getEmail().equals(newEmail))
+            throw new EmailVerifiedAndUnchangedException("Email already in use. Please verify your email!");
+        // check if the new email already exists and used by another user
         if (userRepository.findByEmail(newEmail).isPresent()) {
             throw new UserAlreadyExistsException("User with email " + newEmail + " already exists.");
         }

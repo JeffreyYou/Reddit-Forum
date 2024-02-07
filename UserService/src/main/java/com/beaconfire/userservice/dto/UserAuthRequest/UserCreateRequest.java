@@ -24,4 +24,13 @@ public class UserCreateRequest {
     @NotBlank(message = "Password cannot be blank")
     @Schema(description = "User's password", example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", required = true)
     private String password;
+
+    /***** firstname and lastname (newly added) *****/
+    @NotBlank(message = "Firstname cannot be blank")
+    @Schema(description = "User's firstname", example = "john", required = true)
+    private String firstname;
+
+    @NotBlank(message = "Lastname cannot be blank")
+    @Schema(description = "User's lastname", example = "doe", required = true)
+    private String lastname;
 }

@@ -32,9 +32,8 @@ public class ReplyController {
                                                      @RequestBody ReplyRequest replyRequest) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-//        GetUserVerifiedResponse response = userClient.getUserVerified();
-//        boolean isVerifiedUser = response.isVerified();
-        boolean isVerifiedUser = true;
+        GetUserVerifiedResponse response = userClient.getUserVerified();
+        boolean isVerifiedUser = response.isVerified();
         if (!isVerifiedUser) {
             throw new UnverifiedUserException("User without email verification cannot reply to any post");
         }

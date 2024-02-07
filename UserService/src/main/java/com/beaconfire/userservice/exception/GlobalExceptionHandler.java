@@ -45,5 +45,23 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
+    @ExceptionHandler(EmailTokenNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleEmailTokenException(EmailTokenNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDetails.builder()
+                .details("Token not found")
+                .timestamp(LocalDateTime.now())
+                .message("Token not found.")
+                .build());
+    }
+
+    @ExceptionHandler(EmailTokenExpiredException.class)
+    public ResponseEntity<ErrorDetails> handleEmailTokenExpiredException(EmailTokenExpiredException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorDetails.builder()
+                .details("Token is expired")
+                .timestamp(LocalDateTime.now())
+                .message(ex.getMessage())
+                .build());
+    }
+
 }
 

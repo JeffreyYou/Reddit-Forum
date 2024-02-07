@@ -1,6 +1,5 @@
 package com.beaconfire.compositeservice.dto;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Builder;
 import lombok.Data;
 

@@ -100,7 +100,6 @@ public class UserAuthController {
 
     /*****   email verification (newly added)  ********/
     @PostMapping("/user/verify")
-    @PreAuthorize("hasAnyAuthority('ROLE_SADMIN')")
     @Operation(summary = "Allows users to verify their email",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Email verified successfully",

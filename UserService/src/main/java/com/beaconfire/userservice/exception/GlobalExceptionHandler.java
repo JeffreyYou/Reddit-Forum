@@ -34,13 +34,6 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
-    @ExceptionHandler(InvalidUserPasswordException.class)
-    public ResponseEntity<ErrorDetails> handleInvalidUserPasswordException(InvalidUserPasswordException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorDetails.builder()
-                .timestamp(LocalDateTime.now())
-                .message("Authentication failed.")
-                .build());
-    }
 
     @ExceptionHandler(UserFieldNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleUserFieldNotFoundException(UserFieldNotFoundException ex) {

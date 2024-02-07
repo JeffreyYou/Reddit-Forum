@@ -1,30 +1,33 @@
 import styles from './style.module.scss';
 import {Button, Card} from "antd";
 import { usePostStore} from "../../store/post-store";
+import {useEffect} from "react";
 
 const HomeAdminPage = () => {
 
-    const {publishedPosts} = usePostStore();
+    const {publishedPosts, fetchPublishedPosts} = usePostStore();
+    const {deletedPosts, fetchDeletedPosts} = usePostStore();
+    const {bannedPosts, fetchBannedPosts} = usePostStore();
 
-    console.log(publishedPosts);
-    const deletedPosts = publishedPosts;
-    const bannedPosts = publishedPosts;
-    /*useEffect(() => {
-        //fetchPublishedPosts(); // fetch posts for every render
-        //console.log(publishedPosts);
+    const {banPost, unbanPost, recoverPost} = usePostStore();
 
-        //fetchBannedPosts();
-        //fetchDeletedPosts();
-    });*/
+    useEffect(() => {
+        fetchPublishedPosts();
+        fetchBannedPosts();
+        fetchDeletedPosts();
+    },[]);
 
-    const banPost = (postid:string)=>(
-        console.log(postid)
-    );
+    const handleBan = (postid:string)=>{
+        banPost(postid);
+        //opennotification
+    };
 
-    const deletePost = (postid: string)=>{
-        console.log(postid)
+    const handleUnban = (postid: string)=>{
+        unbanPost(postid);
     }
-
+    const handleRecover = (postid: string)=>{
+        recoverPost(postid);
+    }
 
     return ( //
         <div className={styles.homepage_container}>
@@ -34,18 +37,16 @@ const HomeAdminPage = () => {
 
             <div className={styles.posts_container}>
                 {publishedPosts.map((post) => (
-                    <div>
+                    <div key={post.postId}>
                     <Card
-                        key={post.id}
                         className="reddit-card"
                         hoverable
                     >
                         <h3 className="reddit-card-title">{post.title}</h3>
-                        <p className="reddit-card-meta">{`${post.username} - ${post.date}`}</p>
+                        <p className="reddit-card-meta">{`${post.userId} - ${post.dateCreated}`}</p>
 
                     </Card>
-                    <Button type="primary" onClick={()=>banPost(post.id)}> Ban this post </Button>
-                    <Button type="primary" onClick={()=>deletePost(post.id)}> Delete this post </Button>
+                    <Button type="primary" onClick={()=>handleBan(post.postId)}> Ban this post </Button>
                     </div>
                 ))}
             </div>
@@ -54,13 +55,13 @@ const HomeAdminPage = () => {
                 <h3> Deleted posts</h3>
                 {deletedPosts.map((post) => (
                         <Card
-                            key={post.id}
+                            key={post.postId}
                             className="reddit-card"
                             hoverable
                         >
                             <h3 className="reddit-card-title">{post.title}</h3>
-                            <p className="reddit-card-meta">{`${post.username} - ${post.date}`}</p>
-                            <Button type="primary"> Recover this post </Button>
+                            <p className="reddit-card-meta">{`${post.userId} - ${post.dateCreated}`}</p>
+                            <Button type="primary" onClick={()=>handleRecover(post.postId)}> Recover this post </Button>
                         </Card>
                 ))}
             </div>
@@ -69,13 +70,13 @@ const HomeAdminPage = () => {
                 <h3> Banned posts</h3>
                 {bannedPosts.map((post) => (
                     <Card
-                        key={post.id}
+                        key={post.postId}
                         className="reddit-card"
                         hoverable
                     >
                         <h3 className="reddit-card-title">{post.title}</h3>
-                        <p className="reddit-card-meta">{`${post.username} - ${post.date}`}</p>
-                        <Button type="primary"> Unban this post </Button>
+                        <p className="reddit-card-meta">{`${post.userId} - ${post.dateCreated}`}</p>
+                        <Button type="primary" onClick={()=>handleUnban(post.postId)}> Unban this post </Button>
                     </Card>
                 ))}
             </div>

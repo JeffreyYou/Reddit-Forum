@@ -10,6 +10,9 @@ import java.sql.Timestamp;
 @Builder
 @Schema(description = "Response object for a message")
 public class MessageResponse {
+    @Schema(description = "1")
+    private Long messageId;
+
     @Schema(description = "Date created")
     private Timestamp dateCreated;
 

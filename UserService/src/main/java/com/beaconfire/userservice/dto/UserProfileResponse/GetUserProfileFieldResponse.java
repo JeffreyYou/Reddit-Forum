@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserProfileFieldResponse {
+public class GetUserProfileFieldResponse {
 
     @Schema(description = "Field name", example = "firstName")
     private String fieldName;

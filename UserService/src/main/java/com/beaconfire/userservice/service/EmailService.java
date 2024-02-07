@@ -26,7 +26,7 @@ public class EmailService {
     private final String emailRoutingKey = "emailRoutingKey";
 
     @Autowired
-    public EmailService(RabbitTemplate rabbitTemplate, ObjectMapper objectMapper, UserRepository userRepository, UserAuthService userAuthService) {
+    public EmailService(RabbitTemplate rabbitTemplate, UserRepository userRepository) {
         this.rabbitTemplate = rabbitTemplate;
         this.userRepository = userRepository;
     }

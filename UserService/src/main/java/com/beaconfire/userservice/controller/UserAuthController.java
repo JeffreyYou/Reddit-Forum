@@ -42,19 +42,15 @@ public class UserAuthController {
             })
     public ResponseEntity<UserCreateResponse> createUser(@RequestBody UserCreateRequest userCreateRequest) {
         final String email = userCreateRequest.getEmail();
-        // check if email exists immediately
-        userAuthService.emailExistsCheck(email);
         final String password = userCreateRequest.getPassword();
 //        final User newUser = userAuthService.createUser(email, password);
 
         // send verification email
-        // get first name
         final String firstname = userCreateRequest.getFirstname();
         final String lastname = userCreateRequest.getLastname();
-        final String emailToken = emailService.sendEmail(email, firstname);
 
         // save token to the database with an expired time (bonus)
-        final User newUser = userAuthService.createUser(email, password, firstname, lastname, emailToken);
+        final User newUser = userAuthService.createUser(email, password, firstname, lastname);
 
 
         return ResponseEntity.ok(UserCreateResponse.builder()
@@ -65,7 +61,6 @@ public class UserAuthController {
     }
 
     @PostMapping("/user/authenticate")
-    @PreAuthorize("hasAnyAuthority('ROLE_SADMIN')")
     @Operation(summary = "Provides user authentication details to the authentication service",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Authentication successful",

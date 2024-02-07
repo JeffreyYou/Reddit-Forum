@@ -2,16 +2,13 @@ package com.beaconfire.userservice.service;
 
 import com.beaconfire.userservice.dao.UserRepository;
 import com.beaconfire.userservice.domain.User;
-import com.beaconfire.userservice.exception.InvalidUserPasswordException;
 import com.beaconfire.userservice.exception.UserAlreadyExistsException;
 import com.beaconfire.userservice.exception.UserNotFoundException;
-import com.beaconfire.userservice.security.AuthUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.sql.Timestamp;
 
 @Service
@@ -19,9 +16,12 @@ public class UserAuthService {
 
     private final UserRepository userRepository;
 
+    private final EmailService emailService;
+
     @Autowired
-    public UserAuthService(UserRepository userRepository) {
+    public UserAuthService(UserRepository userRepository, EmailService emailService) {
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     public boolean hasRole(String role) {
@@ -52,7 +52,12 @@ public class UserAuthService {
     }
 
     /******** integrate with emailService (newly added) ***********/
-    public User createUser(String email, String password, String firstname, String lastname, String emailToken) {
+    public User createUser(String email, String password, String firstname, String lastname) {
+        // check if email exists immediately
+        emailExistsCheck(email);
+
+        final String emailToken = emailService.sendEmail(email, firstname);
+
         userRepository.save( User.builder()
                 .firstName(firstname)
                 .lastName(lastname)

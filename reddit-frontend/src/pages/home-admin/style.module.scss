@@ -1,0 +1,48 @@
+.homepage_container {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.content {
+  max-width: 600px; // Set a maximum width for the content
+  width: 100%; // Use the full width of the container
+  margin: 0 auto; // This will help with horizontal centering if the flexbox method fails
+}
+
+.posts_container {
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reddit-card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .reddit-card-title {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+
+  .reddit-card-meta {
+    font-size: 14px;
+    color: #888;
+  }
+}

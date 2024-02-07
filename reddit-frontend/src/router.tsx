@@ -10,6 +10,9 @@ import RegisterPage from "./pages/register/RegisterPage";
 import NavBar from "./components/nav-bar/Navbar";
 import HomePage from "./pages/home/HomePage";
 import UserProfile from "./pages/user-profile";
+import HomeAdminPage from "./pages/home-admin/HomeAdminPage";
+
+
 
 const AppRouter = () => {
     return (
@@ -18,7 +21,7 @@ const AppRouter = () => {
 
             <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/home" element={<HomePage />} />
+                <Route path="/home" element={<HomeAdminPage />} />
                 <Route path="/users/login" element={<LoginPage />} />
                 <Route path="/users/register" element={<RegisterPage />} />
                 <Route path="/users/1/profile" element={<UserProfile />} />
@@ -27,7 +30,7 @@ const AppRouter = () => {
                         path="/home"
                         element={
                             <ProtectedRoute>
-                            <HomePage />
+                            <HomeAdminPage />
                             </ProtectedRoute>
                         }
             /> */}

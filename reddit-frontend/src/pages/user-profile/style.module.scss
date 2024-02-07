@@ -21,24 +21,35 @@
 
 
 }
-
+.left_wrapper {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: 2fr 3fr;
+}
+.right_wrapper {
+    height: 100%;
+    overflow: hidden;
+}
 .user_card {
-    margin: 50px;
+    // margin: 50px;
     margin-right: 25px;
     box-sizing: content-box;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
-    font-family: 'play-google';
-
 }
 
 
 .draft_card {
-    margin: 50px;
+    // margin: 50px;
     margin-right: 25px;
+    margin-left: 50px;
+    margin-bottom: 50px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     height: 100%;
     border-radius: 10px;
     background-color: white;
+    overflow: hidden;
 
     @include scrollbar-styles;
 
@@ -74,6 +85,7 @@
     height: calc(100% - 100px);
     background-color: white;
     border-radius: 10px;
+
 
     @include scrollbar-styles;
 

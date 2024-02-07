@@ -22,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class UserAuthController {
 
@@ -105,26 +107,19 @@ public class UserAuthController {
     /*****   email verification (newly added)  ********/
     @PostMapping("/user/verify")
     @PreAuthorize("hasAnyAuthority('ROLE_SADMIN')")
-    @Operation(summary = "Allows authenticated users to change their password",
+    @Operation(summary = "Allows users to verify their email",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Password changed successfully",
-                            content = @Content(schema = @Schema(implementation = ChangePasswordResponse.class))),
+                    @ApiResponse(responseCode = "200", description = "Email verified successfully",
+                            content = @Content(schema = @Schema(implementation = EmailVerificationResponse.class))),
                     @ApiResponse(responseCode = "400", description = "Invalid email verify request",
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class))),
             })
-    public ResponseEntity<EmailVerificationResponse> verifyEmail(@RequestBody EmailVerificationRequest emailVerificationRequest) {
+    public ResponseEntity<EmailVerificationResponse> verifyEmail(@Valid @RequestBody EmailVerificationRequest emailVerificationRequest) {
 
-        if (emailService.verifyEmail(emailVerificationRequest.getToken())) {
-            return ResponseEntity.ok(EmailVerificationResponse.builder()
-                    .verified(true)
-                    .message("Email verified successfully!")
-                    .build());
-        } else {
-            return ResponseEntity.ok(EmailVerificationResponse.builder()
-                    .verified(false)
-                    .message("The verification token has expired! Please try again in our profile page after login.")
-                    .build());
-        }
+        return ResponseEntity.ok(EmailVerificationResponse.builder()
+                .verified(emailService.verifyEmail(emailVerificationRequest.getToken()))
+                .message("Email verified successfully!")
+                .build());
 
     }
 }

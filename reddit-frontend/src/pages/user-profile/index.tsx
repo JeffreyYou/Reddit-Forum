@@ -8,11 +8,13 @@ import { useUserStore } from '../../store/user-store';
 
 const UserProfile = () => {
 
-  const { user, fetchUserProfile} = useUserStore();
+  const { user, top3Posts, draftPosts, fetchUserProfile, getTop3Posts, getDraftPosts} = useUserStore();
 
   useEffect(() => {
-    fetchUserProfile(); // fetch user profile and update it in the store
-    console.log(user)
+    getDraftPosts();
+    getTop3Posts();
+    fetchUserProfile();
+    // console.log(user)
   }, []);
 
   return (

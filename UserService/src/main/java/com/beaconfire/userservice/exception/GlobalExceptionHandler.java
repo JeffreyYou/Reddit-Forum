@@ -66,6 +66,8 @@ public class GlobalExceptionHandler {
                 .details("email and verified unchanged")
                 .timestamp(LocalDateTime.now())
                 .message(ex.getMessage())
+                .build());
+    }
 
     @ExceptionHandler(UserFieldNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleUserFieldNotFoundException(UserFieldNotFoundException ex) {

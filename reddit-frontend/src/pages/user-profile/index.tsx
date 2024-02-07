@@ -10,12 +10,13 @@ import { IPostDetail } from '../../store/interface';
 
 const UserProfile = () => {
 
-  const { user, top3Posts, draftPosts, fetchUserProfile, getTop3Posts, getDraftPosts } = useUserStore();
+
+  const { user, top3Posts, draftPosts, fetchUserProfile, getTop3Posts, getDraftPosts} = useUserStore();
 
   useEffect(() => {
     getDraftPosts();
-    // getTop3Posts();
-    // fetchUserProfile();
+    getTop3Posts();
+    fetchUserProfile();
     // console.log(user)
   }, []);
 

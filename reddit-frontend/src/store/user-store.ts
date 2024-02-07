@@ -1,18 +1,24 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
 import { IUserProfile, IUserProfileResponse, IPostDetail, IPostDetailResponse } from "./interface";
+
 import { formatDate,  } from "./util";
 
 interface IUserStore {
     user: IUserProfile;
+
     top3Posts: IPostDetail[];
     draftPosts: IPostDetail[];
+
     jwtToken1: string;
     jwtToken2: string;
     fetchUserProfile: () => Promise<IUserProfileResponse>;
     updateUserProfile: (user: IUserProfile) => void;
+
     getTop3Posts: () => Promise<IPostDetailResponse[]>;
     getDraftPosts: () => Promise<IPostDetailResponse[]>;
+
 }
 const domain = "http://localhost:8081"
 const profileUrl = `${domain}/user-service/user/profile`;
@@ -66,7 +72,9 @@ export const useUserStore = create<IUserStore>()(
             updateUserProfile: (user: IUserProfile) => {
                 set({ user: user });
             },
+
             getTop3Posts: async (): Promise<IPostDetailResponse[]> => {
+
                 try {
                     const response = await fetch(top3PostsUrl, {
                         method: 'GET',
@@ -78,6 +86,7 @@ export const useUserStore = create<IUserStore>()(
                         throw new Error('Failed to fetch user profile');
                     }
                     // format date
+
                     const data: IPostDetailResponse[] = await response.json();
                     const top3Posts: IPostDetail[] = data.map((data: IPostDetailResponse) => {
                         return {
@@ -99,6 +108,7 @@ export const useUserStore = create<IUserStore>()(
                 }
             },
             getDraftPosts: async (): Promise<IPostDetailResponse[]> => {
+
                 const businessLogic = async () => {
                     const response = await fetch(draftUrl, {
                         method: 'GET',
@@ -110,6 +120,7 @@ export const useUserStore = create<IUserStore>()(
                         throw new Error('Failed to fetch user profile');
                     }
                     // format date
+
                     const data: IPostDetailResponse[] = await response.json();
                     const draftList: IPostDetail[] = data.map((data: IPostDetailResponse) => {
                         return {
@@ -121,6 +132,7 @@ export const useUserStore = create<IUserStore>()(
                             isArchived: data.isArchived,
                             status: data.status,
                         } as IPostDetail;
+
                     });
                     console.log(draftList)
                     set({ draftPosts: draftList });

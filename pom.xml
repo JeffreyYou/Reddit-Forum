@@ -18,5 +18,6 @@
         <module>MessageService</module>
         <module>GatewayService</module>
         <module>FileService</module>
+        <module>CompositeService</module>
     </modules>
 </project>

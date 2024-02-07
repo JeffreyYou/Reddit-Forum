@@ -63,5 +63,14 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
+    @ExceptionHandler(EmailVerifiedAndUnchangedException.class)
+    public ResponseEntity<ErrorDetails> handleEmailVerifiedAndUnchangedException(EmailVerifiedAndUnchangedException ex) {
+        return ResponseEntity.status(HttpStatus.OK).body(ErrorDetails.builder()
+                .details("email and verified unchanged")
+                .timestamp(LocalDateTime.now())
+                .message(ex.getMessage())
+                .build());
+    }
+
 }
 

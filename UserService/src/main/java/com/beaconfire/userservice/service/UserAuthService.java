@@ -17,8 +17,6 @@ import java.sql.Timestamp;
 @Service
 public class UserAuthService {
 
-    private final long emailTokenExpiredTime = 3 * 60 * 60 * 1000;
-
     private final UserRepository userRepository;
 
     @Autowired
@@ -68,7 +66,8 @@ public class UserAuthService {
                 .password(password)
                 .dateJoined(new Timestamp(System.currentTimeMillis()))
                 .emailToken(emailToken)
-                .emailTokenExpiredTime(new Timestamp(System.currentTimeMillis() + emailTokenExpiredTime))
+                .emailTokenExpiredTime(new Timestamp(System.currentTimeMillis() + EmailService.getEmailValidPeriod()))
+                .verified(false)
                 .build());
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User with email " + email + " not found."));
     }

@@ -2,14 +2,8 @@ package com.beaconfire.userservice.controller;
 
 import com.beaconfire.userservice.domain.User;
 import com.beaconfire.userservice.dto.ErrorDetails;
-import com.beaconfire.userservice.dto.UserAuthRequest.ChangePasswordRequest;
-import com.beaconfire.userservice.dto.UserAuthRequest.EmailVerificationRequest;
-import com.beaconfire.userservice.dto.UserAuthRequest.UserAuthenticationRequest;
-import com.beaconfire.userservice.dto.UserAuthRequest.UserCreateRequest;
-import com.beaconfire.userservice.dto.UserAuthResponse.EmailVerificationResponse;
-import com.beaconfire.userservice.dto.UserAuthResponse.UserAuthenticationResponse;
-import com.beaconfire.userservice.dto.UserAuthResponse.ChangePasswordResponse;
-import com.beaconfire.userservice.dto.UserAuthResponse.UserCreateResponse;
+import com.beaconfire.userservice.dto.UserAuthRequest.*;
+import com.beaconfire.userservice.dto.UserAuthResponse.*;
 
 import com.beaconfire.userservice.service.EmailService;
 import com.beaconfire.userservice.service.UserAuthService;
@@ -113,6 +107,10 @@ public class UserAuthController {
                             content = @Content(schema = @Schema(implementation = EmailVerificationResponse.class))),
                     @ApiResponse(responseCode = "400", description = "Invalid email verify request",
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class))),
+                    @ApiResponse(responseCode = "404", description = "Token not found",
+                            content = @Content(schema = @Schema(implementation = ErrorDetails.class))),
+                    @ApiResponse(responseCode = "401", description = "Token expired",
+                            content = @Content(schema = @Schema(implementation = ErrorDetails.class))),
             })
     public ResponseEntity<EmailVerificationResponse> verifyEmail(@Valid @RequestBody EmailVerificationRequest emailVerificationRequest) {
 
@@ -121,5 +119,21 @@ public class UserAuthController {
                 .message("Email verified successfully!")
                 .build());
 
+    }
+
+    @PatchMapping("/user/update-email")
+    @Operation(summary = "Allows users to update their email",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Email updated successfully and a verification link has been sent out",
+                            content = @Content(schema = @Schema(implementation = UpdateEmailResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Invalid email update request",
+                            content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
+            })
+
+    public ResponseEntity<UpdateEmailResponse> updateEmail(@Valid @RequestBody UpdateEmailRequest updateEmailRequest) {
+        return ResponseEntity.ok(UpdateEmailResponse.builder()
+                .success(emailService.updateUserEmail(updateEmailRequest.getOldEmail(), updateEmailRequest.getNewEmail()))
+                .message("Email updated successfully. A verification link has been sent out, please check your email!")
+                .build());
     }
 }

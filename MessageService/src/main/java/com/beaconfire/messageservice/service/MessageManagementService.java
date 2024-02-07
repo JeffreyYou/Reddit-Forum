@@ -42,6 +42,7 @@ public class MessageManagementService {
                 .orElseThrow(() -> new MessageNotFoundException("Message not found"));
 
         return MessageResponse.builder()
+                .messageId(messageId)
                 .dateCreated(message.getDateCreated())
                 .email(message.getEmail())
                 .message(message.getMessage())
@@ -51,6 +52,7 @@ public class MessageManagementService {
 
     private MessageResponse convertToResponseDTO(Message message) {
         return MessageResponse.builder()
+                .messageId(message.getMessageId())
                 .dateCreated(message.getDateCreated())
                 .email(message.getEmail())
                 .message(message.getMessage())

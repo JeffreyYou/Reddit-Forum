@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.beaconfire</groupId>
-    <artifactId>HistoryService</artifactId>
+    <artifactId>CompositeService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>HistoryService</name>
+    <name>CompositeService</name>
     <description>CompositeService</description>
     <properties>
         <java.version>1.8</java.version>

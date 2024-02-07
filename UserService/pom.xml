@@ -124,10 +124,32 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- JJWT API -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.2</version>
+        </dependency>
+
+        <!-- JJWT Implementation -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.11.2</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- JJWT Jackson Serializer -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -154,6 +176,15 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>com/beaconfire/userservice/dto/**</exclude>
+                        <exclude>com/beaconfire/userservice/domain/**</exclude>
+                        <exclude>com/beaconfire/userservice/security/AuthUserDetail.class</exclude>
+                        <exclude>com/beaconfire/userservice/security/AuthUserDetail$AuthUserDetailBuilder.class</exclude>
+                        <exclude>com/beaconfire/userservice/config/**</exclude>
+                    </excludes>
+                </configuration>
                 <version>0.8.5</version> <!-- Use the latest version available -->
                 <executions>
                     <execution>

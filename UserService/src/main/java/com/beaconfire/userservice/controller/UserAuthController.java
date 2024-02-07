@@ -83,9 +83,8 @@ public class UserAuthController {
                             content = @Content(schema = @Schema(implementation = ErrorDetails.class)))
             })
 
-    public ResponseEntity<ChangePasswordResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+    public ResponseEntity<ChangePasswordResponse> changePassword() {
         return ResponseEntity.ok(ChangePasswordResponse.builder()
-                .success(userAuthService.changeCurrentUserPassword(changePasswordRequest.getNewPassword()))
                 .success(true)
                 .message("Password changed successfully.")
                 .build());

@@ -2,10 +2,8 @@ package com.beaconfire.userservice.service;
 
 import com.beaconfire.userservice.dao.UserRepository;
 import com.beaconfire.userservice.domain.User;
-import com.beaconfire.userservice.exception.InvalidUserPasswordException;
 import com.beaconfire.userservice.exception.UserAlreadyExistsException;
 import com.beaconfire.userservice.exception.UserNotFoundException;
-import com.beaconfire.userservice.security.AuthUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,15 +22,6 @@ public class UserAuthService {
         this.userRepository = userRepository;
     }
 
-    public boolean hasRole(String role) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            return authentication.getAuthorities().stream()
-                    .anyMatch(authority -> role.equals(authority.getAuthority()));
-        }
-        return false;
-    }
-
     public Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
@@ -42,43 +31,39 @@ public class UserAuthService {
         return null;
     }
 
-    public User getCurrentUser() {
-        Long userId = getCurrentUserId();
-        if (userId == null) {
-            throw new RuntimeException("No authenticated user found");
-        }
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
-    }
-
     public User createUser(String email, String password) {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new UserAlreadyExistsException("User with email " + email + " already exists.");
         }
-        userRepository.save( User.builder()
-                .firstName("New")
-                .lastName("User")
-                .active(true)
-                .type("user")
-                .profileImageURL("")
+        final User user = User.builder()
+                .firstName("")
+                .lastName("")
                 .email(email)
                 .password(password)
+                .active(true)
+                .verified(false)
+                .type("user")
                 .dateJoined(new Timestamp(System.currentTimeMillis()))
-                .build());
+                .profileImageURL("")
+                .build();
+        userRepository.save(user);
+        return user;
+    }
+
+    @Transactional
+    public User authenticateUser(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User with email " + email + " not found."));
     }
 
-    public User authenticateUser(String useremail) {
-        return userRepository.findByEmail(useremail).orElseThrow(() -> new UserNotFoundException("User with email " + useremail + " not found."));
-    }
-
-    public boolean changeCurrentUserPassword(String newPassword) {
-        User user = getCurrentUser();
+    @Transactional
+    public void changeCurrentUserPassword(String newPassword) {
+        final Long userId = getCurrentUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found."));
         user.setPassword(newPassword);
         userRepository.save(user);
-        return false;
     }
 
+    @Transactional
     public boolean setVerified(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found."));
         user.setVerified(true);

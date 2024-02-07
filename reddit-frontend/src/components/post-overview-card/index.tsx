@@ -3,7 +3,7 @@ import { Card } from "antd"
 import { IPostDetail } from "../../store/interface"
 import styles from './style.module.scss';
 import { Col, Row } from 'antd';
-import { parseISO, format } from 'date-fns';
+import { format } from 'date-fns';
 
 interface props {
   post: IPostDetail

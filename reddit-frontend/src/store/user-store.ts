@@ -39,8 +39,8 @@ export const useUserStore = create<IUserStore>()(
                 profileImageURL: "https://api.dicebear.com/7.x/miniavs/svg?seed=8",
                 verified: true as boolean,
             },
-            top3Posts: [],
-            draftPosts: [],
+            top3Posts: [] as IPostDetail[],
+            draftPosts: [] as IPostDetail[],
             // admin user, id = 1, test only
             jwtToken1: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",
             // admin user, id = 2, test only
@@ -134,7 +134,7 @@ export const useUserStore = create<IUserStore>()(
                         } as IPostDetail;
 
                     });
-                    console.log(draftList)
+                    // console.log(draftList)
                     set({ draftPosts: draftList });
                     return data;
                 }

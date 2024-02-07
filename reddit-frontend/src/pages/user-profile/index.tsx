@@ -26,7 +26,7 @@ const UserProfile = () => {
         {
           draftPosts.map((post: IPostDetail) => {
             return (
-              <PostOverviewCard post={post} />
+              <PostOverviewCard post={post} key={post.postId} />
             )
           })
         }

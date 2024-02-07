@@ -8,6 +8,30 @@ const UserManagement: React.FC = () => {
 
   useEffect(() => {
     // Replace with your API endpoint to fetch users
+    fetch("user-service/admin/user")
+      .then((response) => {
+        // Check if the response is ok (status code 200-299)
+        if (!response.ok) {
+          // Throw an error if not ok
+          throw new Error("Network response was not ok");
+        }
+        // Parse the JSON response
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        // Update the users state with the data
+        setUsers(data);
+        // // Set loading to false as the data has been successfully fetched
+        // setIsLoading(false);
+      })
+      .catch((error) => {
+        // Catch any errors and update the error state
+        console.error("There was a problem with your fetch operation:", error);
+        // setError(error);
+        // setIsLoading(false);
+      });
+
     setUsers(dummyUsers);
   }, []);
 

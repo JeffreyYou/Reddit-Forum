@@ -28,7 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         Optional<AuthUserDetail> authUserDetailOptional=null;
-        if (!request.getRequestURI().startsWith("/composite-service/swagger-ui") &&
+        if (!request.getRequestURI().startsWith("/composite-service") && !request.getRequestURI().startsWith("/composite-service/swagger-ui") &&
                 !request.getRequestURI().startsWith("/composite-service/v3")) {
             authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
         }

@@ -43,6 +43,7 @@ public class AuthLoginService implements UserDetailsService {
         return AuthUserDetail.builder()
                 .id(user.getId())
                 .username(user.getEmail())
+//                .password(user.getPassword())
                 .password(new BCryptPasswordEncoder().encode(user.getPassword())) // if password was not encoded during registration
                 .authorities(convertTypeToAuthorities(user.getType()))
                 .enabled(true)

@@ -29,3 +29,14 @@ export interface IPostOverviewResponse {
         success: boolean;
     }
 }
+
+export interface IContactAdminRequest {
+    subject: string;
+    email: string;
+    message: string;
+}
+
+export interface IContactAdminResponse {
+    success: boolean;
+    message: string;
+}

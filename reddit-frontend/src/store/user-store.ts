@@ -3,10 +3,11 @@ import { persist } from "zustand/middleware";
 
 import { IUserProfile, IUserProfileResponse, IPostDetail, IPostDetailResponse } from "./interface";
 
-import { formatDate,  } from "./util";
+import { formatDate, } from "./util";
 
 interface IUserStore {
     user: IUserProfile;
+    userTemporay: IUserProfile;
 
     top3Posts: IPostDetail[];
     draftPosts: IPostDetail[];
@@ -15,6 +16,7 @@ interface IUserStore {
     jwtToken2: string;
     fetchUserProfile: () => Promise<IUserProfileResponse>;
     updateUserProfile: (user: IUserProfile) => void;
+    updateUserTemporaryProfile: (user: IUserProfile) => void;
 
     getTop3Posts: () => Promise<IPostDetailResponse[]>;
     getDraftPosts: () => Promise<IPostDetailResponse[]>;
@@ -25,20 +27,23 @@ const profileUrl = `${domain}/user-service/user/profile`;
 const top3PostsUrl = `${domain}/post-reply-service/posts/top3`;
 const draftUrl = `${domain}/post-reply-service//posts/unpublished/all`;
 
+const userDefault: IUserProfile = {
+    id: 1,
+    firstName: "Jeffrey",
+    lastName: "You",
+    email: "yqse521749@gmail.com",
+    active: true as boolean,
+    dateJoined: formatDate("2024-01-01T00:00:00.000Z"),
+    type: "user",
+    profileImageURL: "https://api.dicebear.com/7.x/miniavs/svg?seed=8",
+    verified: true as boolean,
+}
+
 export const useUserStore = create<IUserStore>()(
     persist(
         (set, get) => ({
-            user: {
-                id: 1,
-                firstName: "Jeffrey",
-                lastName: "You",
-                email: "yqse521749@gmail.com",
-                active: true as boolean,
-                dateJoined: formatDate("2024-01-01T00:00:00.000Z"),
-                type: "user",
-                profileImageURL: "https://api.dicebear.com/7.x/miniavs/svg?seed=8",
-                verified: true as boolean,
-            },
+            user: userDefault,
+            userTemporay: userDefault,
             top3Posts: [] as IPostDetail[],
             draftPosts: [] as IPostDetail[],
             // admin user, id = 1, test only
@@ -47,7 +52,6 @@ export const useUserStore = create<IUserStore>()(
             jwtToken2: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XX0.uiM5Llbx-FYb4rbwV33BR04lmpJpDP6Sq-uD73DWSxw",
 
             fetchUserProfile: async (): Promise<IUserProfileResponse> => {
-                // const jwt = get().jwtToken;
                 try {
                     const response = await fetch(profileUrl, {
                         method: 'GET',
@@ -63,7 +67,7 @@ export const useUserStore = create<IUserStore>()(
                     console.log(data)
                     data.user.dateJoined = formatDate(data.user.dateJoined);
                     // update user profile in the store
-                    set({ user: data.user });
+                    set({ user: data.user, userTemporay: data.user });
                     return data;
                 } catch (error) {
                     throw new Error('Failed to fetch user profile');
@@ -72,9 +76,10 @@ export const useUserStore = create<IUserStore>()(
             updateUserProfile: (user: IUserProfile) => {
                 set({ user: user });
             },
-
+            updateUserTemporaryProfile: (user: IUserProfile) => {
+                set({ userTemporay: user });
+            },
             getTop3Posts: async (): Promise<IPostDetailResponse[]> => {
-
                 try {
                     const response = await fetch(top3PostsUrl, {
                         method: 'GET',
@@ -103,8 +108,8 @@ export const useUserStore = create<IUserStore>()(
                     // console.log(top3Posts)
                     set({ top3Posts: top3Posts });
                     return data;
-                } catch (error : any) {
-                    throw new Error(error.message );
+                } catch (error: any) {
+                    throw new Error(error.message);
                 }
             },
             getDraftPosts: async (): Promise<IPostDetailResponse[]> => {
@@ -139,7 +144,7 @@ export const useUserStore = create<IUserStore>()(
                     return data;
                 }
                 return await exceptionHandler(businessLogic)();
-            
+
             },
         }),
         {
@@ -152,7 +157,7 @@ export const useUserStore = create<IUserStore>()(
 
 // Dependency Injection
 const exceptionHandler = (fn: any) => {
-    return async (...args : any[]) => {
+    return async (...args: any[]) => {
         try {
             return await fn(...args)
         } catch (err) {

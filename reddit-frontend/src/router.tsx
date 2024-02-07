@@ -24,7 +24,7 @@ const AppRouter = () => {
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/users/login" element={<LoginPage />} />
                 <Route path="/users/register" element={<RegisterPage />} />
-                <Route path="/users/1/profile" element={<UserProfile />} />
+                <Route path="/users/:userId/profile" element={<UserProfile />} />
                 <Route path="/users/contactus" element={<ContactAdminPage />} />
                 <Route path="/admin/message" element={<MessageMgmtPage />} />
                 {/* <Route path="/contact-admin" element={<ContactAdminPage />} />

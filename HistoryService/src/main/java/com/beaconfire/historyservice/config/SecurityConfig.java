@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 csrf().disable()
                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
+                .antMatchers("/history-service/swagger-ui/**", "/history-service/v3/**", "/history-service/swagger-ui*").permitAll()
                 .anyRequest()
                 .authenticated();
     }

@@ -11,6 +11,8 @@ import NavBar from "./components/nav-bar/Navbar";
 import HomePage from "./pages/home/HomePage";
 import UserProfile from "./pages/user-profile";
 import MessageMgmtPage from "./pages/message-management/MessageMgmtPage.tsx";
+import ContactAdminPage from "./pages/contact/ContactAdminPage.tsx";
+
 
 const AppRouter = () => {
     return (
@@ -23,6 +25,7 @@ const AppRouter = () => {
                 <Route path="/users/login" element={<LoginPage />} />
                 <Route path="/users/register" element={<RegisterPage />} />
                 <Route path="/users/1/profile" element={<UserProfile />} />
+                <Route path="/users/contactus" element={<ContactAdminPage />} />
                 <Route path="/admin/message" element={<MessageMgmtPage />} />
                 {/* <Route path="/contact-admin" element={<ContactAdminPage />} />
                         <Route

@@ -47,3 +47,14 @@ export interface IUpdateMessageStatusResponse {
     success: boolean;
     message: string;
 }
+
+export interface IContactAdminRequest {
+    subject: string;
+    email: string;
+    message: string;
+}
+
+export interface IContactAdminResponse {
+    success: boolean;
+    message: string;
+}

@@ -10,6 +10,7 @@ import RegisterPage from "./pages/register/RegisterPage";
 import NavBar from "./components/nav-bar/Navbar";
 import HomePage from "./pages/home/HomePage";
 import UserProfile from "./pages/user-profile";
+import PostDetail from "./pages/post-detail";
 
 const AppRouter = () => {
     return (
@@ -22,6 +23,7 @@ const AppRouter = () => {
                 <Route path="/users/login" element={<LoginPage />} />
                 <Route path="/users/register" element={<RegisterPage />} />
                 <Route path="/users/1/profile" element={<UserProfile />} />
+                <Route path="/posts/:postId" element={<PostDetail />} />
                 {/* <Route path="/contact-admin" element={<ContactAdminPage />} />
                         <Route
                         path="/home"

@@ -56,6 +56,7 @@ const PostDetail = () => {
                         </Modal>
                     </Descriptions>
                 </Card>
+
             </>
 
         )
@@ -63,6 +64,7 @@ const PostDetail = () => {
     const getFourthItem = () => {
         return (
             <>
+
                 {
                     postdetail.userId === 2 && !postdetail.isArchived ?
                         <Descriptions.Item label="Archive Post">
@@ -94,6 +96,7 @@ const PostDetail = () => {
 
         )
     }
+
     const getThirdItem = () => {
         return (
             <div className={styles.post_detail_wrapper}>
@@ -129,6 +132,7 @@ const PostDetail = () => {
                     <Descriptions.Item label="Post Status">{postdetail.status}</Descriptions.Item>
                     <Descriptions.Item label="Post Replies">
                         {postReplies.map((reply, index) => (
+
                             <div key={index}>
                                 {reply.comment} {reply.userId}
                                 {reply.userId === postdetail.userId ? <DeleteReplyButton replyId={reply.replyId} /> : <></>}

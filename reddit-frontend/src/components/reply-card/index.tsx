@@ -8,8 +8,10 @@ import SubReplyCard from "../subreply-card";
 import GirlSvg1 from '../../assets/girl/girl2.svg'
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { useState } from "react";
+
 import { usePostDetailStore } from "../../store/postdetail-store";
 import { useUserStore } from "../../store/user-store";
+
 interface props {
   reply: IReply,
   type?: string
@@ -18,11 +20,13 @@ interface props {
 const ReplyCard: React.FC<props> = ({ reply, type }) => {
 
   const [comment, setComment] = useState();
+
   const { user } = useUserStore();
   const { deleteReplyRequest } = usePostDetailStore();
   const deleteComment = () => {
     deleteReplyRequest(reply.replyId);
   }
+
 
   const handleInputChange = (e) => {
     setComment(e.target.value);
@@ -30,12 +34,16 @@ const ReplyCard: React.FC<props> = ({ reply, type }) => {
   const submitComment = () => { 
     console.log(comment);
   }
+
   const disabled = !(2 === reply.userId); // user id === reply.userId
+
 
   return (
     <Card hoverable={true} className={styles.card_wrapper}
       actions={[
+
         <Button type="primary" danger disabled={disabled ? true : false} onClick={deleteComment}>Delete</Button>,
+
         <Input onChange={(e) => handleInputChange(e)} />,
         <Button type="primary">Comment</Button>,
       ]}

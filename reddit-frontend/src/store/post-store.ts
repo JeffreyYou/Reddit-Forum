@@ -48,7 +48,7 @@ export const usePostStore = create<IPostStore>() (
         setPostJwtToken: (jwtToken: string)=>{
             set({jwtToken: jwtToken})
         },
-        //jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMiIsInBlcm1pc3Npb25zIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV19.SOuhK8B4kr9qsmAqMheWGLgUFpyumlNX8BKDPi3U_jE",  //get token where
+        //jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",
         fetchPublishedPosts: async (): Promise<IPostDetailResponse[]> => {
             const jwt = get().jwtToken;
             try {
@@ -102,12 +102,12 @@ export const usePostStore = create<IPostStore>() (
             }
         },
         fetchDeletedPosts: async (): Promise<IPost[]> => {
-           // const jwt = get().jwtToken;
+            const jwt = get().jwtToken;
             try {
                 const response = await fetch(getDeleteUrl, {
                     method: 'GET',
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
+                        'Authorization': 'Bearer ' + jwt,
                     }
                 });
                 if (!response.ok) {
@@ -121,12 +121,12 @@ export const usePostStore = create<IPostStore>() (
             }
         },
         fetchBannedPosts: async (): Promise<IPost[]> => {
-            //const jwt = get().jwtToken;
+            const jwt = get().jwtToken;
             try {
                 const response = await fetch(getBannedUrl, {
                     method: 'GET',
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
+                        'Authorization': 'Bearer ' + jwt,
                     }
                 });
                 if (!response.ok) {
@@ -140,13 +140,13 @@ export const usePostStore = create<IPostStore>() (
             }
         },
         banPost: async (postid): Promise<string> => {
-            //const jwt = get().jwtToken;
+            const jwt = get().jwtToken;
             const banUrl = `${domain}/posts/${postid}/ban`;
             try {
                 const response = await fetch(banUrl, {
                     method: 'PATCH',
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
+                        'Authorization': 'Bearer ' + jwt,
                     }
                 });
                 console.log(response);
@@ -162,13 +162,13 @@ export const usePostStore = create<IPostStore>() (
             }
         },
         unbanPost: async (postid): Promise<string> => {
-            //const jwt = get().jwtToken;
+            const jwt = get().jwtToken;
             const unbanUrl = `${domain}/posts/${postid}/unban`;
             try {
                 const response = await fetch(unbanUrl, {
                     method: 'PATCH',
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
+                        'Authorization': 'Bearer ' + jwt,
                     }
                 });
                 if (!response.ok) {
@@ -183,13 +183,13 @@ export const usePostStore = create<IPostStore>() (
             }
         },
         recoverPost: async (postid): Promise<string> => {
-            //const jwt = get().jwtToken;
+            const jwt = get().jwtToken;
             const recoverUrl = `${domain}/posts/${postid}/recover`;
             try {
                 const response = await fetch(recoverUrl, {
                     method: 'PATCH',
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
+                        'Authorization': 'Bearer ' + jwt,
                     }
                 });
                 if (!response.ok) {
@@ -204,12 +204,12 @@ export const usePostStore = create<IPostStore>() (
             }
         },
         getAllUsers: async (): Promise<IUserProfile[]> => {
-            //const jwt = get().jwtToken;
+            const jwt = get().jwtToken;
             try {
                 const response = await fetch(userUrl, {
                     method: 'GET',
                     headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
+                        'Authorization': 'Bearer ' + jwt,
                     }
                 });
                 if (!response.ok) {
@@ -224,13 +224,13 @@ export const usePostStore = create<IPostStore>() (
         },
         putPublishedPost: async (request: IPutPostRequest) => {
             console.log(request)
-            //const jwt = get().jwtToken;
+            const jwt = get().jwtToken;
             try {
                 const response = await fetch('http://localhost:8081/post-reply-service/posts/publish', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
+                        'Authorization': 'Bearer ' + jwt,
                     },
                     body: JSON.stringify(request)
                 });
@@ -248,12 +248,13 @@ export const usePostStore = create<IPostStore>() (
         },
         savePost: async (request: IPutPostRequest) => {
             console.log(request)
+            const jwt = get().jwtToken;
             try {
                 const response = await fetch('http://localhost:8081/post-reply-service/posts/save', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
+                        'Authorization': 'Bearer ' + jwt,
                     },
                     body: JSON.stringify(request)
                 });

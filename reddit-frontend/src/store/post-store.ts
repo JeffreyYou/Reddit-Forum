@@ -11,11 +11,13 @@ export interface IPost {
 }
 interface IPostStore {
     publishedPosts: IPostDetail[];
+    publishedPostList: IPost[];
     deletedPosts: IPost[];
     bannedPosts: IPost[];
     jwtToken: string;
 
     fetchPublishedPosts: () => Promise<IPostDetailResponse[]>;
+    fetchPublishedPostList: ()=> Promise<IPost[]>;
     fetchDeletedPosts: () => Promise<IPost[]>;
     fetchBannedPosts:()=>Promise<IPost[]>;
     banPost: (postid: string) => Promise<string>;
@@ -38,10 +40,12 @@ const userUrl = "http://localhost:8083/user-service/admin/user";
 export const usePostStore = create<IPostStore>() (
     persist((set, get)=>({
         publishedPosts:  [],
+        publishedPostList: [],
         deletedPosts: [],
         bannedPosts:[],
         allUsers:[],
-        jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",  //get token where
+        jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",
+        //useUserStore.getState().jwtToken,//
         fetchPublishedPosts: async (): Promise<IPostDetailResponse[]> => {
             const jwt = get().jwtToken;
             try {
@@ -70,6 +74,25 @@ export const usePostStore = create<IPostStore>() (
                 // const data: IPost[] = await response.json();
                 // set({ publishedPosts: data.map(x=> {return { ...x, dateCreated: x.dateCreated.slice(0,10)}})});
                 set({publishedPosts: allPublishedPosts})
+                return data;
+            } catch (error) {
+                throw new Error('Failed to fetch published posts');
+            }
+        },
+        fetchPublishedPostList: async (): Promise<IPost[]> => {
+            const jwt = get().jwtToken;
+            try {
+                const response = await fetch(publishUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${jwt}`,
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch published posts');
+                }
+                const data: IPost[] = await response.json();
+                set({ publishedPostList: data.map(x=> {return { ...x, dateCreated: x.dateCreated.slice(0,10)}})});
                 return data;
             } catch (error) {
                 throw new Error('Failed to fetch published posts');
@@ -127,7 +150,7 @@ export const usePostStore = create<IPostStore>() (
                     throw new Error('Failed to ban this post');
                 }
                 get().fetchBannedPosts();
-                get().fetchPublishedPosts();
+                get().fetchPublishedPostList();
                     const data: string = await response.json();
                 return data;
             } catch (error) {
@@ -148,7 +171,7 @@ export const usePostStore = create<IPostStore>() (
                     throw new Error('Failed to unban this post');
                 }
                 get().fetchBannedPosts();
-                get().fetchPublishedPosts();
+                get().fetchPublishedPostList();
                 const data: string = await response.json();
                 return data;
             } catch (error) {

@@ -6,14 +6,14 @@ import {useEffect} from "react";
 
 const HomeAdminPage = () => {
 
-    const {publishedPosts, fetchPublishedPosts} = usePostStore();
+    const {publishedPostList, fetchPublishedPostList} = usePostStore();
     const {deletedPosts, fetchDeletedPosts} = usePostStore();
     const {bannedPosts, fetchBannedPosts} = usePostStore();
     const {allUsers, getAllUsers} = usePostStore();
     const {banPost, unbanPost, recoverPost} = usePostStore();
 
     useEffect(() => {
-        fetchPublishedPosts();
+        fetchPublishedPostList();
         fetchBannedPosts();
         fetchDeletedPosts();
         getAllUsers();
@@ -43,7 +43,7 @@ const HomeAdminPage = () => {
             </div>
 
             <div className={styles.content}>
-                {publishedPosts.map((post) => (
+                {publishedPostList.map((post) => (
                     <div key={post.postId}  >
                     <Card
                         className="reddit-card"

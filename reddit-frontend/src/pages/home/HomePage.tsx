@@ -1,30 +1,34 @@
-import {Posts, samplePosts} from "../../components/post/Posts.tsx";
-import { NewPost } from "../../components/new-post/NewPost.tsx";
+import {Posts } from "../../components/post/Posts.tsx";
 import styles from './style.module.scss';
+import {useEffect, useState} from "react";
+import {usePostStore} from "../../store/post-store.ts";
+import {IPostDetail} from "../../store/interface.ts";
 
 const HomePage = () => {
-    // fixme: check if the current user is admin
-    const isAdmin = false;
+    const [posts, setPosts] = useState<IPostDetail[]>([]);
+    const { fetchPublishedPosts } = usePostStore();
 
-    const handleNewPost = () => {
-        // Placeholder for future implementation
-        alert('Open new post creation page or modal');
+    useEffect(() => {
+        getPublishedPosts();
+    }, []);
+
+    const getPublishedPosts = async () => {
+        try {
+            const publishedPosts = await fetchPublishedPosts();
+            setPosts(publishedPosts);
+        } catch (error) {
+            console.error('Failed to fetch published posts:', error);
+        }
     };
 
     return (
         <div className={styles.homepage_container}>
-            {isAdmin ? (
-                <div>
-                    <h1>Hello! This is your Admin homepage.</h1>
-                    <Posts posts={samplePosts} />
-                </div>
-            ) : (
-                <div className={styles.content}>
-                    <h1>Hello! This is your User homepage.</h1>
-                    <NewPost onAddPost={handleNewPost} />
-                    <Posts posts={samplePosts} />
-                </div>
-            )}
+
+            <div className={styles.content}>
+                {/*<NewPost onAddPost={handleNewPost} />*/}
+                <Posts posts={posts} />
+            </div>
+
         </div>
     );
 };

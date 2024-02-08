@@ -1,9 +1,10 @@
 import React from 'react';
 import { Card } from 'antd';
 import styles from './style.module.scss';
+import {IPostDetail} from "../../store/interface.ts";
 
 interface PostsProps {
-    posts: IPost[];
+    posts: IPostDetail[];
 }
 
 export const Posts: React.FC<PostsProps> = ({ posts }) => {
@@ -11,28 +12,14 @@ export const Posts: React.FC<PostsProps> = ({ posts }) => {
         <div className={styles.posts_container}>
             {posts.map((post) => (
                 <Card
-                    key={post.id}
+                    key={post.postId}
                     className="reddit-card"
                     hoverable
                 >
                     <h3 className="reddit-card-title">{post.title}</h3>
-                    <p className="reddit-card-meta">{`${post.username} - ${post.date}`}</p>
+                    <p className="reddit-card-meta">{`USERNAME - ${post.dateCreated}`}</p>
                 </Card>
             ))}
         </div>
     );
 };
-
-export interface IPost {
-    id: string;
-    username: string;
-    date: string;
-    title: string;
-}
-
-// Replace the samplePosts with actual data or API call to fetch posts
-// sample data
-export const samplePosts: IPost[] = [
-    {id: "id1", username: 'User1', date: "2024-02-01", title: 'First Post'},
-    {id: "id2", username: 'User2', date: "2024-02-02", title: 'Second Post'},
-];

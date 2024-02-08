@@ -1,30 +1,48 @@
-import {Posts, samplePosts} from "../../components/post/Posts.tsx";
-import { NewPost } from "../../components/new-post/NewPost.tsx";
+// Frontend code
+import React, { useEffect, useState } from 'react';
+import { Card, Button } from 'antd';
 import styles from './style.module.scss';
+import {usePostStore} from "../../store/post-store.ts";
+import {IPostDetail} from "../../store/interface.ts";
+import {NewPost} from "../../components/new-post/NewPost.tsx";
+// import {useHistory} from "react-router-dom";
 
-const HomePage = () => {
-    // fixme: check if the current user is admin
-    const isAdmin = false;
+const HomePage: React.FC = () => {
+    const [posts, setPosts] = useState<IPostDetail[]>([]);
+    // const history = useHistory();
+    const { getPublishedPosts } = usePostStore();
+
+    useEffect(() => {
+        fetchPublishedPosts();
+    }, []);
+
+    const fetchPublishedPosts = async () => {
+        try {
+            const publishedPosts = await getPublishedPosts();
+            setPosts(publishedPosts);
+        } catch (error) {
+            console.error('Failed to fetch published posts:', error);
+        }
+    };
 
     const handleNewPost = () => {
-        // Placeholder for future implementation
-        alert('Open new post creation page or modal');
+        // Navigate to the page for creating a new post
+        // history.push('/new-post');
     };
 
     return (
         <div className={styles.homepage_container}>
-            {isAdmin ? (
-                <div>
-                    <h1>Hello! This is your Admin homepage.</h1>
-                    <Posts posts={samplePosts} />
-                </div>
-            ) : (
-                <div className={styles.content}>
-                    <h1>Hello! This is your User homepage.</h1>
-                    <NewPost onAddPost={handleNewPost} />
-                    <Posts posts={samplePosts} />
-                </div>
-            )}
+            <div className={styles.content}>
+                <h1>Hello! This is your User homepage.</h1>
+                <NewPost />
+                <Button type="primary" onClick={handleNewPost}>New Post</Button>
+                {/*{posts.map((post) => (*/}
+                {/*    <Card key={post.postId} className={styles.post_card} hoverable>*/}
+                {/*        <p>{`Date: ${post.dateCreated.toLocaleString()}`}</p>*/}
+                {/*        <h3>{post.title}</h3>*/}
+                {/*    </Card>*/}
+                {/*))}*/}
+            </div>
         </div>
     );
 };

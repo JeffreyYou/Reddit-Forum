@@ -31,5 +31,4 @@ eureka:
 security:
   jwt:
     token:
-      key:
-        JavaTraining
+      key: JavaTrainingMasterRedditHubJavaTrainingMasterRedditHubJavaTrainingMasterRedditHub

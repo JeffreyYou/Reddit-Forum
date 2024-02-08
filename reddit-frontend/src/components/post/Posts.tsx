@@ -24,7 +24,7 @@ export const Posts: React.FC<PostsProps> = ({ posts }) => {
 };
 
 export interface IPost {
-    id: number;
+    id: string;
     username: string;
     date: string;
     title: string;
@@ -33,6 +33,6 @@ export interface IPost {
 // Replace the samplePosts with actual data or API call to fetch posts
 // sample data
 export const samplePosts: IPost[] = [
-    {id: 1, username: 'User1', date: '2024-02-01', title: 'First Post'},
-    {id: 2, username: 'User2', date: '2024-02-02', title: 'Second Post'},
+    {id: "id1", username: 'User1', date: "2024-02-01", title: 'First Post'},
+    {id: "id2", username: 'User2', date: "2024-02-02", title: 'Second Post'},
 ];

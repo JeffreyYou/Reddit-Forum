@@ -87,6 +87,7 @@ const UserProfile = () => {
   const filterByDate = () => {
     searchHistoryByDate(date)
   }
+  
 
   return (
 

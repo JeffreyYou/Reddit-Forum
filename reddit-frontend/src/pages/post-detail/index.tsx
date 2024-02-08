@@ -56,6 +56,13 @@ const PostDetail = () => {
                         </Modal>
                     </Descriptions>
                 </Card>
+            </>
+
+        )
+    }
+    const getFourthItem = () => {
+        return (
+            <>
                 {
                     postdetail.userId === 2 && !postdetail.isArchived ?
                         <Descriptions.Item label="Archive Post">
@@ -87,43 +94,41 @@ const PostDetail = () => {
 
         )
     }
-    const getPostDetail = () => {
+    const getThirdItem = () => {
         return (
             <div className={styles.post_detail_wrapper}>
-
-                <Card
-                    className={styles.post_detail_info}
-                >
-                    <Descriptions>
-                        //* Post Information
-                        <Descriptions.Item label="Post ID">{postdetail.postId}</Descriptions.Item>
-                        <Descriptions.Item label="Post Title">{postdetail.title}</Descriptions.Item>
-                        <Descriptions.Item label="Post Content">{postdetail.content}</Descriptions.Item>
-                        <Descriptions.Item label="User ID">{postdetail.userId}</Descriptions.Item>
-                        <Descriptions.Item label="Date Created">{postdetail.dateCreated.substring(0, 10)}</Descriptions.Item>
-                        {postdetail.dateCreated === postdetail.dateModified ? <></> : <Descriptions.Item label="Date Modified">{postdetail.dateModified.substring(0, 10)}</Descriptions.Item>}
-                        <Descriptions.Item label="Post Images">
-                            {postdetail.images.map((image, index) => (
-                                // <div key={index}> {image} </div>
-                                <img
-                                    key={index}
-                                    src={image}
-                                    width={200}
-                                    height={150}
-                                />
-                            ))}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Post Attachments">
-                            {postdetail.attachments.map((attachment, index) => (
-                                <div key={index}> {attachment} </div>
-                            ))}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Post isArchived">{String(postdetail.isArchived)}</Descriptions.Item>
-                        <Descriptions.Item label="Post Status">{postdetail.status}</Descriptions.Item>
-
-                        //* Post Replies
-                        <Descriptions.Item label="Post Replies">
-                            {postReplies.map((reply, index) => (
+            <Card
+                title="Post Information"
+                extra={<SettingOutlined />}
+                className={styles.user_card}
+            >
+                <Descriptions title="Post Info">
+                    <Descriptions.Item label="Post ID">{postdetail.postId}</Descriptions.Item>
+                    <Descriptions.Item label="Post Title">{postdetail.title}</Descriptions.Item>
+                    <Descriptions.Item label="Post Content">{postdetail.content}</Descriptions.Item>
+                    <Descriptions.Item label="User ID">{postdetail.userId}</Descriptions.Item>
+                    <Descriptions.Item label="Date Created">{postdetail.dateCreated.substring(0, 10)}</Descriptions.Item>
+                    {postdetail.dateCreated === postdetail.dateModified ? <></> : <Descriptions.Item label="Date Modified">{postdetail.dateModified.substring(0, 10)}</Descriptions.Item>}
+                    <Descriptions.Item label="Post Images">
+                        {postdetail.images.map((image, index) => (
+                            // <div key={index}> {image} </div>
+                            <img
+                                key={index}
+                                src={image}
+                                width={200}
+                                height={150}
+                            />
+                        ))}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Post Attachments">
+                        {postdetail.attachments.map((attachment, index) => (
+                            <div key={index}> {attachment} </div>
+                        ))}
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Post isArchived">{String(postdetail.isArchived)}</Descriptions.Item>
+                    <Descriptions.Item label="Post Status">{postdetail.status}</Descriptions.Item>
+                    <Descriptions.Item label="Post Replies">
+                        {postReplies.map((reply, index) => (
                             <div key={index}>
                                 {reply.comment} {reply.userId}
                                 {reply.userId === postdetail.userId ? <DeleteReplyButton replyId={reply.replyId} /> : <></>}
@@ -135,44 +140,50 @@ const PostDetail = () => {
                                 ))}
                             </div>
                         ))}
-
-                            {postdetail.isArchived ? <></> : <ReplyForm replyId={"-1"} />}
-                        </Descriptions.Item>
-                    </Descriptions>
-                </Card>
-                <div className={styles.post_detail_reply}>
-                    <h1>Comment List</h1>
-                    {
-                        postReplies.map((reply, index) => (
-                            <ReplyCard key={index} reply={reply} />
-                        ))
-                    }
-                </div>
-            </div>
+                        {postdetail.isArchived ? <></> : <ReplyForm replyId={"-1"} />}
+                    </Descriptions.Item>
+                </Descriptions>
+            </Card>
+            <div className={styles.post_detail_reply}>
+            <h1>Comment List</h1>
+            {
+                postReplies.map((reply, index) => (
+                    <ReplyCard key={index} reply={reply} />
+                ))
+            }
+        </div>
+        </div>
         )
     }
-
+    
     const isFirstDisbaled = !(postdetail.userId === 2 && (postdetail.status === "Published" || postdetail.status === "Hidden"));
     const isSecondDisabled = !(postdetail.userId === 2 && postdetail.status === "Unpublished");
     const items = [
         {
             label: <FundProjectionScreenOutlined />,
             key: '1',
-            children: getPostDetail(),
+            children: getThirdItem(),
             icon: 'Post Detail'
         },
         {
             label: <FormOutlined />,
             key: '2',
             children: getFirstItem(),
-            icon: "Drafts",
-            // disabled: true
+            icon: "Edit Post",
+            disabled: isFirstDisbaled
         },
         {
             label: <FundProjectionScreenOutlined />,
             key: '3',
             children: getSecondItem(),
-            icon: 'History'
+            icon: 'Publish or Save Post',
+            disabled: isSecondDisabled
+        },
+        {
+            label: <FundProjectionScreenOutlined />,
+            key: '4',
+            children: getFourthItem(),
+            icon: "Operation on Post",
         },
     ]
 

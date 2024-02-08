@@ -7,6 +7,8 @@ import { format } from 'date-fns';
 
 import { ISubReply } from "../../store/postdetailinterface";
 import GirlSvg1 from '../../assets/girl/girl2.svg'
+import { useUserStore } from "../../store/user-store";
+import { usePostDetailStore } from "../../store/postdetail-store";
 
 interface props {
   reply: ISubReply,
@@ -14,9 +16,14 @@ interface props {
 }
 
 const SubReplyCard: React.FC<props> = ({ reply, type }) => {
-  
-  const disabled = true; // user id === reply.userId
-  const actions = disabled ? [] : [<Button type="primary" danger >Delete</Button>,]
+  const { user } = useUserStore();
+  const { deleteReplyRequest } = usePostDetailStore();
+  const deleteComment = () => {
+    deleteReplyRequest(reply.replyId);
+  }
+
+  const disabled = !(2 === reply.userId); // user id === reply.userId
+  const actions = disabled ? [] : [<Button type="primary" danger onClick={deleteComment}>Delete</Button>,]
 
   return (
     <Card hoverable={true} className={styles.card_wrapper}

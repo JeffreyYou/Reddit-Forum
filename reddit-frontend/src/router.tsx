@@ -37,7 +37,7 @@ const AppRouter = () => {
                 <Route path="/posts/:postId" element={<PostDetail />} />
 
                 <Route path="/users/:userId/profile" element={<UserProfile />} />
-                <Route path="/users/contactus" element={<ContactAdminPage />} />
+                <Route path="/contactus" element={<ContactAdminPage />} />
                 <Route path="/admin/message" element={<MessageMgmtPage />} />
 
                 {/* <Route path="/contact-admin" element={<ContactAdminPage />} />

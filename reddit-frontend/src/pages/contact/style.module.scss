@@ -1,7 +1,10 @@
-.contact-admin-page {
-  max-width: 600px;
-  margin: 0 auto;
+@import '../../styles/global.scss';
+
+.contact-admin {
+  max-width: 40vw;
   padding: 20px;
+  margin: 100px auto 20px;
+  align-items: center;
 }
 
 .contact-admin-form {

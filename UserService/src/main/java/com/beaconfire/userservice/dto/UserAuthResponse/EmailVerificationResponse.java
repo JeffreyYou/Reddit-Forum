@@ -8,8 +8,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Builder
 public class EmailVerificationResponse {
 
-//    @Schema(description = "The ID of the user", example = "1")
-//    private Long userId;
+    @Schema(description = "The ID of the user", example = "1")
+    private Long userId;
 
     @Schema(description = "Indicates if the email verification was successful", example = "true")
     private boolean verified;

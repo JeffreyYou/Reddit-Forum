@@ -1,7 +1,6 @@
 package com.beaconfire.userservice.controller;
 
 import com.beaconfire.userservice.domain.User;
-import com.beaconfire.userservice.dto.UserAuthRequest.ChangePasswordRequest;
 import com.beaconfire.userservice.dto.UserAuthRequest.UserAuthenticationRequest;
 import com.beaconfire.userservice.dto.UserAuthRequest.UserCreateRequest;
 import com.beaconfire.userservice.dto.UserAuthResponse.ChangePasswordResponse;
@@ -48,7 +47,6 @@ class UserAuthControllerTest {
         assertTrue(response.getBody().isSuccess());
         assertEquals("User registered successfully.", response.getBody().getMessage());
     }
-
     @Test
     void authenticateUserSuccess() {
         // Arrange
@@ -73,9 +71,7 @@ class UserAuthControllerTest {
 
         // Act
         // Simulate calling the method with necessary arguments if they were part of the request
-        ResponseEntity<ChangePasswordResponse> response = userAuthController.changePassword(ChangePasswordRequest.builder()
-                .password("oldPassword")
-                .build());
+        ResponseEntity<ChangePasswordResponse> response = userAuthController.changePassword(/* Arguments if needed */);
 
         // Assert
         assertEquals(200, response.getStatusCodeValue());

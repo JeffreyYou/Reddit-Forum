@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorDetails> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorDetails.builder()
                 .timestamp(LocalDateTime.now())
-                .message(ex.getMessage())
+                .message("User already exists.")
                 .build());
     }
 
@@ -34,29 +34,6 @@ public class GlobalExceptionHandler {
                 .build());
     }
 
-    @ExceptionHandler(EmailTokenNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleEmailTokenException(EmailTokenNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorDetails.builder()
-                .timestamp(LocalDateTime.now())
-                .message("Token not found.")
-                .build());
-    }
-
-    @ExceptionHandler(EmailTokenExpiredException.class)
-    public ResponseEntity<ErrorDetails> handleEmailTokenExpiredException(EmailTokenExpiredException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ErrorDetails.builder()
-                .timestamp(LocalDateTime.now())
-                .message(ex.getMessage())
-                .build());
-    }
-
-    @ExceptionHandler(EmailVerifiedAndUnchangedException.class)
-    public ResponseEntity<ErrorDetails> handleEmailVerifiedAndUnchangedException(EmailVerifiedAndUnchangedException ex) {
-        return ResponseEntity.status(HttpStatus.OK).body(ErrorDetails.builder()
-                .timestamp(LocalDateTime.now())
-                .message(ex.getMessage())
-                .build());
-    }
 
     @ExceptionHandler(UserFieldNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleUserFieldNotFoundException(UserFieldNotFoundException ex) {

@@ -1,0 +1,112 @@
+@import '../../styles/global.scss';
+
+
+.profile_wrapper {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    background-image: url('/src/assets/2.jpg');
+    background-size: cover;
+}
+
+.profile {
+    display: flex;
+    width: 80vw;
+    height: calc(100vh - 200px);
+    // border: 1px solid #000;
+    flex-direction: column;
+    margin-top: 100px;
+    border-radius: 50px;
+    background-color: rgba(128, 128, 128, 0.3);
+
+
+}
+
+
+
+.posts_card {
+    margin: 50px;
+    margin-left: 25px;
+    box-sizing: content-box;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    height: calc(100% - 100px);
+}
+
+.draft_card {
+    margin: 50px;
+    margin-right: 25px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    height: 100%;
+}
+
+
+
+.tab_wrapper {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tab {
+    width: 80%;
+    height: 80%;
+    border-radius: 10px;
+    background-color: white;
+    @include scrollbar-styles;
+
+    :global {
+        .ant-tabs-tab {
+            min-width: 200px;
+            font-size: 22px;
+            justify-content: center;
+        }
+
+        .ant-tabs-content-holder {
+            overflow: auto;
+
+            .ant-card {
+                margin: 20px;
+                background-color: #F0F4FD;
+
+            }
+        }
+    }
+}
+
+.post_detail_wrapper {
+    overflow: hidden;
+    height: 100%;
+}
+
+.post_detail_info {
+    margin: 50px;
+    margin-bottom: 0;
+    box-sizing: content-box;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.post_detail_reply {
+    padding: 0 24px 24px 10px;
+    margin: 24px;
+    border-radius: 20px;
+
+    box-sizing: content-box;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+
+    :global {
+        .ant-card .ant-card {
+            padding: 0;
+            margin: 0;
+            border: 1px solid #000;
+        }
+        .ant-card .ant-card .ant-card-body {
+            padding: 10px;
+            margin: 0;
+            // border: 1px solid #000;
+
+        }
+    }
+}

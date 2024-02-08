@@ -1,0 +1,12 @@
+.card_wrapper {
+    margin: 50px;
+    margin-right: 25px;
+    box-sizing: content-box;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+
+    // :global {
+    //     .ant-card-actions {
+    //         border: 1px solid #000000;
+    //     }
+    // }
+}

@@ -1,0 +1,30 @@
+.card_wrapper {
+    height: 180px;
+    overflow: hidden;
+}
+.head {
+    height: 60px;
+    // margin: 10px;
+}
+.title {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+.date {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+.content {
+    height: 60px;
+    overflow: hidden;
+
+}

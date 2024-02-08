@@ -38,9 +38,9 @@ public class UserMgmtService {
         return user.isActive();
     }
 
-    public List<User> getAllUsers() {
+    public Page<User> getAllUsers(Pageable pageable) {
         //place holder for actual logic
-        return userRepository.findAll();
+        return userRepository.findAll(pageable);
     }
 
     public List<User> getAllBannedUsers() {

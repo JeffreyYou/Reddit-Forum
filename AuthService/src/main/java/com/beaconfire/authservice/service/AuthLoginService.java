@@ -41,7 +41,6 @@ public class AuthLoginService implements UserDetailsService {
         }
 
         return AuthUserDetail.builder()
-                .id(user.getId())
                 .username(user.getEmail())
                 .password(new BCryptPasswordEncoder().encode(user.getPassword())) // if password was not encoded during registration
                 .authorities(convertTypeToAuthorities(user.getType()))
@@ -58,7 +57,7 @@ public class AuthLoginService implements UserDetailsService {
 
         if ("ADMIN".equalsIgnoreCase(type)) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        } else if ("SUPERADMIN".equalsIgnoreCase(type)) {
+        } else if ("SUPER_ADMIN".equalsIgnoreCase(type)) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN")); // SUPER_ADMIN includes ADMIN_ROLE
             authorities.add(new SimpleGrantedAuthority("ROLE_SADMIN"));
         }

@@ -158,11 +158,7 @@ public class PostController {
                                 )
                                 .postId(post.getPostId())
                                 .title(post.getTitle())
-                                .content(post.getContent())
                                 .dateCreated(new Date(post.getDateCreated().getTime()))
-                                .dateModified(new Date(post.getDateModified().getTime()))
-                                .status(post.getStatus())
-                                .isArchived(post.getIsArchived())
                                 .build()
                 ).collect(Collectors.toList()), HttpStatus.OK
         );
@@ -383,11 +379,7 @@ public class PostController {
                                 )
                                 .postId(post.getPostId())
                                 .title(post.getTitle())
-                                .content(post.getContent())
                                 .dateCreated(new Date(post.getDateCreated().getTime()))
-                                .dateModified(new Date(post.getDateModified().getTime()))
-                                .status(post.getStatus())
-                                .isArchived(post.getIsArchived())
                                 .build()
                 ).collect(Collectors.toList()), HttpStatus.OK
         );

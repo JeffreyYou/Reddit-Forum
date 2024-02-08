@@ -9,16 +9,16 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: admin
     password: teamproject
-#  jpa:
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 security:
   jwt:
     token:
-      key: JavaTraining-Beaconfire-RedditHubJavaTraining-Beaconfire-RedditHubJavaTraining-Beaconfire-RedditHub
+      key: JavaTraining
 
 server:
   port: 8086

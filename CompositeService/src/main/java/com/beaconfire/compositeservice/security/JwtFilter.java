@@ -27,13 +27,15 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        Optional<AuthUserDetail> authUserDetailOptional=null;
-        if (!request.getRequestURI().startsWith("/composite-service") && !request.getRequestURI().startsWith("/composite-service/swagger-ui") &&
-                !request.getRequestURI().startsWith("/composite-service/v3")) {
-            authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
+        if (request.getRequestURI().equals("/login") || request.getRequestURI().equals("/register")) {
+            filterChain.doFilter(request, response);
+            return;
         }
+        Optional<AuthUserDetail> authUserDetailOptional;
 
-            if (authUserDetailOptional!=null && authUserDetailOptional.isPresent()) {
+           authUserDetailOptional = jwtProvider.resolveToken(request); // extract jwt from request, generate a userdetails object
+
+            if (authUserDetailOptional.isPresent()) {
                 AuthUserDetail authUserDetail = authUserDetailOptional.get();
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         authUserDetail.getUsername(),
@@ -44,6 +46,8 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
             filterChain.doFilter(request, response);
+
+
 
     }
 }

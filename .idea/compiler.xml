@@ -8,7 +8,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="EurekaServer" />
-        <module name="HistoryService (1)" />
         <module name="FileService" />
         <module name="UserService" />
         <module name="PostAndReplyService" />
@@ -33,7 +32,6 @@
       <module name="FileService" options="-parameters" />
       <module name="GatewayService" options="-parameters" />
       <module name="HistoryService" options="-parameters" />
-      <module name="HistoryService (1)" options="-parameters" />
       <module name="MessageService" options="-parameters" />
       <module name="MyFinalProject" options="-parameters" />
       <module name="PostAndReplyService" options="-parameters" />

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtProvider {
 
-    private String key = "JavaTrainingMasterRedditHubJavaTrainingMasterRedditHubJavaTrainingMasterRedditHub";
+    private String key = "JavaTraining";
 
     public Optional<AuthUserDetail> resolveToken(HttpServletRequest request){
         // token stored in header parameter Authorization

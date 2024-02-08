@@ -42,10 +42,6 @@ spring:
           uri: lb://post-reply-service
           predicates:
             - Path=/post-reply-service/**
-        - id: composite-service
-          uri: lb://composite-service
-          predicates:
-            - Path=/composite-service/**
 eureka:
   client:
     serviceUrl:

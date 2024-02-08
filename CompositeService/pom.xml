@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.beaconfire</groupId>
-    <artifactId>CompositeService</artifactId>
+    <artifactId>HistoryService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>CompositeService</name>
-    <description>CompositeService</description>
+    <name>HistoryService</name>
+    <description>HistoryService</description>
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>

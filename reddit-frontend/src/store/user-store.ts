@@ -15,7 +15,7 @@ interface IUserStore {
     fetchUserProfile: () => Promise<IUserProfileResponse>;
     updateUserProfile: (user: IUserProfile) => void;
     updateUserTemporaryProfile: (user: IUserProfile) => void;
-    
+
     //* All the Posts
     top3Posts: IPostDetail[];
     draftPosts: IPostDetail[];
@@ -31,14 +31,26 @@ interface IUserStore {
     searchHistoryByKeyWord: (date: string) => void;
     searchHistoryByDate: (date: string) => void;
 
+    //* Update User Profile
+    updateFirstName: (firstName: string) => Promise<void>;
+    updateLastName: (lastName: string) => Promise<void>;
+    updateEmail: (email: string) => Promise<void>;
+    updateProfileImage: (profileImageURL: string) => Promise<void>;
 
+}
 
-
+export interface SetUserFieldRequest {
+    fieldName: string;
+    fieldValue: string;
 }
 const domain = "http://localhost:8081"
 const profileUrl = `${domain}/user-service/user/profile`;
 const top3PostsUrl = `${domain}/post-reply-service/posts/top3`;
 const draftUrl = `${domain}/post-reply-service/posts/unpublished/all`;
+const firstNameUrl = `${domain}/user-service/user/firstname`;
+const lastNameUrl = `${domain}/user-service/user/lastname`;
+const emailUrl = `${domain}/user-service/user/email`;
+const profileImageUrl = `${domain}/user-service/user/profile-image-url`;
 
 const userDefault: IUserProfile = {
     id: 1,
@@ -98,7 +110,7 @@ export const useUserStore = create<IUserStore>()(
                 set({ userTemporay: user });
             },
             getTop3Posts: async (): Promise<IPostDetailResponse[]> => {
-                const businessLogic = async () =>{
+                const businessLogic = async () => {
                     const response = await fetch(top3PostsUrl, {
                         method: 'GET',
                         headers: {
@@ -172,6 +184,7 @@ export const useUserStore = create<IUserStore>()(
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${get().jwtToken}`,
+                            'Content-Type': 'application/json'
                         }
                     });
                     if (!response.ok) {
@@ -192,7 +205,7 @@ export const useUserStore = create<IUserStore>()(
                             viewDate: data.viewDate,
                         } as IPostDetail;
                     });
-                    set({ historyPosts: historyList, historyPostsDisplay: historyList});
+                    set({ historyPosts: historyList, historyPostsDisplay: historyList });
                     // console.log(historyList)
                 }
                 return await exceptionHandler(businessLogic)();
@@ -203,7 +216,7 @@ export const useUserStore = create<IUserStore>()(
                     return post.title.includes(keyword) || post.content.includes(keyword);
                 });
                 set({ historyPostsDisplay: searchResult });
-                
+
             },
             searchHistoryByDate: (date: string) => {
                 if (date === "") {
@@ -216,8 +229,68 @@ export const useUserStore = create<IUserStore>()(
                     return formatDate === date;
                     // console.log(post.dateCreated)
                 });
-                set({ historyPostsDisplay: searchResult });  
+                set({ historyPostsDisplay: searchResult });
             },
+            updateFirstName: async (firstName: string) => {
+                const requestData = {
+                    fieldName: "firstName",
+                    fieldValue: firstName
+                } as SetUserFieldRequest;
+                const response = await fetch(firstNameUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${get().jwtToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData),
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user history posts');
+                }
+                console.log("firstName updated successfully!")
+
+            },
+            updateLastName: async (lastName: string) => {
+                const requestData = {
+                    fieldName: "lastName",
+                    fieldValue: lastName
+                } as SetUserFieldRequest;
+                const response = await fetch(firstNameUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${get().jwtToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData),
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user history posts');
+                }
+                console.log("lastName updated successfully!")
+            },
+            updateEmail: async (email: string) => {
+                const user = get().userTemporay;
+                user.email = email;
+                set({ user: user });
+            },
+            updateProfileImage: async (profileImageURL: string) => {
+                const requestData = {
+                    fieldName: "profileImageURL",
+                    fieldValue: profileImageURL
+                } as SetUserFieldRequest;
+                const response = await fetch(firstNameUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${get().jwtToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData),
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user history posts');
+                }
+                console.log("profileImageURL updated successfully!")
+            }
         }),
         {
             name: "user_profile",

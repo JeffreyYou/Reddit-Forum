@@ -1,6 +1,7 @@
 import { InboxOutlined } from '@ant-design/icons';
-import { Input, Form, Upload} from 'antd';
+import { Input, Form, Upload, Button, message} from 'antd';
 import { useUserStore } from '../../../store/user-store';
+import type { UploadProps } from 'antd';
 import { useState } from 'react';
 
 const formItemLayout = {
@@ -22,9 +23,11 @@ const onFinish = (values: any) => {
 
 
 
+
+
 const UserEmailEdit = ( ) => {
   
-  const { user, userTemporay, updateUserProfile, updateUserTemporaryProfile } = useUserStore();
+  const { user, userTemporay, updateUserProfile, updateUserTemporaryProfile, jwtToken, updateProfileImage } = useUserStore();
   const [loading, setLoading] = useState(false);
   
   const onChangeFirstName = (e: any) => {
@@ -33,6 +36,28 @@ const UserEmailEdit = ( ) => {
   const onChangeLastName = (e: any) => {
     updateUserTemporaryProfile({...userTemporay, lastName: e.target.value})
   }
+
+  const props: UploadProps = {
+    name: 'multipartFile',
+    method: 'PUT',
+    action: 'http://localhost:8081/file-service/reddit-forum-s3/public',
+    headers: {
+      Authorization: 'Bearer ' + jwtToken,
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList);
+        const {response} = info.file
+        console.log(response.url)
+        updateProfileImage(response.url)
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
 
   return (
     <Form
@@ -53,7 +78,7 @@ const UserEmailEdit = ( ) => {
 
       <Form.Item label="Profile Image">
         <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-          <Upload.Dragger name="files" action="/upload.do">
+          <Upload.Dragger {...props}>
             <p className="ant-upload-drag-icon"><InboxOutlined /></p>
             <p className="ant-upload-text">Click or drag file to this area to upload</p>
           </Upload.Dragger>

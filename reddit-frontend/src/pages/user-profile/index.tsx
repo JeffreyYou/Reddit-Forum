@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Button, Col, Row, Tabs, Modal, Alert, notification, DatePicker, Space, Input } from 'antd';
 import { FilterOutlined } from '@ant-design/icons';
-import type { NotificationArgsProps, DatePickerProps  } from 'antd';
+import type { NotificationArgsProps, DatePickerProps } from 'antd';
 
 import styles from './style.module.scss';
 import { useEffect, useState } from 'react';
@@ -11,22 +11,26 @@ import UserProfileEdit from '../../components/forms/user-edit-profile';
 import UserEmailEdit from '../../components/forms/user-edit-email';
 
 import { getDraftAndHistoryPostsItem, getTop3PostsItem } from './utils';
+import { tr } from 'date-fns/locale';
 
 const Context = React.createContext({ name: 'Default' });
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 type NotificationPlacement = NotificationArgsProps['placement'];
 const { Search } = Input;
 
+
+
 const UserProfile = () => {
 
   //* User Store Settings
-  const { user, top3Posts, draftPosts, historyPostsDisplay, fetchUserProfile, getTop3Posts, getDraftPosts, updateUserTemporaryProfile, getHistoryPosts, searchHistoryByKeyWord, searchHistoryByDate } = useUserStore();
+  const { user, userTemporay, top3Posts, draftPosts, historyPostsDisplay, fetchUserProfile, getTop3Posts, getDraftPosts, updateUserTemporaryProfile, getHistoryPosts, searchHistoryByKeyWord, searchHistoryByDate, updateFirstName, updateLastName } = useUserStore();
   useEffect(() => {
     // getDraftPosts();
     // getTop3Posts();
     // fetchUserProfile();
     // getHistoryPosts();
   }, []);
+  // updateFirstName('123')
 
   //* Notification Settings
   const [api, contextHolder] = notification.useNotification();
@@ -58,8 +62,20 @@ const UserProfile = () => {
     }
   }
   const handleEditProfile = () => {
-    updateUserTemporaryProfile(user);
     setIsModalProfileOpen(true);
+    updateUserTemporaryProfile(user);
+    // updateFirstName(userTemporay.firstName);
+    // updateLastName(userTemporay.lastName);
+    // fetchUserProfile();
+  }
+  const upateProfile = async () => {
+    // updateUserTemporaryProfile(user);
+    console.log(userTemporay)
+    await updateFirstName(userTemporay.firstName);
+    await updateLastName(userTemporay.lastName);
+    await fetchUserProfile();
+    setIsModalProfileOpen(false);
+
   }
   const handleCancelProfile = () => {
     setIsModalProfileOpen(false);
@@ -87,7 +103,9 @@ const UserProfile = () => {
   const filterByDate = () => {
     searchHistoryByDate(date)
   }
-  
+
+
+
 
   return (
 
@@ -101,14 +119,14 @@ const UserProfile = () => {
                 <UserProfileCard user={user} editProfile={handleEditProfile} editEmail={handleEditEmail} />
                 <Tabs className={styles.draft_card} defaultActiveKey="1" centered items={getDraftAndHistoryPostsItem(draftPosts, historyPostsDisplay)} />
                 <div className={styles.filter}>
-                    <Row align={'middle'} className={styles.filter_content}>
-                      <Col span={12} >
-                        <Space> <Search  placeholder="Search key word" value={keyWork} onChange={(e) => setKeyWord(e.target.value)} onSearch={filterByWord} /></Space>
-                      </Col>
-                      <Col span={12} >
-                        <Space.Compact> <DatePicker onChange={updateDate} placeholder="Select date" /><Button icon={<FilterOutlined />} onClick={filterByDate}>Apply</Button></Space.Compact>
-                      </Col>
-                    </Row>
+                  <Row align={'middle'} className={styles.filter_content}>
+                    <Col span={12} >
+                      <Space> <Search placeholder="Search key word" value={keyWork} onChange={(e) => setKeyWord(e.target.value)} onSearch={filterByWord} /></Space>
+                    </Col>
+                    <Col span={12} >
+                      <Space.Compact> <DatePicker onChange={updateDate} placeholder="Select date" /><Button icon={<FilterOutlined />} onClick={filterByDate}>Apply</Button></Space.Compact>
+                    </Col>
+                  </Row>
                 </div>
               </div>
             </Col>
@@ -125,7 +143,7 @@ const UserProfile = () => {
       <Modal centered title="Edit Profile" open={isModalProfileOpen} onCancel={handleCancelProfile}
         footer={[
           <Button key="back" onClick={handleCancelProfile}>Cancel</Button>,
-          <Button key="update" onClick={handleEditProfile} type='primary'>Update</Button>,]}
+          <Button key="update" onClick={upateProfile} type='primary'>Update</Button>,]}
       >
         <UserProfileEdit />
       </Modal>

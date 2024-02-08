@@ -29,7 +29,7 @@ const UserProfileCard: React.FC<MyComponentProps> = ( { user, editProfile, editE
             ]}
         >   
             <Row align="middle">
-                <Col span={8}><Avatar size={200} src={GirlSvg4} /></Col>
+                <Col span={8}><Avatar size={200} src={user.profileImageURL} /></Col>
                 <Col span={16}>
                     <Col span={24} style={{fontSize: '40px'}}>{user.firstName} {user.lastName}</Col>
                     <Divider />

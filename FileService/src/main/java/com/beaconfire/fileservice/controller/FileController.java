@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@CrossOrigin("*")
 public class FileController {
     public FileService fileService;
     public JwtService jwtService;

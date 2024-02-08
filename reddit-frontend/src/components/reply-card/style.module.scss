@@ -1,0 +1,27 @@
+.card_wrapper {
+    // height: 180px;
+    overflow: hidden;
+}
+.comment {
+    height: 60px;
+    overflow: hidden;
+    font-size: 16px;
+}
+.head {
+    height: 60px;
+    // margin: 10px;
+}
+.title {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    width: 100%;
+}
+.date {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+
+}

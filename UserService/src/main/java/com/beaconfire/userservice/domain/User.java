@@ -48,5 +48,11 @@ public class User implements Serializable {
     @Column(nullable = false)
     private boolean verified;
 
+    /******* token + expired time newly added ******/
+    @Column
+    private String emailToken;
+
+    @Column
+    private Timestamp emailTokenExpiredTime;
 }
 

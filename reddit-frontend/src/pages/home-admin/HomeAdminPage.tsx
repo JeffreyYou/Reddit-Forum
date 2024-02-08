@@ -22,7 +22,6 @@ const HomeAdminPage = () => {
 
     const handleBan = (postid:string)=>{
         banPost(postid);
-        //opennotification
     };
 
     const handleUnban = (postid: string)=>{
@@ -35,6 +34,7 @@ const HomeAdminPage = () => {
     const getUsername = (userid: number)=>{
       return allUsers.filter(x=>x.id===userid).map(x=>x.firstName+" "+x.lastName);
     }
+
 
     return ( //
         <div className={styles.homepage_container}>

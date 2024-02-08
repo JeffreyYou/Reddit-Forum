@@ -24,7 +24,7 @@ export interface IPostDetail {
     dateModified: Date;
     isArchived: boolean;
     status: string;
-    
+    viewDate: Date;
 }
 
 export interface IPostDetailResponse {
@@ -35,7 +35,7 @@ export interface IPostDetailResponse {
     dateModified: Date;
     isArchived: boolean;
     status: string;
-
+    viewDate: Date;
     responseStatus: {
         message: string;
         success: boolean;

@@ -1,6 +1,6 @@
 import React from "react";
-import { Layout, Menu, Input, Button, Row, Col, Switch } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
+import { Layout, Menu, Input, Button, Row, Col, Switch, Space } from "antd";
+import { HomeOutlined, RedditOutlined, BarsOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import type { MenuProps } from 'antd';
 import { useThemeStore } from "../../store/theme-store";
@@ -24,7 +24,7 @@ const Navbar = () => {
     label: React.ReactNode,
     key: React.Key,
     icon?: React.ReactNode,
-    children?: MenuItem,
+    children?: MenuItem[],
     type?: 'group',
   ): MenuItem {
     return {
@@ -36,30 +36,31 @@ const Navbar = () => {
     } as MenuItem;
   }
 
-
   const toggleTheme = () => {
     themeProps.theme === 'dark' ? setTheme('light') : setTheme('dark');
   }
+
   const items: MenuProps['items'] = [
-    
-    getItem(<Switch onChange={toggleTheme} />, 'theme'),
-    getItem(<Link to="/home">Home</Link>, 'home'),
-    getItem(<Link to="/users/login">Login</Link>, 'login'),
-    getItem(<Link to="/users/1/profile">Profile</Link>, 'profile'),
-    getItem(<Link to="/users/register">Register</Link>, 'register'),
+
+    getItem(<Link to="/home">Home</Link>, 'home', <HomeOutlined style={{fontSize: '16px'}}/>),
+    getItem(<Link to="/users/1/profile">Profile</Link>, 'profile', <UserOutlined style={{fontSize: '16px'}}/>),
+    getItem("Menu", 'login-menu', <BarsOutlined style={{fontSize: '16px'}}/>, [
+      getItem(<Link to="/users/login">Login</Link>, 'login'),
+      getItem(<Link to="/users/register">Register</Link>, 'register'),
+      getItem(<Link to="/contactus">Contact Us</Link>, 'contact-us'),
+      getItem(<Link to="/signout">Signout</Link>, 'signout')]),
+
   ];
+
 
 
   return (
     <Header className={styles.navbar}>
-      <Row justify="space-between" align="middle">
-        <Col><HomeOutlined className={styles.navbar_logo} /></Col>
-        <Col flex="auto" className={styles.title}>RedditHub</Col>
-        <Col>
-          <Menu mode="horizontal" items={items} disabledOverflow={true} style={{backgroundColor: 'transparent'}}></Menu>
-        </Col>
-        <Col>
-          <Button type="primary" onClick={handleLoginClick}>Log In</Button>
+      <Row align="middle">
+        <Col className={styles.title_wrapper}><RedditOutlined className={styles.navbar_logo} /><div className={styles.title}>RedditHub</div></Col>
+        <Col flex="auto" className={styles.title}></Col>
+        <Col className={styles.navigation}>
+          <Menu mode="horizontal" items={items} disabledOverflow={true} style={{ backgroundColor: 'transparent' }}></Menu>
         </Col>
       </Row>
     </Header>

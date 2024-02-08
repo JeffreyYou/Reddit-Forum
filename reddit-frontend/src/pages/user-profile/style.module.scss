@@ -19,8 +19,8 @@
     border-radius: 50px;
     background-color: rgba(128, 128, 128, 0.3);
 
-
 }
+
 .left_wrapper {
     height: 100%;
     overflow: hidden;
@@ -38,7 +38,6 @@
     box-sizing: content-box;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
-
 
 .draft_card {
     // margin: 50px;
@@ -75,7 +74,32 @@
         }
     }
 }
+.filter {
+    width: calc(100% - 75px);
+    left: 50px;
+    right: 0;
+    position: absolute;
+    // border: 1px solid #000;
+    border-radius: 10px;
+    bottom: 50px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter_content {
+    width: 80%;
+    height: 40px;
 
+    background-color: #F0F4FD;
+    border-radius: 100px;
+    :global {
+        .ant-col {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
 
 .posts_card {
     margin: 50px;

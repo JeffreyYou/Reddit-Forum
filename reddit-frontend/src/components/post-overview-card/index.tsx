@@ -6,14 +6,16 @@ import { Col, Row } from 'antd';
 import { format } from 'date-fns';
 
 interface props {
-  post: IPostDetail
+  post: IPostDetail,
+  type: string
 }
 const placeholder = {
   title: "This is the Title of the Posts, This is the Title of the Posts, This is the Title of the Posts, This is the Title of the Posts",
   date: "2021-09-01",
   content: "Post content goes here. This can be a summary or an excerpt from the full post for a quick read. Post content goes here. This can be a summary or an excerpt from the full post for a quick read. Post content goes here. This can be a summary or an excerpt from the full post for a quick read. Post content goes here. This can be a summary or an excerpt from the full post for a quick read. Post content goes here. This can be a summary or an excerpt from the full post for a quick read."
 }
-const PostOverviewCard: React.FC<props> = ({ post }) => {
+const PostOverviewCard: React.FC<props> = ({ post, type }) => {
+
   return (
     <Card hoverable={true} className={styles.card_wrapper}>
       <div className={styles.head}>
@@ -22,7 +24,11 @@ const PostOverviewCard: React.FC<props> = ({ post }) => {
             <div className={styles.title}>{post.title}</div>
           </Col>
           <Col span={10}>
-            <div className={styles.date}> {format(post.dateModified, 'PPPp')}  </div>
+            {
+              type === 'history' ? 
+              <div className={styles.date}> {format(post.viewDate, 'PPPp')}  </div> :
+              <div className={styles.date}> {format(post.dateModified, 'PPPp')}  </div> 
+            }
           </Col>
         </Row>
       </div>

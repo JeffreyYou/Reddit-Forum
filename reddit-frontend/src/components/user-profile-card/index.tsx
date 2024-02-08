@@ -1,11 +1,15 @@
 import { Card, Avatar, Divider  } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { EditOutlined, EllipsisOutlined, MailOutlined } from '@ant-design/icons';
 import { Col, Row } from 'antd';
+import { format } from 'date-fns';
+import styles from './style.module.scss';
 
 import { IUserProfile } from '../../store/interface';
 type MyComponentProps = {
-    className?: string;
+    // className?: string;
     user: IUserProfile;
+    editProfile: () => void;
+    editEmail: () => void;
 };
 
 import GirlSvg1 from '../../assets/girl/girl1.svg'
@@ -15,13 +19,13 @@ import GirlSvg4 from '../../assets/girl/girl4.svg'
 import GirlSvg5 from '../../assets/girl/girl5.svg'
 const testSvgUrl = "https://api.dicebear.com/7.x/miniavs/svg?seed=8";
 
-const UserProfileCard: React.FC<MyComponentProps> = ( {className, user} ) => {
+const UserProfileCard: React.FC<MyComponentProps> = ( { user, editProfile, editEmail} ) => {
     return (
         <Card
-            className={className}
+            className={styles.card_wrapper}
             actions={[
-                <SettingOutlined key="setting" />,
-                <EditOutlined key="edit" />,
+                <div onClick={editProfile} style={{fontSize: '18px'}}>Edit Profile <EditOutlined key="edit" /></div>, 
+                <div onClick={editEmail} style={{fontSize: '18px'}}>Change Email <MailOutlined key="email" /></div>
             ]}
         >   
             <Row align="middle">
@@ -29,7 +33,7 @@ const UserProfileCard: React.FC<MyComponentProps> = ( {className, user} ) => {
                 <Col span={16}>
                     <Col span={24} style={{fontSize: '40px'}}>{user.firstName} {user.lastName}</Col>
                     <Divider />
-                    <Col span={24}>{user.dateJoined}</Col>
+                    <Col span={24}>Date Joined: {format(user.dateJoined, 'PPP')}</Col>
 
                 </Col>
             </Row>
@@ -39,3 +43,4 @@ const UserProfileCard: React.FC<MyComponentProps> = ( {className, user} ) => {
 }
 
 export default UserProfileCard
+

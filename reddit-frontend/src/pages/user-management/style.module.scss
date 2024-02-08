@@ -1,0 +1,17 @@
+.table_wrapper {
+  margin-top: 9vh;
+  display: flex;
+  width: 100vw;
+  min-height: 91vh;
+  height: fit-content;
+  justify-content: center;
+  background-size: cover;
+  background-image: url("/src/assets/2.jpg");
+}
+
+.table {
+  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+  background-color: transparent;
+}

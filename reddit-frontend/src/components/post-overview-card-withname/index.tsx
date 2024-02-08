@@ -6,6 +6,7 @@ import { Col, Row, Space, Avatar } from 'antd';
 import { format } from 'date-fns';
 
 import GirlSvg1 from '../../assets/girl/girl2.svg'
+import {useNavigate} from "react-router-dom";
 
 interface props {
   post: IPostDetail,
@@ -17,9 +18,14 @@ const placeholder = {
   content: "Post content goes here. This can be a summary or an excerpt from the full post for a quick read. Post content goes here. This can be a summary or an excerpt from the full post for a quick read. Post content goes here. This can be a summary or an excerpt from the full post for a quick read. Post content goes here. This can be a summary or an excerpt from the full post for a quick read. Post content goes here. This can be a summary or an excerpt from the full post for a quick read."
 }
 const PostOverviewCardWithName: React.FC<props> = ({ post, type }) => {
+    const navigate = useNavigate(); // Hook to get navigate function
+
+    const handleCardClick = (postId: string) => {
+        navigate(`/posts/${postId}`);
+    };
 
   return (
-    <Card hoverable={true} className={styles.card_wrapper}>
+    <Card hoverable={true} className={styles.card_wrapper} onClick={() => handleCardClick(post.postId)}>
       <div className={styles.head}>
         <Row>
           <Col span={14}>

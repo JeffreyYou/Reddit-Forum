@@ -21,7 +21,7 @@ export const NewPost: React.FC<NewPostProps> = () => {
     // the key is usedÏΩ to make sure each time the modal is opened, the Upload component is treated as a new instance
     const [uploadKey, setUploadKey] = useState(Date.now());
 
-    const { imageUrls, putImageUrl, deleteImageUrl } = useObjectStore()
+    const { imageUrls, attachmentUrls, putImageUrl, deleteImageUrl,  putAttachmentUrl, deleteAttachmentUrl} = useObjectStore()
     const { putPublishedPost, savePost } = usePostStore();
 
     const save = () => {
@@ -52,7 +52,7 @@ export const NewPost: React.FC<NewPostProps> = () => {
         method: 'PUT',
         action: 'http://localhost:8081/file-service/reddit-forum-s3/public',
         headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XX0.uiM5Llbx-FYb4rbwV33BR04lmpJpDP6Sq-uD73DWSxw',
+            Authorization: 'Bearer ' + localStorage.getItem("jwtToken"),
         },
         onChange(info) {
             if (info.file.status !== 'uploading') {
@@ -60,8 +60,10 @@ export const NewPost: React.FC<NewPostProps> = () => {
             }
             if (info.file.status === 'done') {
                 const {response} = info.file
-                console.log(response.url)
-                putImageUrl(response.url)
+                console.log("info.file.type")
+                console.log(info.file.type)
+                if(info.file.type == "image/jpeg") putImageUrl(response.url)
+                else putAttachmentUrl(response.url)
                 message.success(`file uploaded successfully`);
             } else if (info.file.status === 'error') {
                 message.error(`${info.file.error} file upload failed.`);
@@ -91,7 +93,7 @@ export const NewPost: React.FC<NewPostProps> = () => {
             title: newPostTitle.trim(),
             content: newPostContent.trim(),
             images: imageUrls,
-            attachments: []
+            attachments: attachmentUrls
         }
 
         putPublishedPost(body)

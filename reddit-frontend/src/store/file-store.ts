@@ -6,12 +6,13 @@ interface IFileStore {
     attachmentUrls: string[]
     putImageUrl: (url: string) => Promise<void>
     deleteImageUrl: (url: string) => Promise<void>;
-    // putAttachmentUrl: (url: string) => Promise<void>
-    // deleteAttachmentUrl: (url: string) => Promise<void>;
+    putAttachmentUrl: (url: string) => Promise<void>
+    deleteAttachmentUrl: (url: string) => Promise<void>;
 }
 
 export const useObjectStore = create<IFileStore>((set, get) => ({
-    jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XX0.uiM5Llbx-FYb4rbwV33BR04lmpJpDP6Sq-uD73DWSxw",
+    jwtToken: "",
+    //jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMiIsInBlcm1pc3Npb25zIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV19.SOuhK8B4kr9qsmAqMheWGLgUFpyumlNX8BKDPi3U_jE",
     imageUrls: [],
     attachmentUrls: [],
     putImageUrl: async (url: string) => {
@@ -22,6 +23,15 @@ export const useObjectStore = create<IFileStore>((set, get) => ({
         const oldList: string[] = get().imageUrls;
         const updatedList = oldList.filter(imageUrl => imageUrl !== url);
         set({ imageUrls: updatedList });
+    },
+    putAttachmentUrl: async (url: string) => {
+        const oldList: string[] = get().attachmentUrls
+        set({attachmentUrls: [...oldList, url]});
+    },
+    deleteAttachmentUrl: async (url: string) => {
+        const oldList: string[] = get().attachmentUrls;
+        const updatedList = oldList.filter(attachmentUrls => attachmentUrls !== url);
+        set({ attachmentUrls: updatedList });
     },
 
 }));

@@ -28,12 +28,12 @@ interface IPostStore {
     getAllUsers: ()=>Promise<IUserProfile[]>;
 }
 
-const domain = "http://localhost:8085/post-reply-service";
+const domain = "http://localhost:8081/post-reply-service"; //edit
 const publishUrl = `${domain}/posts/published/all`;
 const getDeleteUrl = `${domain}/posts/deleted/all`;
 const getBannedUrl =`${domain}/posts/banned/all`;
 
-const userUrl = "http://localhost:8083/user-service/admin/user";
+const userUrl = "http://localhost:8081/user-service/admin/user"; //edit
 
 export const usePostStore = create<IPostStore>() (
     persist((set, get)=>({
@@ -41,14 +41,15 @@ export const usePostStore = create<IPostStore>() (
         deletedPosts: [],
         bannedPosts:[],
         allUsers:[],
-        jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",  //get token where
+        jwtToken: "",
+        //jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyMiIsInBlcm1pc3Npb25zIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV19.SOuhK8B4kr9qsmAqMheWGLgUFpyumlNX8BKDPi3U_jE",  //get token where
         fetchPublishedPosts: async (): Promise<IPostDetailResponse[]> => {
             const jwt = get().jwtToken;
             try {
                 const response = await fetch(publishUrl, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${jwt}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                     }
                 });
                 if (!response.ok) {
@@ -81,7 +82,7 @@ export const usePostStore = create<IPostStore>() (
                 const response = await fetch(getDeleteUrl, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${jwt}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                     }
                 });
                 if (!response.ok) {
@@ -100,7 +101,7 @@ export const usePostStore = create<IPostStore>() (
                 const response = await fetch(getBannedUrl, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${jwt}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                     }
                 });
                 if (!response.ok) {
@@ -120,7 +121,7 @@ export const usePostStore = create<IPostStore>() (
                 const response = await fetch(banUrl, {
                     method: 'PATCH',
                     headers: {
-                        'Authorization': `Bearer ${jwt}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                     }
                 });
                 if (!response.ok) {
@@ -141,7 +142,7 @@ export const usePostStore = create<IPostStore>() (
                 const response = await fetch(unbanUrl, {
                     method: 'PATCH',
                     headers: {
-                        'Authorization': `Bearer ${jwt}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                     }
                 });
                 if (!response.ok) {
@@ -162,7 +163,7 @@ export const usePostStore = create<IPostStore>() (
                 const response = await fetch(recoverUrl, {
                     method: 'PATCH',
                     headers: {
-                        'Authorization': `Bearer ${jwt}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                     }
                 });
                 if (!response.ok) {
@@ -182,7 +183,7 @@ export const usePostStore = create<IPostStore>() (
                 const response = await fetch(userUrl, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${jwt}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                     }
                 });
                 if (!response.ok) {
@@ -203,7 +204,7 @@ export const usePostStore = create<IPostStore>() (
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${jwt}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                     },
                     body: JSON.stringify(request)
                 });
@@ -226,7 +227,7 @@ export const usePostStore = create<IPostStore>() (
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${get().jwtToken}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                     },
                     body: JSON.stringify(request)
                 });

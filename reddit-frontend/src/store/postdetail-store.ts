@@ -7,7 +7,7 @@ import { formatDate } from "./util";
 interface IPostDetailStore {
     postdetail: IPostDetail;
     jwtToken2: string;
-    fetchPostDetail: () => Promise<IPostDetailResponse>;
+    fetchPostDetail: (postId: string) => Promise<IPostDetailResponse>;
     editPostDetail: (request: IEditPostRequest) => Promise<IPostDetailResponse>;
     publishPostDetail: (request: IEditPostRequest) => Promise<IPostDetailResponse>;
     savePostDetail: (request: IEditPostRequest) => Promise<IPostDetailResponse>;
@@ -49,14 +49,14 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                 postReplies: []
             },
 
-            jwtToken2: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XX0.uiM5Llbx-FYb4rbwV33BR04lmpJpDP6Sq-uD73DWSxw",
-
-            fetchPostDetail: async (): Promise<IPostDetailResponse> => {
+            //jwtToken2: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XX0.uiM5Llbx-FYb4rbwV33BR04lmpJpDP6Sq-uD73DWSxw",
+            jwtToken2: '',
+            fetchPostDetail: async (postId: string): Promise<IPostDetailResponse> => {
                 try {
                     const response = await fetch(postdetailUrl, {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         }
                     });
                     if (!response.ok) {
@@ -82,7 +82,7 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         },
                         body: JSON.stringify(request),
                     });
@@ -110,7 +110,7 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         },
                         body: JSON.stringify(request),
                     });
@@ -138,7 +138,7 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         },
                         body: JSON.stringify(request),
                     });
@@ -165,7 +165,7 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                     const response = await fetch(archivePostUrl, {
                         method: 'PATCH',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         }
                     });
                     if (!response.ok) {
@@ -186,7 +186,7 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                     const response = await fetch(hidePostUrl, {
                         method: 'PATCH',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         }
                     });
                     if (!response.ok) {
@@ -207,7 +207,7 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                     const response = await fetch(unhidePostUrl, {
                         method: 'PATCH',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         }
                     });
                     if (!response.ok) {
@@ -228,7 +228,7 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                     const response = await fetch(deletePostUrl, {
                         method: 'PATCH',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         }
                     });
                     if (!response.ok) {
@@ -257,7 +257,7 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         },
                         body: JSON.stringify(request),
                     });
@@ -280,7 +280,7 @@ export const usePostDetailStore = create<IPostDetailStore>()(
                     const response = await fetch(deleteReplyUrl + replyId, {
                         method: 'PATCH',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         }
                     });
                     if (!response.ok) {

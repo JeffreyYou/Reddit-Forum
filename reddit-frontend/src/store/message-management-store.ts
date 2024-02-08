@@ -14,13 +14,14 @@ interface IMessageManagementStore {
 
 export const useMessageManagementStore = create<IMessageManagementStore>((set) => ({
     // todo : change admin jwt
-    jwtToken: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g',
+    jwtToken: "",
+    //jwtToken: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g',
     messages: [],
     getAllMessages: async () => {
         try {
             const response = await fetch(`${baseUrl}/list`, {
                 headers: {
-                    Authorization: `Bearer ${useMessageManagementStore.getState().jwtToken}`,
+                    Authorization: 'Bearer ' + localStorage.getItem("jwtToken"),
                 },
             });
             if (!response.ok) {
@@ -39,7 +40,7 @@ export const useMessageManagementStore = create<IMessageManagementStore>((set) =
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${useMessageManagementStore.getState().jwtToken}`,
+                    Authorization: 'Bearer ' + localStorage.getItem("jwtToken"),
                 },
             });
             if (!response.ok) {
@@ -57,7 +58,7 @@ export const useMessageManagementStore = create<IMessageManagementStore>((set) =
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${useMessageManagementStore.getState().jwtToken}`,
+                    Authorization: 'Bearer ' + localStorage.getItem("jwtToken"),
                 },
             });
             if (!response.ok) {

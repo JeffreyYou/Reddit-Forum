@@ -10,7 +10,8 @@ interface IContactAdminStore {
 
 export const useContactAdminStore = create<IContactAdminStore>((_set, get) => ({
     // todo: update the jwt token
-    jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XX0.uiM5Llbx-FYb4rbwV33BR04lmpJpDP6Sq-uD73DWSxw",
+    jwtToken: "",
+    //jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XX0.uiM5Llbx-FYb4rbwV33BR04lmpJpDP6Sq-uD73DWSxw",
     submitContactAdminRequest: async (request: IContactAdminRequest): Promise<IContactAdminResponse> => {
         try {
 
@@ -18,7 +19,7 @@ export const useContactAdminStore = create<IContactAdminStore>((_set, get) => ({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization':  `Bearer ${get().jwtToken}`,
+                    'Authorization':  'Bearer ' + localStorage.getItem("jwtToken"),
                 },
                 body: JSON.stringify(request),
             });

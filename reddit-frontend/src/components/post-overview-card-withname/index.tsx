@@ -21,6 +21,8 @@ const PostOverviewCardWithName: React.FC<props> = ({ post, type }) => {
     const navigate = useNavigate(); // Hook to get navigate function
 
     const handleCardClick = (postId: string) => {
+        console.log('post.postId')
+        console.log(post.postId)
         navigate(`/posts/${postId}`);
     };
 

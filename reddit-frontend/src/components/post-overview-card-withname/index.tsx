@@ -2,8 +2,10 @@
 import { Card } from "antd"
 import { IPostDetail } from "../../store/interface"
 import styles from './style.module.scss';
-import { Col, Row } from 'antd';
+import { Col, Row, Space, Avatar } from 'antd';
 import { format } from 'date-fns';
+
+import GirlSvg1 from '../../assets/girl/girl2.svg'
 
 interface props {
   post: IPostDetail,
@@ -30,8 +32,8 @@ const PostOverviewCardWithName: React.FC<props> = ({ post, type }) => {
           </Col>
         </Row>
       </div>
-      <div className={styles.content}>
-        Jeffrey You
+      <div className={styles.usercontent}>
+        <Space><Avatar size={50} src={GirlSvg1} /> Jeffrey You</Space>
       </div>
     </Card>
   )

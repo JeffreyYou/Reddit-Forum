@@ -21,7 +21,6 @@ const Context = React.createContext({ name: 'Default' });
 
 const UserProfile = () => {
 
-
   const { user, userTemporay, top3Posts, draftPosts, fetchUserProfile, getTop3Posts, getDraftPosts, updateUserTemporaryProfile } = useUserStore();
   const [isModalProfileOpen, setIsModalProfileOpen] = useState(false);
   const [isModalEmailOpen, setIsModalEmailOpen] = useState(false);

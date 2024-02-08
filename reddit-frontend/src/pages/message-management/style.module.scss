@@ -1,0 +1,24 @@
+.message_mgmt_page {
+  padding: 20px;
+  margin-top: 9vh;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+
+  .message_list {
+    display: flex;
+    width: 60vw;
+    flex-direction: column;
+  }
+
+  .message_card {
+    margin-bottom: 20px;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+
+    p {
+      margin-bottom: 8px;
+    }
+  }
+}

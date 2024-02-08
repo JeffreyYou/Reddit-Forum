@@ -1,0 +1,78 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 0px 0 50px;
+  box-shadow: 0 2px 8px #f0f1f2;
+  // background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.5);
+  // background-color: #f2f2f2;
+
+  // background-color: #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .title_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    &:hover {
+      cursor: pointer;
+    }
+
+    :global {
+      .anticon {
+        display: block;
+        font-size: 40px;
+        margin-right: 20px;
+        // color: white;
+      }
+    }
+  }
+
+  .title {
+    font-size: 30px;
+    font-weight: 500;
+    background: -webkit-linear-gradient(45deg, blue, red);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    
+  }
+
+  .navigation {
+    display: flex;
+    :global {
+      .ant-menu-item {
+        width: 120px;
+        font-size: 16px;
+      }
+      .ant-menu-submenu {
+        width: 120px;
+        font-size: 16px;
+      }
+    }
+
+  }
+
+  // Menu item styling
+  .ant-menu-horizontal {
+    line-height: 64px; // Align the menu items vertically
+    border-bottom: none; // Remove the bottom border
+    background-color: transparent; // Transparent background for the menu
+  }
+
+  // .ant-menu-item {
+  //   margin: 0 10px; // Margin for menu items
+  //   padding: 0 15px; // Padding for menu items
+  // }
+
+  // Style for the Log In button
+  .ant-btn-primary {
+    margin-left: 20px; // Space before the button
+    // background-color: #52c41a; // Button background color
+    border-color: #52c41a; // Button border color
+  }
+}

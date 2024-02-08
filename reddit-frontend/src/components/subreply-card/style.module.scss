@@ -1,0 +1,23 @@
+.card_wrapper {
+    // height: 180px;
+    overflow: hidden;
+}
+.comment {
+    overflow: hidden;
+    font-size: 16px;
+}
+.head {
+    // margin: 10px;
+}
+.title {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    width: 100%;
+}
+.date {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+
+}

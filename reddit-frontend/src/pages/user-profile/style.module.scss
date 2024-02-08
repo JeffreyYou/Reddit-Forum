@@ -1,0 +1,136 @@
+@import '../../styles/global.scss';
+
+.profile_wrapper {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+
+}
+
+.profile {
+    display: flex;
+    width: 90vw;
+    height: calc(100vh - 150px);
+    flex-direction: column;
+    margin-top: 100px;
+    border-radius: 50px;
+    background-color: rgba(128, 128, 128, 0.3);
+
+}
+
+.left_wrapper {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: 2fr 3fr;
+}
+.right_wrapper {
+    height: 100%;
+    overflow: hidden;
+}
+.user_card {
+    // margin: 50px;
+    margin-right: 25px;
+    box-sizing: content-box;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.draft_card {
+    // margin: 50px;
+    margin-right: 25px;
+    margin-left: 50px;
+    margin-bottom: 50px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    height: 100%;
+    border-radius: 10px;
+    background-color: white;
+    overflow: hidden;
+
+    @include scrollbar-styles;
+
+    :global {
+        .ant-tabs-tab {
+            min-width: 200px;
+            font-size: 22px;
+            justify-content: center;
+        }
+        .ant-tabs-content-holder {
+            overflow: auto;
+
+            .ant-card {
+
+                margin: 10px;
+                background-color: #F5F5F5;
+                background-color: #FFF8E7;
+                background-color: #FFF8E7;
+                background-color: #FFF8E7;
+                background-color: #F0F4FD;
+
+            }
+        }
+    }
+}
+.filter {
+    width: calc(100% - 75px);
+    left: 50px;
+    right: 0;
+    position: absolute;
+    // border: 1px solid #000;
+    border-radius: 10px;
+    bottom: 50px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filter_content {
+    width: 80%;
+    height: 40px;
+
+    background-color: #d6dae3;
+    border-radius: 100px;
+    :global {
+        .ant-col {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+.posts_card {
+    margin: 50px;
+    margin-left: 25px;
+    box-sizing: content-box;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    height: calc(100% - 100px);
+    background-color: white;
+    border-radius: 10px;
+
+
+    @include scrollbar-styles;
+
+    :global {
+        .ant-tabs-tab {
+            min-width: 200px;
+            font-size: 22px;
+            justify-content: center;
+        }
+        .ant-tabs-content-holder {
+            overflow: auto;
+
+            .ant-card {
+
+                margin: 10px;
+                background-color: #F5F5F5;
+                background-color: #FFF8E7;
+                background-color: #FFF8E7;
+                background-color: #FFF8E7;
+                background-color: #F0F4FD;
+
+            }
+        }
+    }
+
+}

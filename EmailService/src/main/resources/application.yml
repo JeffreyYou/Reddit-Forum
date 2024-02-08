@@ -4,7 +4,22 @@ spring:
   mvc:
     servlet:
       path: /email-service
-
+#  rabbitmq:
+#    host: localhost
+#    port: 15672
+#    username: guest
+#    password: guest
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: reddithubtest@gmail.com
+    password: maskvejyupwuwkya
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 server:
   port: 8088

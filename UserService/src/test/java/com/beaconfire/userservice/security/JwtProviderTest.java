@@ -2,7 +2,6 @@ package com.beaconfire.userservice.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,7 +28,6 @@ class JwtProviderTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Generate a secure key
         this.key = key;
         jwtProvider.setKey(Base64.getEncoder().encodeToString(key.getEncoded()));
     }

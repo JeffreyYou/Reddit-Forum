@@ -18,7 +18,7 @@ export const NewPost: React.FC<NewPostProps> = () => {
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostContent, setNewPostContent] = useState('');
     const [isPublish, setIsPublish] = useState(true);
-    // the key is used to make sure each time the modal is opened, the Upload component is treated as a new instance
+    // the key is usedÏΩ to make sure each time the modal is opened, the Upload component is treated as a new instance
     const [uploadKey, setUploadKey] = useState(Date.now());
 
     const { imageUrls, putImageUrl, deleteImageUrl } = useObjectStore()

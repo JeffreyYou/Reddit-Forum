@@ -20,7 +20,7 @@ interface IPostDetailStore {
 }
 
 // /post-reply-service
-const domain = "http://localhost:8085";
+const domain = "http://localhost:8085/post-reply-service";
 const postdetailUrl = `${domain}/posts/65c03132b188bf4a7d73a2c7`;
 const editPostUrl = `${domain}/posts/65c03132b188bf4a7d73a2c7/modify`;
 const publishPostUrl = `${domain}/posts/publish`;

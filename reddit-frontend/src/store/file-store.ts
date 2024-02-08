@@ -6,6 +6,7 @@ interface IFileStore {
     imageUrls: string[]
     putImageUrl: (url: string) => Promise<void>
     putPublishedPost: (request: IPutPostRequest) => Promise<void>
+    savePost: (request: IPutPostRequest) => Promise<void>
 }
 
 export const useObjectStore = create<IFileStore>((set, get) => ({
@@ -19,6 +20,29 @@ export const useObjectStore = create<IFileStore>((set, get) => ({
         console.log(request)
         try {
             const response = await fetch('http://localhost:8081/post-reply-service/posts/publish', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${get().jwtToken}`,
+                },
+                body: JSON.stringify(request)
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch published posts');
+            }
+            const responseData: JSON = await response.json()
+            console.log(responseData)
+            //const data: IPostDetail[] = await response.json();
+            //return data;
+        } catch (error) {
+            console.error('Failed to fetch published posts:', error);
+            throw error;
+        }
+    },
+    savePost: async (request: IPutPostRequest) => {
+        console.log(request)
+        try {
+            const response = await fetch('http://localhost:8081/post-reply-service/posts/save', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

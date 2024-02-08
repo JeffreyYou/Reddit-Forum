@@ -16,8 +16,31 @@ export const NewPost: React.FC<NewPostProps> = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newPostTitle, setNewPostTitle] = useState('');
     const [newPostContent, setNewPostContent] = useState('');
+    const [isPublish, setIsPublish] = useState(true);
 
-    const { imageUrls, putImageUrl, putPublishedPost } = useObjectStore()
+    const { imageUrls, putImageUrl, putPublishedPost, savePost} = useObjectStore()
+
+    const save = () => {
+        if (newPostTitle.trim() && newPostContent.trim()) {
+            // onAddPost({ title: newPostTitle, content: newPostContent });
+        }
+
+        let body: IPutPostRequest = {
+            postId: null,
+            title: newPostTitle.trim(),
+            content: newPostContent.trim(),
+            images: imageUrls,
+            attachments: []
+        }
+
+        savePost(body)
+
+        setIsModalVisible(false);
+        setNewPostTitle('');
+        setNewPostContent('');
+
+        setIsPublish(false)
+    }
 
     const props: UploadProps = {
         name: 'multipartFile',
@@ -46,6 +69,8 @@ export const NewPost: React.FC<NewPostProps> = () => {
     };
 
     const handleOk = () => {
+        if(!isPublish) return 
+
         if (newPostTitle.trim() && newPostContent.trim()) {
             // onAddPost({ title: newPostTitle, content: newPostContent });
         }
@@ -57,7 +82,7 @@ export const NewPost: React.FC<NewPostProps> = () => {
             images: imageUrls,
             attachments: []
         }
-        
+
         putPublishedPost(body)
 
         setIsModalVisible(false);
@@ -98,6 +123,8 @@ export const NewPost: React.FC<NewPostProps> = () => {
                 <Upload {...props}>
                     <Button icon={<UploadOutlined />}>upload image</Button>
                 </Upload>
+                <br></br>
+                <Button onClick={save}>save</Button>
             </Modal>
         </>
     );

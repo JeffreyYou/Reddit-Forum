@@ -17,13 +17,16 @@ import { HidePostButton } from '../../components/hide-post/HidePostButton'
 import { UnhidePostButton } from '../../components/unhide-post/UnhidePost'
 import { DeletePostButton } from '../../components/delete-post/DeletePost'
 import ReplyCard from '../../components/reply-card';
+import { useParams } from 'react-router-dom';
 
 const PostDetail = () => {
+    const { postId } = useParams();
+    console.log("postId: " + postId);
     const { postdetail, fetchPostDetail } = usePostDetailStore();
     const postReplies = postdetail.postReplies;
 
     useEffect(() => {
-        fetchPostDetail();
+        fetchPostDetail(postId);
     }, []);
 
     const getFirstItem = () => {

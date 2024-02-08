@@ -5,19 +5,21 @@ import useAuthStore, { ILoginResponse } from "../../store/auth-store";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/user-store";
+import {usePostStore} from "../../store/post-store";
 
 const LoginPage: React.FC = () => {
 
   const { jwtToken,setJwtToken, fetchUserProfile, getDraftPosts, getHistoryPosts, getTop3Posts } = useUserStore();
   const {signIn} = useAuthStore();
   const navigate = useNavigate();
-
+  const {setPostJwtToken} = usePostStore();
   const handleSubmit = async (values: ILoginFormValues) => {
     console.log("Received values of form: ", values);
     try {
       await signIn(values.email, values.password);
       // update user profile
       setJwtToken(jwtToken as string);
+      setPostJwtToken(jwtToken as string);
       fetchUserProfile();
       getDraftPosts();
       getHistoryPosts();

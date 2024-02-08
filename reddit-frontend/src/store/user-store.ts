@@ -86,7 +86,7 @@ export const useUserStore = create<IUserStore>()(
                     const response = await fetch(profileUrl, {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         }
                     });
                     if (!response.ok) {
@@ -114,7 +114,7 @@ export const useUserStore = create<IUserStore>()(
                     const response = await fetch(top3PostsUrl, {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         }
                     });
                     if (!response.ok) {
@@ -148,7 +148,7 @@ export const useUserStore = create<IUserStore>()(
                     const response = await fetch(draftUrl, {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         }
                     });
                     if (!response.ok) {
@@ -183,7 +183,7 @@ export const useUserStore = create<IUserStore>()(
                     const response = await fetch(historyUrl, {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken}`,
+                            'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                             'Content-Type': 'application/json'
                         }
                     });
@@ -239,7 +239,7 @@ export const useUserStore = create<IUserStore>()(
                 const response = await fetch(firstNameUrl, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${get().jwtToken}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(requestData),
@@ -258,7 +258,7 @@ export const useUserStore = create<IUserStore>()(
                 const response = await fetch(firstNameUrl, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${get().jwtToken}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(requestData),
@@ -281,7 +281,7 @@ export const useUserStore = create<IUserStore>()(
                 const response = await fetch(firstNameUrl, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${get().jwtToken}`,
+                        'Authorization': 'Bearer ' + localStorage.getItem("jwtToken"),
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(requestData),

@@ -41,6 +41,8 @@ const useAuthStore = create<AuthState>()(
           // TODO fetch user first name and last name
 
           const data: ILoginResponse = await response.json();
+          localStorage.setItem("jwtToken", data.token)
+
           set({
             isLoggedIn: true,
             jwtToken: data.token,

@@ -9,10 +9,8 @@ import java.util.List;
 @Data
 @Builder
 public class PostResponse {
-
-
     String postId;
-    Long userid;
+    Long userId;
     String title;
     String  content;
     String status;
@@ -21,4 +19,5 @@ public class PostResponse {
     Date dateModified;
     List<String> images;
     List<String> attachments;
+    Date viewDate;
 }

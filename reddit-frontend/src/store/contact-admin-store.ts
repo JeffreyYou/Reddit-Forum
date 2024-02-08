@@ -6,20 +6,22 @@ const baseUrl = "http://localhost:8081/message-service/contactus";
 interface IContactAdminStore {
     jwtToken: string,
     submitContactAdminRequest: (request: IContactAdminRequest) => Promise<IContactAdminResponse>;
+    setContactJwtToken:(token: string)=>void;
 }
 
-export const useContactAdminStore = create<IContactAdminStore>((_set, get) => ({
-    // todo: update the jwt token
+export const useContactAdminStore = create<IContactAdminStore>((set, get) => ({
     jwtToken: "",
-    //jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XX0.uiM5Llbx-FYb4rbwV33BR04lmpJpDP6Sq-uD73DWSxw",
+    setContactJwtToken: (jwtToken: string)=>{
+        set({jwtToken: jwtToken})
+    },
     submitContactAdminRequest: async (request: IContactAdminRequest): Promise<IContactAdminResponse> => {
         try {
-
+            const jwt = get().jwtToken;
             const response = await fetch(`${baseUrl}/submit`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization':  'Bearer ' + localStorage.getItem("jwtToken"),
+                    'Authorization': 'Bearer ' + jwt,
                 },
                 body: JSON.stringify(request),
             });

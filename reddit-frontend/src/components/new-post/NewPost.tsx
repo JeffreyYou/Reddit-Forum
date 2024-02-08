@@ -6,6 +6,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { useObjectStore } from '../../store/file-store';
 import { IPutPostRequest } from '../../store/interface';
 import {usePostStore} from "../../store/post-store.ts";
+import {useUserStore} from "../../store/user-store.ts";
 
 const { TextArea } = Input;
 
@@ -23,6 +24,7 @@ export const NewPost: React.FC<NewPostProps> = () => {
 
     const { imageUrls, attachmentUrls, putImageUrl, deleteImageUrl,  putAttachmentUrl, deleteAttachmentUrl} = useObjectStore()
     const { putPublishedPost, savePost } = usePostStore();
+    const { jwtToken} = useUserStore();
 
     const save = () => {
         if (newPostTitle.trim() && newPostContent.trim()) {
@@ -52,8 +54,10 @@ export const NewPost: React.FC<NewPostProps> = () => {
         method: 'PUT',
         action: 'http://localhost:8081/file-service/reddit-forum-s3/public',
         headers: {
-            Authorization: 'Bearer ' + localStorage.getItem("jwtToken"),
+            // Authorization: 'Bearer ' + localStorage.getItem("jwtToken"),
+            Authorization: 'Bearer ' + jwtToken,
         },
+
         onChange(info) {
             if (info.file.status !== 'uploading') {
                 console.log(info.file, info.fileList);

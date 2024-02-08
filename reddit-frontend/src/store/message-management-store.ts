@@ -10,18 +10,21 @@ interface IMessageManagementStore {
     getAllMessages: () => Promise<void>;
     openMessage: (messageId: number) => Promise<void>;
     closeMessage: (messageId: number) => Promise<void>;
+    setMessageJwtToken:(token: string)=>void;
 }
 
-export const useMessageManagementStore = create<IMessageManagementStore>((set) => ({
-    // todo : change admin jwt
+export const useMessageManagementStore = create<IMessageManagementStore>((set, get) => ({
     jwtToken: "",
-    //jwtToken: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g',
+    setMessageJwtToken: (jwtToken: string)=>{
+        set({jwtToken: jwtToken})
+    },
     messages: [],
     getAllMessages: async () => {
+        const jwt = get().jwtToken;
         try {
             const response = await fetch(`${baseUrl}/list`, {
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem("jwtToken"),
+                    'Authorization': 'Bearer ' + jwt,
                 },
             });
             if (!response.ok) {
@@ -35,12 +38,13 @@ export const useMessageManagementStore = create<IMessageManagementStore>((set) =
         }
     },
     openMessage: async (messageId: number) => {
+        const jwt = get().jwtToken;
         try {
             const response = await fetch(`${baseUrl}/open/${messageId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + localStorage.getItem("jwtToken"),
+                    'Authorization': 'Bearer ' + jwt,
                 },
             });
             if (!response.ok) {
@@ -53,12 +57,13 @@ export const useMessageManagementStore = create<IMessageManagementStore>((set) =
         }
     },
     closeMessage: async (messageId: number) => {
+        const jwt = get().jwtToken;
         try {
             const response = await fetch(`${baseUrl}/close/${messageId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + localStorage.getItem("jwtToken"),
+                    'Authorization': 'Bearer ' + jwt,
                 },
             });
             if (!response.ok) {

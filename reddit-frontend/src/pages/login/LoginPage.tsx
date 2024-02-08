@@ -6,6 +6,7 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/user-store";
 import {usePostStore} from "../../store/post-store";
+import {useMessageManagementStore} from "../../store/message-management-store.ts";
 
 const LoginPage: React.FC = () => {
 
@@ -13,6 +14,7 @@ const LoginPage: React.FC = () => {
   const {signIn} = useAuthStore();
   const navigate = useNavigate();
   const {setPostJwtToken} = usePostStore();
+  const {setMessageJwtToken} = useMessageManagementStore();
   const handleSubmit = async (values: ILoginFormValues) => {
     console.log("Received values of form: ", values);
     try {
@@ -20,6 +22,7 @@ const LoginPage: React.FC = () => {
       // update user profile
       setJwtToken(jwtToken as string);
       setPostJwtToken(jwtToken as string);
+      setMessageJwtToken(jwtToken as string);
       fetchUserProfile();
       getDraftPosts();
       getHistoryPosts();

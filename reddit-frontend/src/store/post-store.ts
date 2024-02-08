@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import {persist} from "zustand/middleware";
-import {IUserProfile} from "./interface";
+import {IPostDetail, IPostDetailResponse, IUserProfile} from "./interface";
 
 
 export interface IPost {
@@ -10,12 +10,12 @@ export interface IPost {
     title: string;
 }
 interface IPostStore {
-    publishedPosts: IPost[];
+    publishedPosts: IPostDetail[];
     deletedPosts: IPost[];
     bannedPosts: IPost[];
     jwtToken: string;
 
-    fetchPublishedPosts: () => Promise<IPost[]>;
+    fetchPublishedPosts: () => Promise<IPostDetailResponse[]>;
     fetchDeletedPosts: () => Promise<IPost[]>;
     fetchBannedPosts:()=>Promise<IPost[]>;
     banPost: (postid: string) => Promise<string>;
@@ -40,7 +40,7 @@ export const usePostStore = create<IPostStore>() (
         bannedPosts:[],
         allUsers:[],
         jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",  //get token where
-        fetchPublishedPosts: async (): Promise<IPost[]> => {
+        fetchPublishedPosts: async (): Promise<IPostDetailResponse[]> => {
             const jwt = get().jwtToken;
             try {
                 const response = await fetch(publishUrl, {
@@ -52,8 +52,22 @@ export const usePostStore = create<IPostStore>() (
                 if (!response.ok) {
                     throw new Error('Failed to fetch published posts');
                 }
-                const data: IPost[] = await response.json();
-                set({ publishedPosts: data.map(x=> {return { ...x, dateCreated: x.dateCreated.slice(0,10)}})});
+                const data: IPostDetailResponse[] = await response.json();
+                const allPublishedPosts: IPostDetail[] = data.map((data: IPostDetailResponse) => {
+                    return {
+                        postId: data.postId,
+                        title: data.title,
+                        dateCreated: data.dateCreated,
+                        content: data.content,
+                        dateModified: data.dateModified,
+                        isArchived: data.isArchived,
+                        status: data.status,
+                    } as IPostDetail;
+                });
+
+                // const data: IPost[] = await response.json();
+                // set({ publishedPosts: data.map(x=> {return { ...x, dateCreated: x.dateCreated.slice(0,10)}})});
+                set({publishedPosts: allPublishedPosts})
                 return data;
             } catch (error) {
                 throw new Error('Failed to fetch published posts');

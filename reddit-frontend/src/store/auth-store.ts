@@ -25,7 +25,7 @@ const useAuthStore = create<AuthState>()(
       signIn: async (email, password) => {
         try {
           // Replace this URL with your actual login API endpoint
-          const loginUrl = "http://localhost:8082/auth-service/user/login";
+          const loginUrl = "http://localhost:8081/auth-service/user/login";
           const response = await fetch(loginUrl, {
             method: "POST",
             headers: {

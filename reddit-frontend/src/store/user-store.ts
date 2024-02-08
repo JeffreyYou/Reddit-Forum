@@ -8,8 +8,10 @@ import moment from 'moment';
 
 interface IUserStore {
     //* User Profile
+    jwtToken: string;
     user: IUserProfile;
     userTemporay: IUserProfile;
+    setJwtToken: (token: string) => void;
     fetchUserProfile: () => Promise<IUserProfileResponse>;
     updateUserProfile: (user: IUserProfile) => void;
     updateUserTemporaryProfile: (user: IUserProfile) => void;
@@ -29,9 +31,6 @@ interface IUserStore {
     searchHistoryByKeyWord: (date: string) => void;
     searchHistoryByDate: (date: string) => void;
 
-    //* Test Only
-    jwtToken1: string;
-    jwtToken2: string;
 
 
 
@@ -58,6 +57,7 @@ export const useUserStore = create<IUserStore>()(
         (set, get) => ({
             user: userDefault,
             userTemporay: userDefault,
+            jwtToken: "",
             top3Posts: [] as IPostDetail[],
             draftPosts: [] as IPostDetail[],
             historyPosts: [] as IPostDetail[],
@@ -65,17 +65,16 @@ export const useUserStore = create<IUserStore>()(
             historyPostsKeyword: [] as IPostDetail[],
             historyPostsDate: [] as IPostDetail[],
 
-            // admin user, id = 1, test only
-            jwtToken1: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",
-            // admin user, id = 2, test only
-            jwtToken2: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9XX0.uiM5Llbx-FYb4rbwV33BR04lmpJpDP6Sq-uD73DWSxw",
+            setJwtToken: (token: string) => {
+                set({ jwtToken: token });
+            },
 
             fetchUserProfile: async (): Promise<IUserProfileResponse> => {
                 try {
                     const response = await fetch(profileUrl, {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': `Bearer ${get().jwtToken}`,
                         }
                     });
                     if (!response.ok) {
@@ -103,7 +102,7 @@ export const useUserStore = create<IUserStore>()(
                     const response = await fetch(top3PostsUrl, {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': `Bearer ${get().jwtToken}`,
                         }
                     });
                     if (!response.ok) {
@@ -137,7 +136,7 @@ export const useUserStore = create<IUserStore>()(
                     const response = await fetch(draftUrl, {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': `Bearer ${get().jwtToken}`,
                         }
                     });
                     if (!response.ok) {
@@ -172,7 +171,7 @@ export const useUserStore = create<IUserStore>()(
                     const response = await fetch(historyUrl, {
                         method: 'GET',
                         headers: {
-                            'Authorization': `Bearer ${get().jwtToken2}`,
+                            'Authorization': `Bearer ${get().jwtToken}`,
                         }
                     });
                     if (!response.ok) {

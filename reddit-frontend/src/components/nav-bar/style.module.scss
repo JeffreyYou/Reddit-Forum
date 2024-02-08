@@ -1,27 +1,61 @@
 .navbar {
-  position: fixed; // Fix the navbar to the top of the window
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000; // Ensure it's above other content
-  padding: 0 50px; // Add horizontal padding
-  box-shadow: 0 2px 8px #f0f1f2; // Optional: add a subtle shadow for depth
-  background-color: transparent;
+  z-index: 1000;
+  padding: 0 0px 0 50px;
+  box-shadow: 0 2px 8px #f0f1f2;
+  // background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.5);
+  // background-color: #f2f2f2;
 
-  .navbar_logo {
-    color: #52c41a; // Reddit logo color
-    margin-right: 16px; // Space after the logo
+  // background-color: #000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .title_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    &:hover {
+      cursor: pointer;
+    }
+
+    :global {
+      .anticon {
+        display: block;
+        font-size: 40px;
+        margin-right: 20px;
+        // color: white;
+      }
+    }
   }
+
   .title {
-    font-size: 20px;
-    font-weight: 400;
+    font-size: 30px;
+    font-weight: 500;
+    background: -webkit-linear-gradient(45deg, blue, red);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    
   }
 
+  .navigation {
+    display: flex;
+    :global {
+      .ant-menu-item {
+        width: 120px;
+        font-size: 16px;
+      }
+      .ant-menu-submenu {
+        width: 120px;
+        font-size: 16px;
+      }
+    }
 
-  // Style the search input
-  // .ant-input-affix-wrapper .ant-input:not(:last-child) {
-  //   padding-right: 5px; // Adjust right padding if necessary
-  // }
+  }
 
   // Menu item styling
   .ant-menu-horizontal {

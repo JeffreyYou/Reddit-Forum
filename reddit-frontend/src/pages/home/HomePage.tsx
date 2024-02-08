@@ -1,30 +1,46 @@
-import {Posts, samplePosts} from "../../components/post/Posts.tsx";
-import { NewPost } from "../../components/new-post/NewPost.tsx";
+import {Posts } from "../../components/post/Posts.tsx";
 import styles from './style.module.scss';
+import {useEffect, useState} from "react";
+import {usePostStore} from "../../store/post-store.ts";
+import {IPostDetail} from "../../store/interface.ts";
+import PostOverviewCardWithName from "../../components/post-overview-card-withname/index.tsx";
 
 const HomePage = () => {
-    // fixme: check if the current user is admin
-    const isAdmin = false;
+    const [posts, setPosts] = useState<IPostDetail[]>([]);
+    const { fetchPublishedPosts } = usePostStore();
 
-    const handleNewPost = () => {
-        // Placeholder for future implementation
-        alert('Open new post creation page or modal');
+    useEffect(() => {
+        getPublishedPosts();
+    }, []);
+
+    const getPublishedPosts = async () => {
+        try {
+            const publishedPosts = await fetchPublishedPosts();
+            setPosts(publishedPosts);
+        } catch (error) {
+            console.error('Failed to fetch published posts:', error);
+        }
     };
 
     return (
         <div className={styles.homepage_container}>
-            {isAdmin ? (
-                <div>
-                    <h1>Hello! This is your Admin homepage.</h1>
-                    <Posts posts={samplePosts} />
+            <div className={styles.homepage}>
+                <div className={styles.homepage_content}>
+                    <div className={styles.content}>
+                        <h1 style={{textAlign: 'center'}}>All the Posts</h1>
+                        {
+                            posts.map((post: IPostDetail) => {
+                                return (
+                                    <PostOverviewCardWithName post={post} key={post.postId} type={'published'} />
+                                )
+                            })
+                        }
+                    </div>
+
                 </div>
-            ) : (
-                <div className={styles.content}>
-                    <h1>Hello! This is your User homepage.</h1>
-                    <NewPost onAddPost={handleNewPost} />
-                    <Posts posts={samplePosts} />
-                </div>
-            )}
+
+            </div>
+
         </div>
     );
 };

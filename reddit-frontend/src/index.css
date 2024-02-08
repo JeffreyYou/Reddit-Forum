@@ -1,5 +1,15 @@
 html, body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden; /* Prevent horizontal overflow */
+  overflow-x: hidden; 
+  
 }
+body {
+  background-image: url('/src/assets/2.jpg');
+  background-size: cover;
+
+}
+* {
+  font-family: 'play' !important;
+}
+

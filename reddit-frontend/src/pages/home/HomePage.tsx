@@ -1,9 +1,9 @@
-import {Posts } from "../../components/post/Posts.tsx";
 import styles from './style.module.scss';
 import {useEffect, useState} from "react";
 import {usePostStore} from "../../store/post-store.ts";
 import {IPostDetail} from "../../store/interface.ts";
 import PostOverviewCardWithName from "../../components/post-overview-card-withname/index.tsx";
+import {NewPost} from "../../components/new-post/NewPost.tsx";
 
 const HomePage = () => {
     const [posts, setPosts] = useState<IPostDetail[]>([]);
@@ -25,7 +25,9 @@ const HomePage = () => {
     return (
         <div className={styles.homepage_container}>
             <div className={styles.homepage}>
+                <NewPost />
                 <div className={styles.homepage_content}>
+
                     <div className={styles.content}>
                         <h1 style={{textAlign: 'center'}}>All the Posts</h1>
                         {

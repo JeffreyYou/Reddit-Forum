@@ -74,3 +74,17 @@ export interface IContactAdminResponse {
     message: string;
 }
 
+export interface IPutObjectResponse {
+    status: string,
+    message: string,
+    key: string,
+    url: string
+}
+
+export interface IPutPostRequest {
+    postId: string | null
+    title: string
+    content: string
+    images: string[]
+    attachments: string[]
+}

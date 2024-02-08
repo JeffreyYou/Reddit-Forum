@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {persist} from "zustand/middleware";
 import {IPostDetail, IPostDetailResponse, IPutPostRequest, IUserProfile} from "./interface";
+import {useUserStore} from "./user-store";
 
 
 export interface IPost {
@@ -44,8 +45,9 @@ export const usePostStore = create<IPostStore>() (
         deletedPosts: [],
         bannedPosts:[],
         allUsers:[],
-        jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",
-        //useUserStore.getState().jwtToken,//
+        jwtToken:  useUserStore.getState().jwtToken,
+        //"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",
+
         fetchPublishedPosts: async (): Promise<IPostDetailResponse[]> => {
             const jwt = get().jwtToken;
             try {

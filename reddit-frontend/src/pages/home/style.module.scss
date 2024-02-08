@@ -1,18 +1,41 @@
+@import '../../styles/global.scss';
+
 .homepage_container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   display: flex;
+  width: 100vw;
+  height: 100vh;
   justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
 }
 
-.content {
-  max-width: 600px; // Set a maximum width for the content
-  width: 100%; // Use the full width of the container
-  margin: 0 auto; // This will help with horizontal centering if the flexbox method fails
+.homepage {
+  display: flex;
+  width: 90vw;
+  height: calc(100vh - 150px);
+  flex-direction: column;
+  margin-top: 100px;
+  border-radius: 50px;
+  background-color: rgba(128, 128, 128, 0.3);
+  @include scrollbar-styles;
+
+}
+
+.homepage_content {
+  height: 100%;
+  padding: 50px;
+  border-radius: 10px;
+  background-color: white;
+  overflow: hidden;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+
+  :global {
+
+    .ant-card {
+      margin: 20px 50px;
+      background-color: #F0F4FD;
+      width: 1000px;
+
+    }
+  }
 }

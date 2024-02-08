@@ -4,6 +4,11 @@ html, body {
   overflow-x: hidden; 
   
 }
+body {
+  background-image: url('/src/assets/2.jpg');
+  background-size: cover;
+
+}
 * {
   font-family: 'play' !important;
 }

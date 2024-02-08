@@ -5,15 +5,13 @@
     width: 100vw;
     height: 100vh;
     justify-content: center;
-    background-image: url('/src/assets/2.jpg');
-    background-size: cover;
+
 }
 
 .profile {
     display: flex;
-    width: 80vw;
-    height: calc(100vh - 200px);
-    // border: 1px solid #000;
+    width: 90vw;
+    height: calc(100vh - 150px);
     flex-direction: column;
     margin-top: 100px;
     border-radius: 50px;
@@ -91,7 +89,7 @@
     width: 80%;
     height: 40px;
 
-    background-color: #F0F4FD;
+    background-color: #d6dae3;
     border-radius: 100px;
     :global {
         .ant-col {

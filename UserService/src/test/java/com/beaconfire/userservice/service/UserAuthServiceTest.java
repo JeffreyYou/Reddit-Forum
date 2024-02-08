@@ -110,7 +110,7 @@ public class UserAuthServiceTest {
         when(securityContext.getAuthentication()).thenReturn(null);
         SecurityContextHolder.setContext(securityContext);
 
-        UserAuthService service = new UserAuthService(null,null); // Assuming userRepository is not used here
+        UserAuthService service = new UserAuthService(null); // Assuming userRepository is not used here
         assertNull(service.getCurrentUserId());
     }
 
@@ -121,7 +121,7 @@ public class UserAuthServiceTest {
         when(authentication.isAuthenticated()).thenReturn(false);
         SecurityContextHolder.setContext(securityContext);
 
-        UserAuthService service = new UserAuthService(null,null); // Assuming userRepository is not used here
+        UserAuthService service = new UserAuthService(null); // Assuming userRepository is not used here
         assertNull(service.getCurrentUserId());
     }
 
@@ -145,7 +145,7 @@ public class UserAuthServiceTest {
         when(authentication.getPrincipal()).thenReturn("notALong");
         SecurityContextHolder.setContext(securityContext);
 
-        UserAuthService service = new UserAuthService(null,null); // Assuming userRepository is not used here
+        UserAuthService service = new UserAuthService(null); // Assuming userRepository is not used here
 
         assertThrows(NumberFormatException.class, service::getCurrentUserId);
     }

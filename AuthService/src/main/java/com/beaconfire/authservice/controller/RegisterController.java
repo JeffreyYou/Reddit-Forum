@@ -35,7 +35,7 @@ public class RegisterController {
     @PostMapping("/register")
     public ResponseEntity<AuthRegResponse> registerNewUser(@RequestBody AuthRegRequest authRegRequest) {
         UserCreateResponse userCreateResponse = authRegisterService.registerUser(
-                authRegRequest.getEmail(), authRegRequest.getPassword(), authRegRequest.getFirstname(), authRegRequest.getLastname()
+                authRegRequest.getEmail(), authRegRequest.getPassword()
         );
         System.out.println("User registered successfully");
         Authentication authentication;

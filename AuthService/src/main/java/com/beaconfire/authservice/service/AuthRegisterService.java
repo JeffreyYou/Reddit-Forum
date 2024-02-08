@@ -15,14 +15,14 @@ public class AuthRegisterService {
     @Autowired
     private UserServiceClient userServiceClient;
 
-    public UserCreateResponse registerUser(String email, String password, String firstname, String lastname) {
+    public UserCreateResponse registerUser(String email, String password) {
         UserCreateResponse userCreateResponse;
         try {
             userCreateResponse = userServiceClient.register(
-                    UserCreateRequest.builder().email(email).password(password).firstname(firstname).lastname(lastname).build()
+                    UserCreateRequest.builder().email(email).password(password).build()
             );
         }
-        catch (Exception ex) {
+        catch (UserAlreadyExistsException ex) {
             throw new UserAlreadyExistsException("User already exists");
         }
         return userCreateResponse;

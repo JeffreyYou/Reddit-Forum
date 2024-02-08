@@ -15,19 +15,24 @@
   margin-top: 100px;
   border-radius: 50px;
   background-color: rgba(128, 128, 128, 0.3);
+  align-items: center;
+
   @include scrollbar-styles;
 
 }
 
 .homepage_content {
+  margin: 50px;
   height: 100%;
   padding: 50px;
-  border-radius: 10px;
+  box-sizing: content-box;
+  width: 80%;
+  border-radius: 20px;
   background-color: white;
   overflow: hidden;
-  overflow: auto;
   display: flex;
   justify-content: center;
+  overflow: auto;
 
   :global {
 
@@ -38,4 +43,9 @@
 
     }
   }
+}
+
+.content {
+
+
 }

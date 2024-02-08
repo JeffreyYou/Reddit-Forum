@@ -1,0 +1,52 @@
+server:
+  port: 8081 # The port on which the gateway service is running. Consider using environment-specific configurations to manage different ports across environments.
+
+spring:
+  application:
+    name: gateway # The name of the application. Useful for service discovery and logging.
+
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/**
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth-service/**
+        - id: email-service
+          uri: lb://email-service
+          predicates:
+            - Path=/email-service/**
+        - id: file-service
+          uri: lb://file-service
+          predicates:
+            - Path=/file-service/**
+        - id: history-service
+          uri: lb://history-service
+          predicates:
+            - Path=/history-service/**
+        - id: message-service
+          uri: lb://message-service
+          predicates:
+            - Path=/message-service/**
+        - id: post-reply-service
+          uri: lb://post-reply-service
+          predicates:
+            - Path=/post-reply-service/**
+        - id: composite-service
+          uri: lb://composite-service
+          predicates:
+            - Path=/composite-service/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone:  ${EUREKA_URI:http://localhost:8761/eureka}

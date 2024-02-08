@@ -9,11 +9,11 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     username: admin
     password: teamproject
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: myuser
-    password: mypassword
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: myuser
+#    password: mypassword
 
 security:
   jwt:

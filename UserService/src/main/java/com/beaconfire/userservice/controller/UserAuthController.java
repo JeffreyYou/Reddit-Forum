@@ -126,8 +126,9 @@ public class UserAuthController {
             })
 
     public ResponseEntity<UpdateEmailResponse> updateEmail(@Valid @RequestBody UpdateEmailRequest updateEmailRequest) {
+        Long userId = userAuthService.getCurrentUserId();
         return ResponseEntity.ok(UpdateEmailResponse.builder()
-                .success(emailService.updateUserEmail(updateEmailRequest.getNewEmail()))
+                .success(emailService.updateUserEmail(userId, updateEmailRequest.getNewEmail()))
                 .message("Email updated successfully. A verification link has been sent out, please check your email!")
                 .build());
     }

@@ -20,8 +20,6 @@ public class EmailService {
     private final RabbitTemplate rabbitTemplate;
     private final UserRepository userRepository;
 
-    private UserAuthService userService;
-
     private static final long emailValidPeriod = 3 * 60 * 60 * 1000; // 3 hrs
 
     private final String emailExchange = "emailExchange";
@@ -76,8 +74,7 @@ public class EmailService {
         }
     }
 
-    public boolean updateUserEmail( String newEmail) {
-        final Long userId = userService.getCurrentUserId();
+    public boolean updateUserEmail(Long userId, String newEmail) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found."));
         System.out.println(user.getEmail());
         if (user.getEmail().equals(newEmail) && user.isVerified())

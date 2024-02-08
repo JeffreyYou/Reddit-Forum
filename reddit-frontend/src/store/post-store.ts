@@ -1,5 +1,6 @@
 import {create} from "zustand";
 import {persist} from "zustand/middleware";
+import {IUserProfile} from "./interface";
 
 
 export interface IPost {
@@ -20,6 +21,9 @@ interface IPostStore {
     banPost: (postid: string) => Promise<string>;
     recoverPost: (postid: string)=>Promise<string>;
     unbanPost:(postid: string)=>Promise<string>;
+
+    allUsers: IUserProfile[];
+    getAllUsers: ()=>Promise<IUserProfile[]>;
 }
 
 const domain = "http://localhost:8085/post-reply-service";
@@ -27,12 +31,14 @@ const publishUrl = `${domain}/posts/published/all`;
 const getDeleteUrl = `${domain}/posts/deleted/all`;
 const getBannedUrl =`${domain}/posts/banned/all`;
 
+const userUrl = "http://localhost:8083/user-service/admin/user";
 
 export const usePostStore = create<IPostStore>() (
     persist((set, get)=>({
         publishedPosts:  [],
         deletedPosts: [],
         bannedPosts:[],
+        allUsers:[],
         jwtToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwicGVybWlzc2lvbnMiOlt7ImF1dGhvcml0eSI6IlJPTEVfVVNFUiJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9BRE1JTiJ9XX0.J2_B1Y8STCtF_8oQF0gndAklds6dezvR6SJocK-sB9g",  //get token where
         fetchPublishedPosts: async (): Promise<IPost[]> => {
             const jwt = get().jwtToken;
@@ -154,6 +160,25 @@ export const usePostStore = create<IPostStore>() (
                 throw new Error('Failed to recover this post');
             }
         },
+        getAllUsers: async (): Promise<IUserProfile[]> => {
+            const jwt = get().jwtToken;
+            try {
+                const response = await fetch(userUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${jwt}`,
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to get users info');
+                }
+                const data: {message:string, userList:IUserProfile[]} = await response.json();
+                set({allUsers: data.userList});
+                return data.userList;
+            } catch (error) {
+                throw new Error('Failed to fetch banned posts');
+            }
+        }
     }), {
             name:"post-store",
     })

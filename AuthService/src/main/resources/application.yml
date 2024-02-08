@@ -13,7 +13,7 @@ spring:
 security:
   jwt:
     token:
-      key: JavaTraining
+      key: JavaTrainingMasterRedditHubJavaTrainingMasterRedditHubJavaTrainingMasterRedditHub
 
 server:
   port: 8082

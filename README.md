@@ -1,8 +1,8 @@
 <h2 align="center">
-  RedditHub Forum<br/>
+  RedditHub Forum
 </h2>
 <div align="center">
-  <img alt="Demo" src="./images/profile.png" />
+  <img alt="profile" src="./images/profile.png" />
 </div>
 
 ## Architecture
@@ -32,6 +32,8 @@ Backend:
 - MySQL
 - MongoDB
 - RabbitMQ
+- Docker
+- AWS
 - Mockito
 - Nginx
 - Swagger
